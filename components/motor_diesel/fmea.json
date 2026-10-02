@@ -1,0 +1,1 @@
+{"version": "0.1.0", "modos_falla": [{"id": "MF-001", "nombre": "sobrecalentamiento", "severidad": "alta", "variables": ["temp_refrigerante"]}, {"id": "MF-002", "nombre": "baja_presion_aceite", "severidad": "critica", "variables": ["presion_aceite"]}]}

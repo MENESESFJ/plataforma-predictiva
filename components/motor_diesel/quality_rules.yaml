@@ -1,0 +1,8 @@
+version: "0.1.0"
+reglas:
+  - variable: temp_refrigerante
+    min: -20
+    max: 150
+  - variable: presion_aceite
+    min: 0
+    max: 1000

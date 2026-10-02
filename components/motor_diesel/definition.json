@@ -1,0 +1,1 @@
+{"version": "0.1.0", "componente": "motor_diesel", "descripcion": "Motor diésel de equipo minero", "variables_criticas": ["temp_refrigerante", "presion_aceite"]}

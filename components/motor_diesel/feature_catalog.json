@@ -1,0 +1,1 @@
+{"version": "0.1.0", "features": [{"nombre": "temp_refrigerante", "descripcion": "Temperatura del refrigerante (°C)"}, {"nombre": "presion_aceite", "descripcion": "Presión de aceite (kPa)"}]}

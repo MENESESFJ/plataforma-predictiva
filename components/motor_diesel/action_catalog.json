@@ -1,0 +1,1 @@
+{"version": "0.1.0", "acciones": [{"severidad": "baja", "accion": "Continuar monitoreo"}, {"severidad": "media", "accion": "Programar inspección"}, {"severidad": "alta", "accion": "Inspeccionar sistema de refrigeración"}, {"severidad": "critica", "accion": "Detener equipo e inspeccionar lubricación"}]}
