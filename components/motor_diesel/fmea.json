@@ -1,1 +1,6 @@
-{"version": "0.1.0", "modos_falla": [{"id": "MF-001", "nombre": "sobrecalentamiento", "severidad": "alta", "variables": ["temp_refrigerante"]}, {"id": "MF-002", "nombre": "baja_presion_aceite", "severidad": "critica", "variables": ["presion_aceite"]}]}
+{"version": "0.2.0", "modos_falla": [
+ {"id": "MF-001", "nombre": "sobrecalentamiento", "severidad": "alta", "variables": ["temp_refrigerante"], "precursores": ["tendencia creciente de temperatura de refrigerante"]},
+ {"id": "MF-002", "nombre": "desgaste_cojinetes", "severidad": "critica", "variables": ["cu_ppm", "pqi"], "precursores": ["aumento de Cu y PQI en aceite"]},
+ {"id": "MF-003", "nombre": "desgaste_camisas_anillos", "severidad": "alta", "variables": ["fe_ppm", "pqi"], "precursores": ["aumento de Fe y PQI en aceite"]},
+ {"id": "MF-004", "nombre": "baja_presion_lubricacion", "severidad": "critica", "variables": ["presion_carter"], "precursores": ["caída de presión de cárter"]}
+]}

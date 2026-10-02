@@ -1,1 +1,6 @@
-{"version": "0.1.0", "acciones": [{"severidad": "baja", "accion": "Continuar monitoreo"}, {"severidad": "media", "accion": "Programar inspección"}, {"severidad": "alta", "accion": "Inspeccionar sistema de refrigeración"}, {"severidad": "critica", "accion": "Detener equipo e inspeccionar lubricación"}]}
+{"version": "0.2.0", "acciones": [
+ {"id": "AC-001", "severidad": "baja", "accion": "Muestreo de confirmación de aceite", "urgencia": "proximo_mantenimiento_programado"},
+ {"id": "AC-002", "severidad": "media", "accion": "Corte de filtro de aceite", "urgencia": "72h"},
+ {"id": "AC-003", "severidad": "alta", "accion": "Inspección boroscópica", "urgencia": "72h"},
+ {"id": "AC-004", "severidad": "critica", "accion": "Inspección boroscópica inmediata y evaluación de detención", "urgencia": "24h"}
+]}

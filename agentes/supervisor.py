@@ -8,7 +8,10 @@ from agentes.tracer import (
     AgenteMonitoreo, AgenteRecomendacion, AgenteValidacion, AgenteVariables,
     ServicioInferencia,
 )
+from contratos.base import Estado as EstadoGlobal, FaseFlujo, TipoFlujo
+from contratos.supervisor import SupervisorInput
 from contratos.agentes import (
+    EstadoEjecucion, ModeladoSalida, RegistroAuditoria, ahora,
     CalidadEntrada, Contexto, IngestaEntrada, InferenciaEntrada,
     InterpretacionEntrada, ModeladoEntrada, MonitoreoEntrada, RecomendacionEntrada,
     ResultadoFlujo, ValidacionEntrada, VariablesEntrada,
@@ -96,3 +99,54 @@ class Supervisor:
         salidas.pop("registros")
         return ResultadoFlujo(run_id=ctx.run_id, exito=estado == Estado.FIN,
                               salidas=salidas, auditoria=auditoria)
+
+    FLUJOS = {
+        TipoFlujo.ENTRENAMIENTO: [Estado.INGESTA, Estado.CALIDAD, Estado.VARIABLES,
+                                  Estado.MODELAMIENTO, Estado.VALIDACION],
+        TipoFlujo.INFERENCIA: [Estado.INGESTA, Estado.CALIDAD, Estado.VARIABLES,
+                               Estado.INFERENCIA, Estado.INTERPRETACION,
+                               Estado.RECOMENDACION],
+    }
+
+    def ejecutar_solicitud(self, entrada: SupervisorInput, registros: list) -> EstadoGlobal:
+        """Flujo de entrenamiento o inferencia; devuelve el Estado global cerrado."""
+        ctx = Contexto(run_id=entrada.request_id, componente=entrada.componente,
+                       ruta_componentes=entrada.ruta_componentes)
+        est = EstadoGlobal(request_id=entrada.request_id, caso_uso_id=entrada.caso_uso_id,
+                           equipo=entrada.equipo, componente=entrada.componente,
+                           tipo_flujo=entrada.tipo_flujo, fecha_corte=entrada.fecha_corte)
+        s: dict = {"registros": registros}
+        try:
+            for paso in self.FLUJOS[entrada.tipo_flujo]:
+                if paso == Estado.INFERENCIA and "modelamiento" not in s:
+                    # modelo vigente (stub del registro MLflow): variables del catálogo
+                    from agentes.componentes import cargar_bundle
+                    nombres = sorted(f["nombre"] for f in cargar_bundle(
+                        ctx.ruta_componentes, ctx.componente)["feature_catalog"]["features"])
+                    s["modelamiento"] = ModeladoSalida(
+                        modelo_id=f"{ctx.componente}-baseline", version_modelo="0.1.0",
+                        metricas={}, variables=nombres)
+                s[paso.value] = self.agentes[paso].ejecutar(
+                    self._entrada(paso, ctx, s), ctx.run_id)
+                est.pasos_completados.append(paso.value)
+                est.salidas[paso.value] = s[paso.value]
+                if paso == Estado.CALIDAD and not s[paso.value].registros_validos:
+                    raise ValueError("calidad rechazada: sin registros válidos")
+                if paso == Estado.VALIDACION and not s[paso.value].aprobado:
+                    raise ValueError("modelo rechazado: " + "; ".join(s[paso.value].motivos))
+            t = ahora()
+            est.auditoria.append(RegistroAuditoria(
+                run_id=ctx.run_id, agente="human_in_the_loop", estado=EstadoEjecucion.OK,
+                inicio=t, fin=t, duracion_ms=0.0))
+            est.pasos_completados.append("human_in_the_loop")
+            est.fase = FaseFlujo.PENDIENTE_HUMANO
+        except (ErrorAgente, ValueError) as exc:
+            est.errores.append(str(exc))
+            est.fase = FaseFlujo.FALLIDO
+        pasos = {p.value for p in self.FLUJOS[entrada.tipo_flujo]}
+        est.auditoria = sorted(
+            [r for a in self.agentes.values() for r in a.auditoria
+             if r.run_id == ctx.run_id and r.agente in pasos] + est.auditoria,
+            key=lambda r: r.inicio)
+        est.cerrado = True
+        return EstadoGlobal.model_validate(est.model_dump())

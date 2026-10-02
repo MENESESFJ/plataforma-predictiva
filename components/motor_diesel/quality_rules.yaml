@@ -1,8 +1,8 @@
-version: "0.1.0"
+version: "0.2.0"
+umbral_score_aprobado: 90
 reglas:
-  - variable: temp_refrigerante
-    min: -20
-    max: 150
-  - variable: presion_aceite
-    min: 0
-    max: 1000
+  - {variable: temp_refrigerante, min: -20, max: 150}
+  - {variable: presion_carter, min: 0, max: 100}
+  - {variable: fe_ppm, min: 0, max: 500}
+  - {variable: cu_ppm, min: 0, max: 200}
+  - {variable: pqi, min: 0, max: 1000}
