@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "componente": "motor_diesel",
+  "descripcion": "Motor diésel de camión CAEX",
+  "evento_objetivo": {
+    "nombre": "falla_mayor_motor",
+    "codigos_ot": ["POR_CONFIRMAR_SAP_MAXIMO"],
+    "estado_codigos": "pendiente_confirmacion"
+  },
+  "horizonte_util": {"dias": 30, "horas_operacion": 250},
+  "baseline": "kaplan_meier",
+  "variables_criticas": ["temp_refrigerante", "presion_carter", "fe_ppm", "cu_ppm", "pqi"]
+}

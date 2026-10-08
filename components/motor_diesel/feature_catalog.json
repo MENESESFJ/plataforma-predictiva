@@ -1,0 +1,7 @@
+{"version": "0.2.0", "features": [
+ {"nombre": "temp_refrigerante", "descripcion": "Temperatura del refrigerante (°C)"},
+ {"nombre": "presion_carter", "descripcion": "Presión de cárter (kPa)"},
+ {"nombre": "fe_ppm", "descripcion": "Hierro en aceite (ppm)"},
+ {"nombre": "cu_ppm", "descripcion": "Cobre en aceite (ppm)"},
+ {"nombre": "pqi", "descripcion": "Particle Quantifier Index"}
+]}
