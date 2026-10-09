@@ -16,7 +16,7 @@ def consultor_con_datos(tmp_path):
         encoding="utf-8"
     )
 
-    # Homologación con múltiples mapeos
+    # Homologación con múltiples mapeos aprobados y activos (únicos usados en runtime)
     json_file = tmp_path / "homologacion_test.json"
     json_file.write_text(
         """{
@@ -26,15 +26,21 @@ def consultor_con_datos(tmp_path):
               "id_fmea": "MF-001",
               "id_mf_smcs": "0058",
               "descripcion_mf_smcs": "Temperatura Alta",
-              "relacion": "parcial",
-              "estado_revision": "pendiente_revision"
+              "cardinalidad": "uno_a_uno",
+              "tipo_equivalencia": "parcial",
+              "direccion_especificidad": "fmea_mas_especifico",
+              "estado_revision": "aprobado",
+              "activo": true
             },
             {
               "id_fmea": "MF-002",
               "id_mf_smcs": "0014",
               "descripcion_mf_smcs": "Lubricación Deficiente",
-              "relacion": "parcial",
-              "estado_revision": "pendiente_revision"
+              "cardinalidad": "uno_a_uno",
+              "tipo_equivalencia": "parcial",
+              "direccion_especificidad": "fmea_mas_especifico",
+              "estado_revision": "aprobado",
+              "activo": true
             }
           ]
         }""",
@@ -53,8 +59,9 @@ def test_smcs_asociacion_directa_exacta(consultor_con_datos):
     assert res[0].tipo_asociacion_smcs == "Directo"
     assert res[0].peso_referencia == 1.0
     assert res[0].id_mf_smcs == "0058"
-    assert res[0].relacion_homologacion == "parcial"
-    assert res[0].estado_homologacion == "pendiente_revision"
+    assert res[0].tipo_equivalencia == "parcial"
+    assert res[0].estado_homologacion == "aprobado"
+    assert res[0].activo_en_runtime is True
 
 
 def test_smcs_asociacion_secundaria_cercana(consultor_con_datos):
@@ -82,7 +89,7 @@ def test_smcs_relacion_no_identificada_no_descarta(consultor_con_datos):
     )
     assert len(res) == 1
     assert res[0].interpretacion == "relacion_no_identificada"
-    assert "no descarta el modo de falla" in res[0].observacion
+    assert "No descarta el modo" in res[0].observacion
 
 
 def test_smcs_inconsistencia_tipo_peso(consultor_con_datos):
