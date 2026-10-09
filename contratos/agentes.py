@@ -1,4 +1,4 @@
-"""Contratos Pydantic versionados para los agentes y el servicio de inferencia."""
+"""contratos/agentes.py: Contratos Pydantic versionados (Actualizado SMCS y Severidades)."""
 from __future__ import annotations
 
 from datetime import date, datetime, timezone
@@ -6,7 +6,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, ConfigDict, Field
 
-VERSION_CONTRATOS = "1.1.0"
+VERSION_CONTRATOS = "1.2.0"
 
 
 class Contrato(BaseModel):
@@ -36,7 +36,32 @@ class Contexto(Contrato):
     run_id: str
     componente: str
     fecha_corte: date
+    codigo_smcs: Optional[str] = None
+    sistema_smcs: Optional[str] = None
     ruta_componentes: str = "components"
+
+
+# Estructura formal de compatibilidad SMCS
+class CompatibilidadSMCS(BaseModel):
+    sistema: str
+    id_fmea: str
+    nombre_fmea: Optional[str] = None
+
+    id_mf_smcs: Optional[str] = None
+    descripcion_mf_smcs: Optional[str] = None
+    relacion_homologacion: Optional[str] = None  # uno_a_uno, uno_a_muchos, muchos_a_uno, parcial, no_homologado
+    estado_homologacion: str  # pendiente_revision, aprobado, propuesto
+
+    codigo_smcs: Optional[str] = None
+    descripcion_smcs: Optional[str] = None
+
+    tipo_asociacion_smcs: Optional[str] = None  # Directo, Secundario, No identificado
+    peso_referencia: Optional[float] = None
+    interpretacion: str  # compatible_directo, compatible_secundario_cercano, compatible_secundario_amplio, relacion_no_identificada, no_evaluado, inconsistente_tipo_peso
+
+    fuente: str = "Matriz_MF_SMCS_MAESTRO_CONSOLIDADO_v2.csv"
+    version_fuente: Optional[str] = "2.0"
+    observacion: str
 
 
 # 2. Ingesta
@@ -122,7 +147,7 @@ class InferenciaSalida(Contrato):
     shap: List[Dict[str, float]]
 
 
-# 7. Interpretación
+# 7. Interpretación (Con separación de Severidad y Lista de Compatibilidades)
 class InterpretacionEntrada(Contrato):
     contexto: Contexto
     riesgo: List[float]
@@ -131,26 +156,29 @@ class InterpretacionEntrada(Contrato):
 
 class InterpretacionSalida(Contrato):
     riesgo_max: float
-    severidad: Severidad
+    nivel_riesgo: Severidad  # Nivel predictivo del modelo
+    severidad_fmea: Optional[Severidad] = None  # Severidad física del modo
     variables_influyentes: List[str]
+    id_modo_falla: Optional[str] = None
     modo_falla: Optional[str] = None
+    compatibilidades_smcs: List[CompatibilidadSMCS] = Field(default_factory=list)
     diagnostico: str
 
 
 # 8. Recomendación
-class RecomendacionEntrada(Contrato):
-    contexto: Contexto
-    severidad: Severidad
-    modo_falla: Optional[str] = None
-    variables_influyentes: List[str] = Field(default_factory=list)
-
-
 class AccionPropuesta(BaseModel):
     id: str
     accion: str
     urgencia: str
     severidad: str
     estado_revision: str = "pendiente_especialista"
+
+
+class RecomendacionEntrada(Contrato):
+    contexto: Contexto
+    severidad: Severidad
+    modo_falla: Optional[str] = None
+    variables_influyentes: List[str] = Field(default_factory=list)
 
 
 class RecomendacionSalida(Contrato):
