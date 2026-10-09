@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "descripcion": "Homologación controlada entre FMEA canónico y modos genéricos SMCS",
+  "mapeos": [
+    {
+      "id_fmea": "MF-001",
+      "nombre_fmea": "sobrecalentamiento",
+      "sistema": "MOTOR",
+      "id_mf_smcs": "0058",
+      "descripcion_mf_smcs": "Temperatura Alta",
+      "relacion": "parcial",
+      "estado_revision": "pendiente_revision",
+      "observacion": "El modo SMCS 0058 es genérico; requiere contexto de sistema de refrigeración."
+    },
+    {
+      "id_fmea": "MF-002",
+      "nombre_fmea": "desgaste_cojinetes",
+      "sistema": "MOTOR",
+      "id_mf_smcs": "0014",
+      "descripcion_mf_smcs": "Lubricación Deficiente",
+      "relacion": "parcial",
+      "estado_revision": "pendiente_revision",
+      "observacion": "Asociación por causa precursora común en cojinetes."
+    },
+    {
+      "id_fmea": "MF-002",
+      "nombre_fmea": "desgaste_cojinetes",
+      "sistema": "MOTOR",
+      "id_mf_smcs": "0022",
+      "descripcion_mf_smcs": "Presencia de Contaminación",
+      "relacion": "parcial",
+      "estado_revision": "pendiente_revision",
+      "observacion": "Cojinetes degradados liberan Cu y PQI al lubricante."
+    },
+    {
+      "id_fmea": "MF-004",
+      "nombre_fmea": "baja_presion_lubricacion",
+      "sistema": "MOTOR",
+      "id_mf_smcs": "0062",
+      "descripcion_mf_smcs": "Presión Baja",
+      "relacion": "parcial",
+      "estado_revision": "pendiente_revision",
+      "observacion": "Modo genérico de presión baja aplicable al circuito de aceite/cárter."
+    }
+  ]
+}
