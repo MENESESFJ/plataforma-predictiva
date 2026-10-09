@@ -11,7 +11,6 @@ from contratos.agentes import CompatibilidadSMCS
 
 
 class ConsultorSMCS:
-    # Mapeo discreto de pesos según especificación
     INTERPRETACION_PESO = {
         1.0: "compatible_directo",
         0.7: "compatible_secundario_cercano",
@@ -22,20 +21,33 @@ class ConsultorSMCS:
         self,
         ruta_csv: str = "knowledge/smcs/Matriz_MF_SMCS_MAESTRO_CONSOLIDADO_v2.csv",
         ruta_homologacion: str = "knowledge/smcs/homologacion_fmea_smcs.json",
+        permitir_solo_aprobados: bool = True,
     ):
         self.ruta_csv = Path(ruta_csv)
         self.ruta_homologacion = Path(ruta_homologacion)
-        # Clave: (sistema, id_mf_smcs, codigo_smcs) -> dict datos
+        self.permitir_solo_aprobados = permitir_solo_aprobados
+        
         self._matriz: Dict[Tuple[str, str, str], dict] = {}
-        # Múltiples homologaciones por id_fmea
-        self._homologaciones: Dict[str, List[dict]] = defaultdict(list)
+        # Mapeos activos para runtime
+        self._homologaciones_activas: Dict[str, List[dict]] = defaultdict(list)
+        # Todos los mapeos (incluye propuestos y pendientes) para auditoría técnica
+        self._homologaciones_todas: Dict[str, List[dict]] = defaultdict(list)
+        self._pendientes_revision: Dict[str, dict] = {}
+
         self._cargar_recursos()
 
     def _cargar_recursos(self):
         if self.ruta_homologacion.exists():
             data = json.loads(self.ruta_homologacion.read_text(encoding="utf-8"))
+            
             for m in data.get("mapeos", []):
-                self._homologaciones[m["id_fmea"]].append(m)
+                self._homologaciones_todas[m["id_fmea"]].append(m)
+                # Regla de seguridad runtime: solo activo=True y aprobado
+                if m.get("activo") is True and m.get("estado_revision") == "aprobado":
+                    self._homologaciones_activas[m["id_fmea"]].append(m)
+
+            for p in data.get("pendientes_revision", []):
+                self._pendientes_revision[p["id_fmea"]] = p
 
         if self.ruta_csv.exists():
             with open(self.ruta_csv, mode="r", encoding="utf-8-sig") as f:
@@ -65,55 +77,107 @@ class ConsultorSMCS:
         codigo_smcs: Optional[str],
         sistema: Optional[str],
     ) -> List[CompatibilidadSMCS]:
-        """Evalúa todas las homologaciones candidatas sin supuestos ni datos inventados."""
-        # Caso 1: Código SMCS o Sistema no suministrado -> no_evaluado
+        """Evalúa compatibilidad según matriz y homologaciones controladas."""
+        sistema_limpio = (sistema or "NO_ESPECIFICADO").strip().upper()
+
+        # 1. Validación de entradas mínimas
         if not codigo_smcs or not sistema:
             return [
                 CompatibilidadSMCS(
-                    sistema=sistema or "NO_ESPECIFICADO",
+                    sistema=sistema_limpio,
                     id_fmea=id_fmea or "N/A",
                     nombre_fmea=nombre_fmea,
                     codigo_smcs=codigo_smcs,
-                    tipo_asociacion_smcs=None,
-                    peso_referencia=None,
                     interpretacion="no_evaluado",
                     estado_homologacion="datos_insuficientes",
-                    observacion="Código SMCS o Sistema no entregado en el contexto; evaluación omitida.",
+                    activo_en_runtime=False,
+                    observacion="Código SMCS o Sistema no suministrado; contextualización omitida.",
                 )
             ]
 
-        homologaciones = self._homologaciones.get(id_fmea, [])
+        codigo_smcs_limpio = str(codigo_smcs).strip()
+
+        # 2. Selección de homologaciones según modo runtime
+        homologaciones = (
+            self._homologaciones_activas.get(id_fmea, [])
+            if self.permitir_solo_aprobados
+            else self._homologaciones_todas.get(id_fmea, [])
+        )
+
+        # 3. Si no hay homologación activa pero está en pendientes_revision o en propuestas inactivas
         if not homologaciones:
+            # ¿Existe como propuesta inactiva?
+            propuestas = self._homologaciones_todas.get(id_fmea, [])
+            if propuestas and self.permitir_solo_aprobados:
+                return [
+                    CompatibilidadSMCS(
+                        sistema=sistema_limpio,
+                        id_fmea=id_fmea or "N/A",
+                        nombre_fmea=nombre_fmea,
+                        codigo_smcs=codigo_smcs_limpio,
+                        interpretacion="homologacion_no_aprobada",
+                        estado_homologacion=propuestas[0].get("estado_revision", "propuesto"),
+                        activo_en_runtime=False,
+                        observacion=(
+                            f"El modo FMEA '{id_fmea}' cuenta con homologación registrada pero "
+                            f"está en estado '{propuestas[0].get('estado_revision')}' (activo=False). "
+                            f"No se utiliza como respaldo en runtime hasta su aprobación técnica."
+                        ),
+                    )
+                ]
+
+            # ¿Existe documentado en pendientes_revision?
+            pendiente = self._pendientes_revision.get(id_fmea)
+            if pendiente:
+                return [
+                    CompatibilidadSMCS(
+                        sistema=sistema_limpio,
+                        id_fmea=id_fmea or "N/A",
+                        nombre_fmea=nombre_fmea,
+                        codigo_smcs=codigo_smcs_limpio,
+                        interpretacion="sin_equivalencia",
+                        estado_homologacion=pendiente.get("estado_revision", "pendiente_revision"),
+                        activo_en_runtime=False,
+                        observacion=(
+                            f"Modo FMEA '{id_fmea}' documentado sin equivalencia directa en SMCS. "
+                            f"Motivo: {pendiente.get('motivo')}"
+                        ),
+                    )
+                ]
+
+            # Sin registro alguno
             return [
                 CompatibilidadSMCS(
-                    sistema=sistema,
+                    sistema=sistema_limpio,
                     id_fmea=id_fmea or "N/A",
                     nombre_fmea=nombre_fmea,
-                    codigo_smcs=codigo_smcs,
-                    tipo_asociacion_smcs="No identificado",
-                    peso_referencia=None,
+                    codigo_smcs=codigo_smcs_limpio,
                     interpretacion="relacion_no_identificada",
                     estado_homologacion="no_homologado",
-                    observacion=f"El modo FMEA '{id_fmea}' no posee homologación registrada en la tabla.",
+                    activo_en_runtime=False,
+                    observacion=f"El modo FMEA '{id_fmea}' no posee homologación registrada en la base de conocimiento.",
                 )
             ]
 
+        # 4. Evaluación de las homologaciones habilitadas contra la matriz CSV
         resultados: List[CompatibilidadSMCS] = []
-        codigo_smcs_limpio = str(codigo_smcs).strip()
-        sistema_limpio = sistema.strip().upper()
 
         for hom in homologaciones:
             id_mf_smcs = str(hom["id_mf_smcs"]).strip().zfill(4)
             clave = (sistema_limpio, id_mf_smcs, codigo_smcs_limpio)
-            relacion_hom = hom.get("relacion", "parcial")
-            estado_rev = hom.get("estado_revision", "pendiente_revision")
+
+            cardinalidad = hom.get("cardinalidad")
+            tipo_eq = hom.get("tipo_equivalencia")
+            dir_esp = hom.get("direccion_especificidad")
+            estado_rev = hom.get("estado_revision", "propuesto")
+            activo = hom.get("activo", False)
 
             if clave in self._matriz:
                 registro = self._matriz[clave]
                 peso = registro["peso"]
                 tipo = registro["tipo"]
 
-                # Validación de consistencia Tipo vs Peso
+                # Consistencia entre Tipo y Peso
                 es_consistente = (
                     (tipo.lower() == "directo" and peso == 1.0)
                     or (tipo.lower() == "secundario" and peso in (0.7, 0.3))
@@ -121,27 +185,21 @@ class ConsultorSMCS:
 
                 if not es_consistente:
                     interp = "inconsistente_tipo_peso"
-                    obs = (
-                        f"Inconsistencia en matriz SMCS: Tipo '{tipo}' no concuerda con peso {peso}. "
-                        f"Requiere auditoría de datos."
-                    )
+                    obs = f"Inconsistencia en matriz SMCS: Tipo '{tipo}' no coincide con Peso {peso}."
                 else:
                     interp = self.INTERPRETACION_PESO.get(peso, "peso_no_reconocido")
                     if peso == 1.0:
                         obs = (
-                            f"El modo de falla presenta una asociación directa con el código SMCS {codigo_smcs_limpio} "
-                            f"({registro['descripcion_smcs']}). Esta relación respalda su compatibilidad con el componente, "
-                            f"pero no confirma por sí sola la causa raíz."
+                            f"El modo de falla presenta asociación directa con el código SMCS {codigo_smcs_limpio} "
+                            f"({registro['descripcion_smcs']}). Respalda compatibilidad, pero no confirma causa raíz."
                         )
                     elif peso == 0.7:
                         obs = (
-                            f"El modo de falla presenta una asociación secundaria cercana con el código SMCS {codigo_smcs_limpio}. "
-                            f"Debe contrastarse con las variables de condición y precursores."
+                            f"El modo de falla presenta asociación secundaria cercana (peso 0.7) con el código SMCS {codigo_smcs_limpio}."
                         )
                     else:
                         obs = (
-                            f"El modo de falla presenta una asociación secundaria amplia con el código SMCS {codigo_smcs_limpio}. "
-                            f"Evidencia contextual de menor cercanía."
+                            f"El modo de falla presenta asociación secundaria amplia (peso 0.3) con el código SMCS {codigo_smcs_limpio}."
                         )
 
                 resultados.append(
@@ -151,8 +209,11 @@ class ConsultorSMCS:
                         nombre_fmea=nombre_fmea,
                         id_mf_smcs=id_mf_smcs,
                         descripcion_mf_smcs=registro["descripcion_mf"],
-                        relacion_homologacion=relacion_hom,
+                        cardinalidad=cardinalidad,
+                        tipo_equivalencia=tipo_eq,
+                        direccion_especificidad=dir_esp,
                         estado_homologacion=estado_rev,
+                        activo_en_runtime=activo,
                         codigo_smcs=codigo_smcs_limpio,
                         descripcion_smcs=registro["descripcion_smcs"],
                         tipo_asociacion_smcs=tipo,
@@ -170,20 +231,21 @@ class ConsultorSMCS:
                         nombre_fmea=nombre_fmea,
                         id_mf_smcs=id_mf_smcs,
                         descripcion_mf_smcs=hom.get("descripcion_mf_smcs"),
-                        relacion_homologacion=relacion_hom,
+                        cardinalidad=cardinalidad,
+                        tipo_equivalencia=tipo_eq,
+                        direccion_especificidad=dir_esp,
                         estado_homologacion=estado_rev,
+                        activo_en_runtime=activo,
                         codigo_smcs=codigo_smcs_limpio,
                         tipo_asociacion_smcs="No identificado",
                         peso_referencia=None,
                         interpretacion="relacion_no_identificada",
                         observacion=(
                             f"No se encontró relación registrada entre el modo {id_fmea} (SMCS {id_mf_smcs}) "
-                            f"y el código SMCS {codigo_smcs_limpio}. Esto no descarta el modo de falla, pero "
-                            f"reduce el respaldo contextual disponible y requiere revisión técnica."
+                            f"y el código SMCS {codigo_smcs_limpio}. No descarta el modo, pero carece de respaldo contextual."
                         ),
                     )
                 )
 
-        # Ordenar priorizando compatibilidad directa (1.0), luego secundaria (0.7, 0.3)
         resultados.sort(key=lambda x: (x.peso_referencia or 0.0), reverse=True)
         return resultados
