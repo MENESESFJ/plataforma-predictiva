@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "descripcion": "Homologación entre modos canónicos FMEA y modos genéricos de la matriz MF-SMCS.",
   "fuente_smcs": {
     "archivo": "Matriz_MF_SMCS_MAESTRO_CONSOLIDADO_v2.csv",
@@ -34,7 +34,7 @@
   },
   "mapeos": [
     {
-      "id_fmea": "MF-001",
+      "id_fmea": "MFP-06",
       "nombre_fmea": "sobrecalentamiento",
       "sistema": "MOTOR",
       "id_mf_smcs": "0058",
@@ -44,10 +44,11 @@
       "direccion_especificidad": "fmea_mas_especifico",
       "estado_revision": "propuesto",
       "observacion": "El modo SMCS Temperatura Alta es más genérico que sobrecalentamiento. La relación debe contextualizarse con la variable de temperatura de refrigerante y el sistema del componente.",
-      "activo": false
+      "activo": false,
+      "id_fmea_anterior": "MF-001"
     },
     {
-      "id_fmea": "MF-004",
+      "id_fmea": "MFP-07",
       "nombre_fmea": "baja_presion_lubricacion",
       "sistema": "MOTOR",
       "id_mf_smcs": "0062",
@@ -57,10 +58,11 @@
       "direccion_especificidad": "fmea_mas_especifico",
       "estado_revision": "propuesto",
       "observacion": "Presión Baja es un modo SMCS genérico. Sólo representa baja presión de lubricación cuando el código SMCS y el contexto operacional corresponden al circuito de lubricación del motor.",
-      "activo": false
+      "activo": false,
+      "id_fmea_anterior": "MF-004"
     },
     {
-      "id_fmea": "MF-004",
+      "id_fmea": "MFP-07",
       "nombre_fmea": "baja_presion_lubricacion",
       "sistema": "MOTOR",
       "id_mf_smcs": "0014",
@@ -70,12 +72,13 @@
       "direccion_especificidad": "fmea_mas_especifico",
       "estado_revision": "propuesto",
       "observacion": "Lubricación Deficiente representa una condición más amplia que baja presión de lubricación. Puede relacionarse con pérdida de presión, bajo nivel, contaminación, restricción o degradación del lubricante.",
-      "activo": false
+      "activo": false,
+      "id_fmea_anterior": "MF-004"
     }
   ],
   "pendientes_revision": [
     {
-      "id_fmea": "MF-002",
+      "id_fmea": "MFP-01",
       "nombre_fmea": "desgaste_cojinetes",
       "sistema": "MOTOR",
       "motivo": "No existe un modo genérico denominado Desgaste en la matriz SMCS para el sistema MOTOR.",
@@ -96,10 +99,11 @@
           "justificacion": "Puede ser un precursor o síntoma contextual, pero no representa directamente el desgaste de cojinetes."
         }
       ],
-      "estado_revision": "pendiente_revision"
+      "estado_revision": "pendiente_revision",
+      "id_fmea_anterior": "MF-002"
     },
     {
-      "id_fmea": "MF-003",
+      "id_fmea": "MFP-02",
       "nombre_fmea": "desgaste_camisas_anillos",
       "sistema": "MOTOR",
       "motivo": "No existe un modo genérico denominado Desgaste en la matriz SMCS para el sistema MOTOR.",
@@ -120,7 +124,18 @@
           "justificacion": "Puede ser un efecto del desgaste, pero no representa el mismo modo de falla."
         }
       ],
-      "estado_revision": "pendiente_revision"
+      "estado_revision": "pendiente_revision",
+      "id_fmea_anterior": "MF-003"
     }
-  ]
+  ],
+  "migracion_ids": {
+    "fecha": "2026-10-09",
+    "motivo": "FMEA motor v1.0 aprobado por Confiabilidad (knowledge/fmea/aprobado/fmea_motor_v1.json)",
+    "mapa": {
+      "MF-001": "MFP-06",
+      "MF-002": "MFP-01",
+      "MF-003": "MFP-02",
+      "MF-004": "MFP-07"
+    }
+  }
 }
