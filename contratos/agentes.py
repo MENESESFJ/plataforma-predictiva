@@ -6,7 +6,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, ConfigDict, Field
 
-VERSION_CONTRATOS = "1.2.0"
+VERSION_CONTRATOS = "1.2.1"
 
 
 class Contrato(BaseModel):
@@ -49,15 +49,22 @@ class CompatibilidadSMCS(BaseModel):
 
     id_mf_smcs: Optional[str] = None
     descripcion_mf_smcs: Optional[str] = None
-    relacion_homologacion: Optional[str] = None  # uno_a_uno, uno_a_muchos, muchos_a_uno, parcial, no_homologado
-    estado_homologacion: str  # pendiente_revision, aprobado, propuesto
+    
+    # Metadatos ontológicos FMEA <-> SMCS
+    cardinalidad: Optional[str] = None               # uno_a_uno, uno_a_muchos, etc.
+    tipo_equivalencia: Optional[str] = None          # exacta, parcial, contextual, sin_equivalencia
+    direccion_especificidad: Optional[str] = None    # fmea_mas_especifico, equivalente, etc.
+    estado_homologacion: str                         # propuesto, pendiente_revision, aprobado, rechazado
+    activo_en_runtime: bool = False
 
     codigo_smcs: Optional[str] = None
     descripcion_smcs: Optional[str] = None
 
-    tipo_asociacion_smcs: Optional[str] = None  # Directo, Secundario, No identificado
+    # Asociación física SMCS <-> Código SMCS
+    tipo_asociacion_smcs: Optional[str] = None       # Directo, Secundario, No identificado
     peso_referencia: Optional[float] = None
-    interpretacion: str  # compatible_directo, compatible_secundario_cercano, compatible_secundario_amplio, relacion_no_identificada, no_evaluado, inconsistente_tipo_peso
+    interpretacion: str  # compatible_directo, compatible_secundario_cercano, compatible_secundario_amplio,
+                         # relacion_no_identificada, no_evaluado, homologacion_no_aprobada, inconsistente_tipo_peso
 
     fuente: str = "Matriz_MF_SMCS_MAESTRO_CONSOLIDADO_v2.csv"
     version_fuente: Optional[str] = "2.0"
@@ -216,34 +223,3 @@ class ResultadoFlujo(Contrato):
 
 def ahora() -> datetime:
     return datetime.now(timezone.utc)
-
-
-# Añadir / Actualizar en contratos/agentes.py
-
-class CompatibilidadSMCS(BaseModel):
-    sistema: str
-    id_fmea: str
-    nombre_fmea: Optional[str] = None
-
-    id_mf_smcs: Optional[str] = None
-    descripcion_mf_smcs: Optional[str] = None
-    
-    # Metadatos ontológicos FMEA <-> SMCS
-    cardinalidad: Optional[str] = None               # uno_a_uno, uno_a_muchos, etc.
-    tipo_equivalencia: Optional[str] = None          # exacta, parcial, contextual, sin_equivalencia
-    direccion_especificidad: Optional[str] = None    # fmea_mas_especifico, equivalente, etc.
-    estado_homologacion: str                         # propuesto, pendiente_revision, aprobado, rechazado
-    activo_en_runtime: bool = False
-
-    codigo_smcs: Optional[str] = None
-    descripcion_smcs: Optional[str] = None
-
-    # Asociación física SMCS <-> Código SMCS
-    tipo_asociacion_smcs: Optional[str] = None       # Directo, Secundario, No identificado
-    peso_referencia: Optional[float] = None
-    interpretacion: str  # compatible_directo, compatible_secundario_cercano, compatible_secundario_amplio,
-                         # relacion_no_identificada, no_evaluado, homologacion_no_aprobada, inconsistente_tipo_peso
-
-    fuente: str = "Matriz_MF_SMCS_MAESTRO_CONSOLIDADO_v2.csv"
-    version_fuente: Optional[str] = "2.0"
-    observacion: str

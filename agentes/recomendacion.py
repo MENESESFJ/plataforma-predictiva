@@ -26,17 +26,9 @@ class AgenteRecomendacion(BaseAgente):
                     )
                 )
 
-        if not acciones_sugeridas and catalogo:
-            # Fallback a acción de menor impacto
-            fallback = catalogo[0]
-            acciones_sugeridas.append(
-                AccionPropuesta(
-                    id=fallback["id"],
-                    accion=fallback["accion"],
-                    urgencia=fallback["urgencia"],
-                    severidad=fallback["severidad"],
-                    estado_revision="pendiente_especialista",
-                )
-            )
+        if not acciones_sugeridas:
+            # Sin fallback: una severidad sin acción autorizada es una brecha del catálogo
+            raise ValueError(
+                f"catálogo de acciones sin entrada para severidad '{d.severidad.value}'")
 
         return RecomendacionSalida(acciones=acciones_sugeridas)

@@ -59,7 +59,7 @@ class AgenteInterpretacion(BaseAgente):
         severidad_fmea_val = None
 
         if modos_candidatos and nivel_riesgo in (Severidad.ALTA, Severidad.CRITICA):
-            # Tomamos el candidato con mayor cobertura de variables
+            # Candidato asociado a la variable con mayor contribución SHAP
             modo_seleccionado = modos_candidatos[0]
             try:
                 severidad_fmea_val = Severidad(modo_seleccionado.get("severidad", "media").lower())

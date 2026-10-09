@@ -1,4 +1,9 @@
-"""inferencia/servicio.py: Motor de cómputo determinístico de riesgo y SHAP."""
+"""inferencia/servicio.py: Motor de cómputo determinístico de riesgo y contribuciones.
+
+PLACEHOLDER hasta la Fase 3: no carga un modelo entrenado desde el registro. El
+riesgo es una logística sobre variables normalizadas con pesos fijos, y las
+"contribuciones" son aditivas lineales, no valores SHAP de un modelo real.
+"""
 import math
 from typing import Dict, List, Tuple
 from agentes.base import BaseAgente

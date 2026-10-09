@@ -9,6 +9,8 @@ from typing import Dict, List, Optional, Tuple
 
 from contratos.agentes import CompatibilidadSMCS
 
+_RAIZ = Path(__file__).resolve().parent.parent
+
 
 class ConsultorSMCS:
     INTERPRETACION_PESO = {
@@ -19,8 +21,8 @@ class ConsultorSMCS:
 
     def __init__(
         self,
-        ruta_csv: str = "knowledge/smcs/Matriz_MF_SMCS_MAESTRO_CONSOLIDADO_v2.csv",
-        ruta_homologacion: str = "knowledge/smcs/homologacion_fmea_smcs.json",
+        ruta_csv: str = str(_RAIZ / "knowledge/smcs/Matriz_MF_SMCS_MAESTRO_CONSOLIDADO_v2.csv"),
+        ruta_homologacion: str = str(_RAIZ / "knowledge/smcs/homologacion_fmea_smcs.json"),
         permitir_solo_aprobados: bool = True,
     ):
         self.ruta_csv = Path(ruta_csv)
