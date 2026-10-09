@@ -1,0 +1,3400 @@
+{
+  "version": "1.0.0",
+  "componente": "motor_diesel",
+  "estado": "aprobado",
+  "aprobacion": {
+    "revision": "revision_fmea_confiabilidad_v1.xlsx",
+    "fecha_aplicacion": "2026-10-09",
+    "aprobado_por": "Confiabilidad"
+  },
+  "modos_falla": [
+    {
+      "id": "MFP-01",
+      "nombre": "desgaste_cojinetes",
+      "severidad": "critica",
+      "variables": [
+        "cu_ppm",
+        "particulado_inspeccion",
+        "pb_ppm",
+        "pqi",
+        "presion_aceite"
+      ],
+      "senales": [
+        {
+          "variable": "pb_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "cu_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "pqi",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "presencia"
+        },
+        {
+          "variable": "presion_aceite",
+          "direccion": "disminucion"
+        }
+      ],
+      "precursores": [
+        "Copper (Cu) High Values (SOS)",
+        "Copper high (SOS)",
+        "Filter cut with Particulate Level 2 (Particulate)",
+        "Filter cut with Particulate Level 3 (Particulate)",
+        "Lead high (SOS)",
+        "Low Engine Oil Pressure (VIMS)",
+        "Low oil pressure of 10 PSI (VIMS)",
+        "PQI Value increases (SOS)",
+        "Patch test with particulate presence (Particulate)",
+        "Pressure low (VIMS)",
+        "Screen with metallic particle (Particulate)"
+      ],
+      "codigos_smcs": [
+        "1000",
+        "1203"
+      ],
+      "modos_rcm_padre": [
+        "RCM-002",
+        "RCM-038"
+      ],
+      "sintomas_soporte": [
+        "SIN-001",
+        "SIN-006",
+        "SIN-011",
+        "SIN-019",
+        "SIN-066",
+        "SIN-080",
+        "SIN-101",
+        "SIN-108",
+        "SIN-109",
+        "SIN-110",
+        "SIN-111"
+      ],
+      "modelos_aplicables": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "modelos_con_evidencia_documental": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "evidencia": "Plan Cat: “Elevated lead alone is often related to sleeve bearings”.",
+      "observaciones": [
+        "Síntomas de soporte declarados que no están aprobados: SIN-013, SIN-016",
+        "Modelos aplicables por criterio experto, sin síntoma documental: 794 AC, 798 AC",
+        "Códigos SMCS no presentes en la matriz: 1000"
+      ]
+    },
+    {
+      "id": "MFP-02",
+      "nombre": "desgaste_camisas_anillos",
+      "severidad": "alta",
+      "variables": [
+        "fe_ppm",
+        "hollin",
+        "particulado_inspeccion",
+        "pqi",
+        "presion_carter"
+      ],
+      "senales": [
+        {
+          "variable": "presion_carter",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "fe_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "pqi",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "presencia"
+        },
+        {
+          "variable": "hollin",
+          "direccion": "aumento"
+        }
+      ],
+      "precursores": [
+        "Crankcase High Pressure (VIMS)",
+        "Filter cut with Particulate Level 2 (Particulate)",
+        "Filter cut with Particulate Level 3 (Particulate)",
+        "Iron (Fe) particles increasing (SOS)",
+        "Iron high (SOS)",
+        "PQI Value increases (SOS)",
+        "Patch test with Soot (St) presence (Particulate)",
+        "Patch test with particulate presence (Particulate)",
+        "Pressure high (VIMS)",
+        "Screen with metallic particle (Particulate)",
+        "Soot (St) and Iron (Fe) High Values (SOS)"
+      ],
+      "codigos_smcs": [
+        "1000",
+        "1213",
+        "1215",
+        "1216",
+        "1239"
+      ],
+      "modos_rcm_padre": [
+        "RCM-002"
+      ],
+      "sintomas_soporte": [
+        "SIN-005",
+        "SIN-010",
+        "SIN-011",
+        "SIN-017",
+        "SIN-068",
+        "SIN-093",
+        "SIN-108",
+        "SIN-109",
+        "SIN-110",
+        "SIN-111",
+        "SIN-113"
+      ],
+      "modelos_aplicables": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "modelos_con_evidencia_documental": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "evidencia": "Plan Cat: el hierro puede originarse en camisas, cigüeñal o árbol de levas. La presión de cárter elevada es un indicador indirecto de blowby y pérdida de sellado, pero debe descartarse una restricción del respiradero del cárter.",
+      "observaciones": [
+        "Síntomas de soporte declarados que no están aprobados: SIN-013, SIN-018",
+        "Modelos aplicables por criterio experto, sin síntoma documental: 798 AC",
+        "Códigos SMCS no presentes en la matriz: 1000, 1215"
+      ]
+    },
+    {
+      "id": "MFP-03",
+      "nombre": "contaminacion_refrigerante_en_aceite",
+      "severidad": "alta",
+      "variables": [
+        "cu_ppm",
+        "k_ppm",
+        "na_ppm",
+        "nivel_refrigerante"
+      ],
+      "senales": [
+        {
+          "variable": "na_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "k_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "nivel_refrigerante",
+          "direccion": "disminucion"
+        },
+        {
+          "variable": "cu_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "precursores": [
+        "Contamination by Sodium (Na) (SOS)",
+        "Copper (Cu) High Values (SOS)",
+        "Copper high (SOS)",
+        "Increase in Potassium (K) (SOS)",
+        "Level low (VIMS, VisionLink)",
+        "Low Level Coolant (VIMS)",
+        "Sodium (Na) and Potassium (K) High Values (SOS)",
+        "Sodium high (SOS)"
+      ],
+      "codigos_smcs": [
+        "1124",
+        "1217",
+        "1378"
+      ],
+      "modos_rcm_padre": [
+        "RCM-002"
+      ],
+      "sintomas_soporte": [
+        "SIN-003",
+        "SIN-006",
+        "SIN-007",
+        "SIN-009",
+        "SIN-019",
+        "SIN-020",
+        "SIN-082",
+        "SIN-105"
+      ],
+      "modelos_aplicables": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "modelos_con_evidencia_documental": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "evidencia": "Plan Cat: “Elevated sodium is often related to coolant contamination”. Na y K son señales principales; la disminución de refrigerante aporta soporte. Cu es contextual y puede orientar a un enfriador, pero no confirma por sí solo la contaminación.",
+      "observaciones": [
+        "Síntomas de soporte declarados que no están aprobados: SIN-008, SIN-016",
+        "Modelos aplicables por criterio experto, sin síntoma documental: 798 AC",
+        "Códigos SMCS no presentes en la matriz: 1217",
+        "Modos RCM padre pendientes de validar."
+      ]
+    },
+    {
+      "id": "MFP-04",
+      "nombre": "ingreso_abrasivo_polvo",
+      "severidad": "media",
+      "variables": [
+        "fe_ppm",
+        "restriccion_filtro_aire",
+        "si_ppm"
+      ],
+      "senales": [
+        {
+          "variable": "si_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "restriccion_filtro_aire",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "fe_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "precursores": [
+        "Air Filters Plugged (VIMS)",
+        "Iron high (SOS)",
+        "Restricted (VIMS)",
+        "Silicon high (SOS)"
+      ],
+      "codigos_smcs": [
+        "1050",
+        "1051",
+        "1054",
+        "1068",
+        "1071"
+      ],
+      "modos_rcm_padre": [
+        "RCM-015",
+        "RCM-020",
+        "RCM-023"
+      ],
+      "sintomas_soporte": [
+        "SIN-004",
+        "SIN-005",
+        "SIN-071",
+        "SIN-083"
+      ],
+      "modelos_aplicables": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "modelos_con_evidencia_documental": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "evidencia": "Silicon High, Dust Contamination, restricción de admisión y aumento de Fe compatible con desgaste abrasivo originado en el sistema de admisión de aire.",
+      "observaciones": [
+        "Síntomas de soporte declarados que no están aprobados: SIN-010, SIN-014, SIN-017, SIN-018, SIN-112",
+        "Modelos aplicables por criterio experto, sin síntoma documental: 798 AC"
+      ]
+    },
+    {
+      "id": "MFP-05",
+      "nombre": "dilucion_combustible",
+      "severidad": "alta",
+      "variables": [
+        "viscosidad"
+      ],
+      "senales": [
+        {
+          "variable": "viscosidad",
+          "direccion": "disminucion"
+        }
+      ],
+      "precursores": [
+        "Low Viscosity (SOS)",
+        "Low Viscosity (VIMS)",
+        "Viscosity does not meet expected limits (SOS)"
+      ],
+      "codigos_smcs": [
+        "1251",
+        "1254",
+        "1290"
+      ],
+      "modos_rcm_padre": [
+        "RCM-037",
+        "RCM-029"
+      ],
+      "sintomas_soporte": [
+        "SIN-002",
+        "SIN-015",
+        "SIN-096"
+      ],
+      "modelos_aplicables": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "modelos_con_evidencia_documental": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "evidencia": "Plan Cat: “Fuel contamination can cause lower viscosity”. La disminución de viscosidad es compatible con dilución por combustible. SMCS 1251 identifica la bomba de inyección; 1254, la válvula o boquilla de inyección; y 1290, el inyector unitario.",
+      "observaciones": [
+        "Modelos aplicables por criterio experto, sin síntoma documental: 794 AC, 798 AC"
+      ]
+    },
+    {
+      "id": "MFP-06",
+      "nombre": "sobrecalentamiento",
+      "severidad": "alta",
+      "variables": [
+        "nivel_refrigerante",
+        "presion_refrigerante",
+        "temp_aceite",
+        "temp_refrigerante"
+      ],
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "temp_aceite",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "nivel_refrigerante",
+          "direccion": "disminucion"
+        },
+        {
+          "variable": "presion_refrigerante",
+          "direccion": "disminucion"
+        }
+      ],
+      "precursores": [
+        "High Coolant Temperature Values (VIMS)",
+        "High Oil Temperature (VIMS)",
+        "Level low (VIMS, VisionLink)",
+        "Low Fan Speed (VIMS)",
+        "Low Level Coolant (VIMS)",
+        "Low coolant pressure. (VIMS)",
+        "Temperature High (VIMS)"
+      ],
+      "codigos_smcs": [
+        "1350",
+        "1353",
+        "1355",
+        "1361",
+        "1378"
+      ],
+      "modos_rcm_padre": [
+        "RCM-002"
+      ],
+      "sintomas_soporte": [
+        "SIN-065",
+        "SIN-070",
+        "SIN-075",
+        "SIN-077",
+        "SIN-082",
+        "SIN-098",
+        "SIN-099",
+        "SIN-105"
+      ],
+      "modelos_aplicables": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "modelos_con_evidencia_documental": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "evidencia": "Síntomas VIMS de alta temperatura de refrigerante y aceite, bajo nivel de refrigerante y pérdida de desempeño del sistema de enfriamiento. SMCS 1350 identifica el sistema; 1353, radiador; 1355, termostato; 1361, bomba de agua; y 1378, enfriador de aceite.",
+      "observaciones": [
+        "Modelos aplicables por criterio experto, sin síntoma documental: 798 AC"
+      ]
+    },
+    {
+      "id": "MFP-07",
+      "nombre": "baja_presion_lubricacion",
+      "severidad": "critica",
+      "variables": [
+        "nivel_aceite",
+        "presion_aceite",
+        "viscosidad"
+      ],
+      "senales": [
+        {
+          "variable": "presion_aceite",
+          "direccion": "disminucion"
+        },
+        {
+          "variable": "nivel_aceite",
+          "direccion": "disminucion"
+        },
+        {
+          "variable": "viscosidad",
+          "direccion": "disminucion"
+        }
+      ],
+      "precursores": [
+        "Level low (VIMS)",
+        "Low Engine Oil Pressure (VIMS)",
+        "Low Oil Level (VIMS)",
+        "Low Viscosity (SOS)",
+        "Low Viscosity (VIMS)",
+        "Low oil pressure of 10 PSI (VIMS)",
+        "Pressure low (VIMS)",
+        "Viscosity does not meet expected limits (SOS)"
+      ],
+      "codigos_smcs": [
+        "1300",
+        "1304",
+        "1308",
+        "1315",
+        "1319"
+      ],
+      "modos_rcm_padre": [
+        "RCM-008",
+        "RCM-009",
+        "RCM-011",
+        "RCM-038"
+      ],
+      "sintomas_soporte": [
+        "SIN-002",
+        "SIN-015",
+        "SIN-066",
+        "SIN-067",
+        "SIN-080",
+        "SIN-085",
+        "SIN-096",
+        "SIN-101"
+      ],
+      "modelos_aplicables": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "modelos_con_evidencia_documental": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "evidencia": "Síntomas “Engine Oil Pressure Low” y “Low Oil Pressure”. Debe utilizar presión de aceite, no presión de cárter. SMCS 1300 identifica el sistema de lubricación; 1304, bomba de aceite; 1308, filtro; 1315, válvula de alivio; y 1319, bomba de prelubricación.",
+      "observaciones": [
+        "Modelos aplicables por criterio experto, sin síntoma documental: 794 AC, 798 AC"
+      ]
+    },
+    {
+      "id": "MFP-08",
+      "nombre": "combustion_deficiente",
+      "severidad": "alta",
+      "variables": [
+        "hollin",
+        "presion_admision",
+        "temp_admision",
+        "temp_escape",
+        "temp_escape_diferencial"
+      ],
+      "senales": [
+        {
+          "variable": "temp_escape",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "temp_escape_diferencial",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "hollin",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "temp_admision",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "presion_admision",
+          "direccion": "desviacion"
+        }
+      ],
+      "precursores": [
+        "Exhaust Temperature Increasing (VIMS)",
+        "Exhaust Temperature equal to or greater than 700°C (VIMS)",
+        "IMAP Low Value (VIMS)",
+        "Increase Exhaust Temperature (VIMS)",
+        "Intake IMAT High Temperature (VIMS)",
+        "Low Booster Pressure (VIMS)",
+        "Patch test with Soot (St) presence (Particulate)",
+        "Pressure high (VIMS)",
+        "Pressure low (VIMS)",
+        "Soot (St) and Iron (Fe) High Values (SOS)",
+        "Temp Differential (VIMS)",
+        "Temperature High (None)",
+        "Temperature High (VIMS, VisionLink)"
+      ],
+      "codigos_smcs": [
+        "1052",
+        "1054",
+        "1064",
+        "1290"
+      ],
+      "modos_rcm_padre": [
+        "RCM-037",
+        "RCM-019",
+        "RCM-027",
+        "RCM-020",
+        "RCM-023"
+      ],
+      "sintomas_soporte": [
+        "SIN-017",
+        "SIN-053",
+        "SIN-061",
+        "SIN-062",
+        "SIN-064",
+        "SIN-073",
+        "SIN-079",
+        "SIN-084",
+        "SIN-087",
+        "SIN-097",
+        "SIN-100",
+        "SIN-104",
+        "SIN-113"
+      ],
+      "modelos_aplicables": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "modelos_con_evidencia_documental": [
+        "793F",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "evidencia": "Síntomas de temperatura de escape, diferencial entre cilindros, temperatura y presión de admisión, boost y hollín. SMCS 1052 identifica turboalimentador; 1054, filtro secundario de aire; 1064, núcleo del aftercooler; y 1290, inyector unitario.",
+      "observaciones": [
+        "Síntomas de soporte declarados que no están aprobados: SIN-074",
+        "Modelos aplicables por criterio experto, sin síntoma documental: 793F Tier 4, 798 AC"
+      ]
+    }
+  ],
+  "sintomas_aprobados": [
+    {
+      "id": "SIN-001",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Wear element.",
+      "sintoma": "Lead high",
+      "senales": [
+        {
+          "variable": "pb_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-01"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!17"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-002",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Viscosity does not meet expected limits",
+      "senales": [
+        {
+          "variable": "viscosidad",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-05",
+        "MFP-07"
+      ],
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!33"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-003",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Sodium high",
+      "senales": [
+        {
+          "variable": "na_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-03"
+      ],
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!35"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-004",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Silicon high",
+      "senales": [
+        {
+          "variable": "si_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-04"
+      ],
+      "modelos": [
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!36"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-005",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Iron high",
+      "senales": [
+        {
+          "variable": "fe_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-02",
+        "MFP-04"
+      ],
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!39"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-006",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Copper high",
+      "senales": [
+        {
+          "variable": "cu_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-03"
+      ],
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!40"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-007",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Contaminated Oil",
+      "sintoma": "Increase in Potassium (K)",
+      "senales": [
+        {
+          "variable": "k_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-03"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!8"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-009",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Traspaso refrigerante",
+      "sintoma": "Contamination by Sodium (Na)",
+      "senales": [
+        {
+          "variable": "na_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-03"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!19"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-010",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Metallic piece",
+      "sintoma": "Iron (Fe) particles increasing",
+      "senales": [
+        {
+          "variable": "fe_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-02"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!20"
+      ],
+      "correccion": "Retirar MFP-04",
+      "comentario": "El hierro y las partículas metálicas respaldan MFP-02; no existe evidencia explícita de polvo o silicio para MFP-04."
+    },
+    {
+      "id": "SIN-011",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Wear Element",
+      "sintoma": "PQI Value increases",
+      "senales": [
+        {
+          "variable": "pqi",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-02"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!30"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-015",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Viscosity",
+      "sintoma": "Low Viscosity",
+      "senales": [
+        {
+          "variable": "viscosidad",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-05",
+        "MFP-07"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!51"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-017",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Soot (St) Excess",
+      "sintoma": "Soot (St) and Iron (Fe) High Values",
+      "senales": [
+        {
+          "variable": "fe_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "hollin",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-02",
+        "MFP-08"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!56"
+      ],
+      "correccion": "Retirar MFP-04; corregir Stoot por Soot",
+      "comentario": "Fe y hollín aportan soporte a desgaste de camisas/anillos y combustión deficiente; no prueban ingreso de polvo."
+    },
+    {
+      "id": "SIN-019",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Wear Element",
+      "sintoma": "Copper (Cu) High Values",
+      "senales": [
+        {
+          "variable": "cu_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-03"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!62"
+      ],
+      "correccion": "Corregir Cupper por Copper",
+      "comentario": "Se mantiene la trazabilidad en Origen."
+    },
+    {
+      "id": "SIN-020",
+      "estado": "aprobado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Coolant Transfer",
+      "sintoma": "Sodium (Na) and Potassium (K) High Values",
+      "senales": [
+        {
+          "variable": "na_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "k_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-03"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!69"
+      ],
+      "correccion": "Corregir Potassiuk por Potassium",
+      "comentario": "La combinación Na/K respalda contaminación por refrigerante."
+    },
+    {
+      "id": "SIN-021",
+      "estado": "aprobado",
+      "categoria": "evento_diagnostico",
+      "rutina": "VIMS",
+      "modo_origen": "High pressure fuel pump",
+      "sintoma": "FMI 9 - Abnormal Update Rate",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "794 AC",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "origen": [
+        "HPFP!7",
+        "ENGINE!22",
+        "ENGINE 798AC!13"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-022",
+      "estado": "aprobado",
+      "categoria": "evento_diagnostico",
+      "rutina": "VIMS",
+      "modo_origen": "Temperature control module(E-stat)",
+      "sintoma": "FMI 9 - Abnormal Update Rate",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!25",
+        "RADIATOR!8"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-023",
+      "estado": "aprobado",
+      "categoria": "evento_diagnostico",
+      "rutina": "VIMS",
+      "modo_origen": "High pressure fuel pump",
+      "sintoma": "FMI 12 - Failure",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "origen": [
+        "ENGINE!28",
+        "ENGINE 798AC!14"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-024",
+      "estado": "aprobado",
+      "categoria": "evento_diagnostico",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel injector",
+      "sintoma": "FMI 7 - Not Responding Properly",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "origen": [
+        "ENGINE!30",
+        "ENGINE 798AC!15"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-025",
+      "estado": "aprobado",
+      "categoria": "evento_diagnostico",
+      "rutina": "VIMS",
+      "modo_origen": "Mechanical Element",
+      "sintoma": "FMI-12 - HPFP Resonator Element",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!59"
+      ],
+      "correccion": "Corregir elemnt y normalizar descripción",
+      "comentario": "Evento discreto; puede estructurarse más adelante como presencia de evento."
+    },
+    {
+      "id": "SIN-026",
+      "estado": "aprobado",
+      "categoria": "evento_diagnostico",
+      "rutina": "VIMS",
+      "modo_origen": "Mechanical Element",
+      "sintoma": "FMI-07 - Injector Failure",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!63"
+      ],
+      "correccion": "Corregir Faliure por Failure",
+      "comentario": "Evento discreto; puede estructurarse más adelante como presencia de evento."
+    },
+    {
+      "id": "SIN-027",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Electrical Failure",
+      "sintoma": "Without Communication",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797B",
+        "797F"
+      ],
+      "origen": [
+        "CONVERTER!19"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-028",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Electrical",
+      "sintoma": "Without Communication",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797B",
+        "797F"
+      ],
+      "origen": [
+        "REAR DIFFERENTIAL!20"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-029",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Temperature sensor",
+      "sintoma": "FMI 19 - Data Error",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "794 AC",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "origen": [
+        "EQUIPMENT!7",
+        "ENGINE!18",
+        "ENGINE 798AC!10",
+        "EQUIPMENT 798AC!6"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-030",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Turbocharger Turbine intake temperature",
+      "sintoma": "FMI 4 - Voltage Below Normal",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "origen": [
+        "EQUIPMENT!10",
+        "ENGINE!20",
+        "ENGINE 798AC!12",
+        "EQUIPMENT 798AC!9"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-031",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "Electrical Failure",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "EQUIPMENT!21"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-032",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "Without Contamination",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797B",
+        "797F"
+      ],
+      "origen": [
+        "RR FINAL DRIVE!13",
+        "RL FINAL DRIVE!13"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-033",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Erratic signal.",
+      "sintoma": "FMI 2 - Erratic, Intermittent, or Incorrect",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!6"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-034",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Pressure sensor",
+      "sintoma": "FMI 4 - Voltage Below Normal",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!8"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-035",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Speed sensor",
+      "sintoma": "FMI 8 - Abnormal Frequency, Pulse Width, or Period",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "793F",
+        "794 AC",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "origen": [
+        "ENGINE!11",
+        "ENGINE 798AC!8"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-036",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel injector",
+      "sintoma": "Current Low",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "793F",
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!12"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-037",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel injector",
+      "sintoma": "Current High",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!14"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-038",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Exhaust",
+      "sintoma": "FMI 4 - Voltage Below Normal",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "794 AC",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!21"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-039",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Loss of Communication",
+      "sintoma": "No tendency for loss of communication - FMI19",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!9"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-040",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "FMI-08 - Electrical Problem",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!13"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-042",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Electric Frequencies",
+      "sintoma": "High fan speed",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!17"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-043",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "FMI-04 - Electrical Problem",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!18"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-044",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "Motor Speed Sensor",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!21"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-045",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "FMI09 - ECM",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!22"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-046",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Erratic Signal",
+      "sintoma": "FMI-02 - Electrical Problem",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!29"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-047",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Loss of Communication",
+      "sintoma": "Without Communication",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!32"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-048",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "Fuel High Temperature",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!34"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-049",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Erratic Signal",
+      "sintoma": "Wrong Data",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!36"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-050",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "FMI-03 - Electrical Problem",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!72"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-051",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "Without Communication",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797B",
+        "797F"
+      ],
+      "origen": [
+        "STEERING SYSTEM!21",
+        "BREAK SYSTEM!20",
+        "TRANSMISSION!21"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-052",
+      "estado": "aprobado",
+      "categoria": "instrumentacion",
+      "rutina": "VisionLink",
+      "modo_origen": "Electric",
+      "sintoma": "FMI09 - ECM",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!23"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-053",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": null,
+      "modo_origen": "Exhaust",
+      "sintoma": "Temperature High",
+      "senales": [
+        {
+          "variable": "temp_escape",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-08"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!31"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-054",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Over heated",
+      "sintoma": "Fuel High Temp",
+      "senales": [
+        {
+          "variable": "temp_combustible",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "HPFP!13"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-055",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Aftertreatment DEF",
+      "sintoma": "Pressure low",
+      "senales": [
+        {
+          "variable": "presion_def",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "794 AC",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "origen": [
+        "EQUIPMENT!8",
+        "ENGINE 798AC!11",
+        "EQUIPMENT 798AC!7"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-056",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "High frequency of events",
+      "sintoma": "Fan motor drain filter saturation",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_ventilador",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797B",
+        "797F"
+      ],
+      "origen": [
+        "EQUIPMENT!22"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-057",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Engine Fan",
+      "sintoma": "Overspeeds",
+      "senales": [
+        {
+          "variable": "velocidad_ventilador",
+          "direccion": "desviacion"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "origen": [
+        "ENGINE!7",
+        "ENGINE 798AC!6"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-058",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Pressure Differential",
+      "senales": [
+        {
+          "variable": "presion_aceite_diferencial",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "794 AC",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "origen": [
+        "ENGINE!10",
+        "ENGINE 798AC!7"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-059",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel",
+      "sintoma": "Restricted",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_combustible",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!13"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-060",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Fan Drive",
+      "sintoma": "Filter plugged",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_ventilador",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "origen": [
+        "ENGINE!15",
+        "STEERING SYSTEM!9",
+        "HYDRAULIC SYSTEM!7",
+        "ENGINE 798AC!9",
+        "HYDRAULIC SYSTEM 798AC!6",
+        "STEERING SYSTEM 798AC!7"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-061",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Intake Manifold",
+      "sintoma": "Pressure high",
+      "senales": [
+        {
+          "variable": "presion_admision",
+          "direccion": "desviacion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-08"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!16"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-062",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Intake Manifold",
+      "sintoma": "Pressure low",
+      "senales": [
+        {
+          "variable": "presion_admision",
+          "direccion": "desviacion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-08"
+      ],
+      "modelos": [
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!27"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-063",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel/H2O Sep",
+      "sintoma": "Level high",
+      "senales": [
+        {
+          "variable": "agua_en_combustible",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!29"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-064",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Exhaust",
+      "sintoma": "Temp Differential",
+      "senales": [
+        {
+          "variable": "temp_escape_diferencial",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-08"
+      ],
+      "modelos": [
+        "793F",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!32"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-065",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Temperature High",
+      "senales": [
+        {
+          "variable": "temp_aceite",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-06"
+      ],
+      "modelos": [
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!34"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-066",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Pressure low",
+      "senales": [
+        {
+          "variable": "presion_aceite",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-07"
+      ],
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!37"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-067",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Level low",
+      "senales": [
+        {
+          "variable": "nivel_aceite",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-07"
+      ],
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!38"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-068",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Crankcase",
+      "sintoma": "Pressure high",
+      "senales": [
+        {
+          "variable": "presion_carter",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-02"
+      ],
+      "modelos": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!41"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-069",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Coolant",
+      "sintoma": "Temperature Low",
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!42"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-070",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Coolant",
+      "sintoma": "Temperature High",
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-06"
+      ],
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!43"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-071",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Air Filter",
+      "sintoma": "Restricted",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_aire",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-04"
+      ],
+      "modelos": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!45"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-072",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Thermostatic Valve Failure",
+      "sintoma": "Low Coolant Temperature",
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!7"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-073",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "High Temp",
+      "sintoma": "Exhaust Temperature equal to or greater than 700°C",
+      "senales": [
+        {
+          "variable": "temp_escape",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-08"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!10"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-075",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Overheated",
+      "sintoma": "Low coolant pressure.",
+      "senales": [
+        {
+          "variable": "presion_refrigerante",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-06"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!14"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-076",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Operational",
+      "sintoma": "Pre Lube Cancellation",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!16"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-077",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Over Temperature",
+      "sintoma": "Low Fan Speed",
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-06"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!24"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-078",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "High Event Frequency",
+      "sintoma": "Fan Motor Drain Filter Plugged",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_ventilador",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797B",
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!25"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-079",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Over Temperature",
+      "sintoma": "Intake IMAT High Temperature",
+      "senales": [
+        {
+          "variable": "temp_admision",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-08"
+      ],
+      "modelos": [
+        "793F",
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!26"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-080",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Pressure",
+      "sintoma": "Low Engine Oil Pressure",
+      "senales": [
+        {
+          "variable": "presion_aceite",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-07"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!27"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-081",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Presence of undetermined particulate.",
+      "sintoma": "Fuel Filter Plugged",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_combustible",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!28"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-082",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Coolant Leaking",
+      "sintoma": "Low Level Coolant",
+      "senales": [
+        {
+          "variable": "nivel_refrigerante",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-03",
+        "MFP-06"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!31"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-083",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Air Filter Restriction",
+      "sintoma": "Air Filters Plugged",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_aire",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-04"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!33"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-084",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Over Temperature",
+      "sintoma": "Exhaust Temperature Increasing",
+      "senales": [
+        {
+          "variable": "temp_escape",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-08"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!35"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-085",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Oil Leaking",
+      "sintoma": "Low Oil Level",
+      "senales": [
+        {
+          "variable": "nivel_aceite",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-07"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!37"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-087",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Pressure",
+      "sintoma": "Low Booster Pressure",
+      "senales": [
+        {
+          "variable": "presion_admision",
+          "direccion": "desviacion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-08"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!43"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-088",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Coolant Low Temperature",
+      "sintoma": "Coolant Low Temperature",
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!46"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-089",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Pressure",
+      "sintoma": "Fuel Low Pressure",
+      "senales": [
+        {
+          "variable": "presion_combustible",
+          "direccion": "desviacion"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!47"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-090",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Pressure",
+      "sintoma": "Fuel High Pressure",
+      "senales": [
+        {
+          "variable": "presion_combustible",
+          "direccion": "desviacion"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!48"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-091",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Contamination by Water",
+      "sintoma": "High water level in Fuel Separator.",
+      "senales": [
+        {
+          "variable": "agua_en_combustible",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!50"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-092",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Wearing",
+      "sintoma": "Engine Oil Filter Saturation",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_aceite",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!52"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-093",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Pressure",
+      "sintoma": "Crankcase High Pressure",
+      "senales": [
+        {
+          "variable": "presion_carter",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-02"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!54"
+      ],
+      "correccion": "Corregir Crankcrase por Crankcase",
+      "comentario": "Se conserva presion_carter:aumento como variable canónica."
+    },
+    {
+      "id": "SIN-094",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Mechanical Element",
+      "sintoma": "FCV Operating Outside Range",
+      "senales": [
+        {
+          "variable": "presion_combustible",
+          "direccion": "desviacion"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!57"
+      ],
+      "correccion": "Corregir Outisde y normalizar descripción",
+      "comentario": "Se conserva la variable presion_combustible:desviacion."
+    },
+    {
+      "id": "SIN-096",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel Presence",
+      "sintoma": "Low Viscosity",
+      "senales": [
+        {
+          "variable": "viscosidad",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-05",
+        "MFP-07"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!64"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-097",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Exhaust Temperature",
+      "sintoma": "IMAP Low Value",
+      "senales": [
+        {
+          "variable": "presion_admision",
+          "direccion": "desviacion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-08"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!65"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-098",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Oil Temperature",
+      "sintoma": "High Oil Temperature",
+      "senales": [
+        {
+          "variable": "temp_aceite",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-06"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!66"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-099",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Coolant Temperature",
+      "sintoma": "High Coolant Temperature Values",
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-06"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!67"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-100",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Exhaust Temperature",
+      "sintoma": "Increase Exhaust Temperature",
+      "senales": [
+        {
+          "variable": "temp_escape",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-08"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!70"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-101",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Oil Contaminated",
+      "sintoma": "Low oil pressure of 10 PSI",
+      "senales": [
+        {
+          "variable": "presion_aceite",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-07"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!71"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-102",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel",
+      "sintoma": "Pressure high",
+      "senales": [
+        {
+          "variable": "presion_combustible",
+          "direccion": "desviacion"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "793F",
+        "794 AC",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "origen": [
+        "ENGINE 798AC!16"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-103",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS, VisionLink",
+      "modo_origen": "Fuel",
+      "sintoma": "Filter plugged",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_combustible",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "793F",
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!19"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-104",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS, VisionLink",
+      "modo_origen": "Intake Manifold",
+      "sintoma": "Temperature High",
+      "senales": [
+        {
+          "variable": "temp_admision",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-08"
+      ],
+      "modelos": [
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!26"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-105",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS, VisionLink",
+      "modo_origen": "Coolant",
+      "sintoma": "Level low",
+      "senales": [
+        {
+          "variable": "nivel_refrigerante",
+          "direccion": "disminucion"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-03",
+        "MFP-06"
+      ],
+      "modelos": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "origen": [
+        "ENGINE!44"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-106",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "Visual Inspection",
+      "modo_origen": "Desalineamiento",
+      "sintoma": "Element distorted or badly positioned",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!41"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-107",
+      "estado": "aprobado",
+      "categoria": "parametro_operacional",
+      "rutina": "Visual Inspection",
+      "modo_origen": "Oil Leaking",
+      "sintoma": "Crankcase oil leaks",
+      "senales": [
+        {
+          "variable": "fuga_aceite",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!45"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-108",
+      "estado": "aprobado",
+      "categoria": "particulado",
+      "rutina": "Particulate",
+      "modo_origen": "Wearing",
+      "sintoma": "Screen with metallic particle",
+      "senales": [
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "presencia"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-02"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!6"
+      ],
+      "correccion": "Cambiar dirección de aumento a presencia",
+      "comentario": "Screen with metallic particle expresa presencia, no un nivel cuantificado."
+    },
+    {
+      "id": "SIN-109",
+      "estado": "aprobado",
+      "categoria": "particulado",
+      "rutina": "Particulate",
+      "modo_origen": "Wear Element",
+      "sintoma": "Filter cut with Particulate Level 3",
+      "senales": [
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-02"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!38"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-110",
+      "estado": "aprobado",
+      "categoria": "particulado",
+      "rutina": "Particulate",
+      "modo_origen": "Wearing",
+      "sintoma": "Filter cut with Particulate Level 2",
+      "senales": [
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-02"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!40"
+      ],
+      "correccion": null,
+      "comentario": null
+    },
+    {
+      "id": "SIN-111",
+      "estado": "aprobado",
+      "categoria": "particulado",
+      "rutina": "Particulate",
+      "modo_origen": "Wear Element",
+      "sintoma": "Patch test with particulate presence",
+      "senales": [
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "presencia"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-02"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!53"
+      ],
+      "correccion": "Cambiar dirección de aumento a presencia",
+      "comentario": "Patch test with particulate presence expresa presencia, no un nivel cuantificado."
+    },
+    {
+      "id": "SIN-113",
+      "estado": "aprobado",
+      "categoria": "particulado",
+      "rutina": "Particulate",
+      "modo_origen": "Soot (St) Excess",
+      "sintoma": "Patch test with Soot (St) presence",
+      "senales": [
+        {
+          "variable": "hollin",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-02",
+        "MFP-08"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!68"
+      ],
+      "correccion": null,
+      "comentario": null
+    }
+  ],
+  "sintomas_pendientes": [
+    {
+      "id": "SIN-013",
+      "estado": "pendiente",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Wear Element",
+      "sintoma": "High levels of Metallic Particulate",
+      "senales": [
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-02"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!44"
+      ],
+      "correccion": "REVISAR DIRECCIÓN",
+      "comentario": "Mantener aumento sólo si particulado_inspeccion posee escala ordinal; de lo contrario usar presencia."
+    },
+    {
+      "id": "SIN-041",
+      "estado": "pendiente",
+      "categoria": "instrumentacion",
+      "rutina": "VIMS",
+      "modo_origen": "Erratic Signal",
+      "sintoma": "FMI-05 - Electrical Problem",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!15"
+      ],
+      "correccion": "REVISAR DESCRIPCIÓN FMI-05",
+      "comentario": "La descripción Erratic Signal puede no representar correctamente FMI-05. Validar contra el código diagnóstico fuente."
+    },
+    {
+      "id": "SIN-074",
+      "estado": "pendiente",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "High Temp",
+      "sintoma": "Exhaust Temperature equal to or less than 700°C",
+      "senales": [
+        {
+          "variable": "temp_escape",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-08"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!11"
+      ],
+      "correccion": "REVISAR DIRECCIÓN",
+      "comentario": "El texto equal to or less than 700°C no sustenta inequívocamente temp_escape:aumento."
+    },
+    {
+      "id": "SIN-086",
+      "estado": "pendiente",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Overheated",
+      "sintoma": "Fuel High Temperature",
+      "senales": [
+        {
+          "variable": "temp_combustible",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!42"
+      ],
+      "correccion": "REVISAR POSIBLE DUPLICADO",
+      "comentario": "Comparar con SIN-095; ambos describen alta temperatura de combustible con planes similares."
+    },
+    {
+      "id": "SIN-095",
+      "estado": "pendiente",
+      "categoria": "parametro_operacional",
+      "rutina": "VIMS",
+      "modo_origen": "Mechanical Element",
+      "sintoma": "Fuel High Temperature",
+      "senales": [
+        {
+          "variable": "temp_combustible",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!58"
+      ],
+      "correccion": "REVISAR POSIBLE DUPLICADO",
+      "comentario": "Comparar con SIN-086; conservar sólo si aporta origen o plan de acción diferente."
+    },
+    {
+      "id": "SIN-112",
+      "estado": "pendiente",
+      "categoria": "particulado",
+      "rutina": "Particulate",
+      "modo_origen": "Contamination by Dust",
+      "sintoma": "Patch test with presence of Silica (Si)",
+      "senales": [
+        {
+          "variable": "si_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-04"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!60"
+      ],
+      "correccion": "REVISAR VARIABLE Y UNIDAD",
+      "comentario": "Patch test con presencia de sílice puede requerir variable silica_particulado:presencia y unidad evento, no si_ppm."
+    }
+  ],
+  "sintomas_eliminados": [
+    {
+      "id": "SIN-008",
+      "estado": "eliminado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Presence of undetermined particulate.",
+      "sintoma": "Sodium (Na) High Values",
+      "senales": [
+        {
+          "variable": "na_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-03"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!12"
+      ],
+      "correccion": "ELIMINAR",
+      "comentario": "Inconsistencia entre modo de origen y síntoma; cubierto por SIN-003 y SIN-009."
+    },
+    {
+      "id": "SIN-012",
+      "estado": "eliminado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Wear Element",
+      "sintoma": "High levels of wear",
+      "senales": [],
+      "modos_predictivos": [],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!39"
+      ],
+      "correccion": "ELIMINAR",
+      "comentario": "Registro genérico sin variable, dirección ni unidad."
+    },
+    {
+      "id": "SIN-014",
+      "estado": "eliminado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Contamination by Water",
+      "sintoma": "Contamination by Dust",
+      "senales": [
+        {
+          "variable": "si_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-04"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!49"
+      ],
+      "correccion": "ELIMINAR",
+      "comentario": "Contradicción entre contaminación por agua y contaminación por polvo."
+    },
+    {
+      "id": "SIN-016",
+      "estado": "eliminado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Coolant Transfer",
+      "sintoma": "Sodim (Na) and Cupper (Cu) High Values",
+      "senales": [
+        {
+          "variable": "na_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "cu_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-03"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!55"
+      ],
+      "correccion": "ELIMINAR",
+      "comentario": "Mezcla Na y Cu y mecanismos diferentes; cubierto por síntomas específicos."
+    },
+    {
+      "id": "SIN-018",
+      "estado": "eliminado",
+      "categoria": "aceite_lab",
+      "rutina": "SOS",
+      "modo_origen": "Wear Element",
+      "sintoma": "Iron (Fe) High Values",
+      "senales": [
+        {
+          "variable": "fe_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "modos_predictivos": [
+        "MFP-02",
+        "MFP-04"
+      ],
+      "modelos": [
+        "797F"
+      ],
+      "origen": [
+        "ENGINE!61"
+      ],
+      "correccion": "ELIMINAR",
+      "comentario": "Duplica hierro elevado sin aportar mayor especificidad."
+    }
+  ],
+  "observaciones": []
+}

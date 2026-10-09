@@ -3,8 +3,8 @@
 Flujo de la información de modos de falla, desde los documentos de Confiabilidad hasta el FMEA que consume el modelo.
 
 ```text
-fuentes/   →  herramientas/fmea/convertir_fmea.py  →  borrador/  →  revisión Confiabilidad  →  components/motor_diesel/fmea.json
-(original)                                            (propuesto)                              (aprobado, runtime)
+fuentes/ → convertir_fmea.py → borrador/ → Confiabilidad → revision/ → aplicar_revision.py → aprobado/ + components/motor_diesel/fmea.json
+(original)                     (propuesto)                 (planilla)                        (registro)   (runtime)
 ```
 
 ## `fuentes/` – documentos originales (no editar)
@@ -27,11 +27,32 @@ python herramientas/fmea/convertir_fmea.py
 - `fmea_borrador.json`: modos predictivos propuestos, modos RCM y síntomas, con trazabilidad a hoja y fila de origen.
 - `revision_fmea_confiabilidad.xlsx`: planilla para que Confiabilidad apruebe o corrija (columnas amarillas).
 
-Nada de `borrador/` se usa en runtime. Solo lo aprobado se traslada a `components/motor_diesel/fmea.json`.
+Nada de `borrador/` se usa en runtime.
 
-## Hallazgos pendientes de revisión
+## `revision/` – planillas devueltas por Confiabilidad
 
-- La lista de síntomas no documenta síntomas de aceite ni de particulado para el 798AC; la evidencia de los modos predictivos proviene de 793F/794AC/797F.
-- 14 modos RCM tienen un código SMCS que no está en la matriz SMCS (entre ellos 1000, motor completo).
-- El código 1050 figura como "admisión y escape" en la memoria RCM y como "entrega y dosificación de combustible" en la matriz SMCS.
-- La severidad sugerida sale de una regla H/S/E/O que debe validar Confiabilidad.
+Se guardan tal como llegan, versionadas (`revision_fmea_confiabilidad_v1.xlsx`, `_v2`, …). Son el registro de la aprobación.
+
+## `aprobado/` – FMEA aprobado
+
+Se genera con:
+
+```bash
+python herramientas/fmea/aplicar_revision.py --revision knowledge/fmea/revision/revision_fmea_confiabilidad_v1.xlsx
+```
+
+- `fmea_motor_v1.json`: registro completo, con modos aprobados, síntomas aprobados, pendientes y eliminados, y observaciones.
+- `REPORTE_REVISION_v1.md`: resumen legible de lo aplicado y de lo pendiente.
+- Además, el script actualiza `components/motor_diesel/fmea.json`, la versión reducida que lee el agente de Interpretación.
+
+Reglas: solo entran los modos con `Aprobado = S`. Los síntomas en `N` se eliminan y los que tengan otro valor quedan pendientes. El soporte de cada modo se recalcula solo con síntomas aprobados. Si la revisión afirma algo sin respaldo documental (modelos aplicables, códigos SMCS que no están en la matriz), se conserva, pero queda como observación.
+
+## Pendientes tras la revisión v1
+
+Ver `aprobado/REPORTE_REVISION_v1.md`. En resumen:
+
+- Seis síntomas en revisión: dirección de `particulado_inspeccion`, temperatura de escape ≤ 700 °C, posible duplicado de temperatura de combustible, sílice en patch test y descripción de FMI-05.
+- El 798AC figura como modelo aplicable en los 8 modos por criterio experto, aunque las fuentes no documentan síntomas de ese modelo.
+- Los códigos SMCS 1000, 1215 y 1217 no están en la matriz SMCS, y el código 1050 está descrito de forma distinta en la memoria RCM y en la matriz.
+- La hoja de Modos RCM no se revisó, así que la regla de severidad H/S/E/O sigue sin validar.
+- Los ID cambiaron de MF-00x a MFP-0x. La homologación SMCS se migró y conserva el ID anterior en `id_fmea_anterior`.
