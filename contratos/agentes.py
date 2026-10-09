@@ -1,13 +1,12 @@
-"""Contratos Pydantic versionados de entrada/salida para los nueve agentes."""
+"""contratos/agentes.py: Contratos Pydantic versionados."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional
-
 from pydantic import BaseModel, ConfigDict, Field
 
-VERSION_CONTRATOS = "1.0.0"
+VERSION_CONTRATOS = "1.1.0"
 
 
 class Contrato(BaseModel):
@@ -27,10 +26,23 @@ class Severidad(str, Enum):
     CRITICA = "critica"
 
 
+class VeredictoCalidad(str, Enum):
+    APROBADO = "aprobado"
+    APROBADO_CON_OBSERVACIONES = "aprobado_con_observaciones"
+    RECHAZADO = "rechazado"
+
+
+class UrgenciaAccion(str, Enum):
+    INMEDIATA_24H = "24h"
+    CORTO_PLAZO_72H = "72h"
+    PROXIMO_MANTENIMIENTO = "proximo_mantenimiento"
+    MONITOREO_RUTINARIO = "monitoreo_rutinario"
+
+
 class Contexto(Contrato):
-    """Contexto compartido del flujo analítico."""
     run_id: str
     componente: str
+    fecha_corte: date
     ruta_componentes: str = "components"
 
 
@@ -41,8 +53,11 @@ class IngestaEntrada(Contrato):
 
 
 class IngestaSalida(Contrato):
-    registros: List[Dict[str, Any]]
+    dataset_id: str
+    hash_snapshot: str
     n_registros: int
+    registros: List[Dict[str, Any]]
+    fuentes_metadata: Dict[str, Any] = Field(default_factory=dict)
 
 
 # 3. Calidad
@@ -52,6 +67,8 @@ class CalidadEntrada(Contrato):
 
 
 class CalidadSalida(Contrato):
+    veredicto: VeredictoCalidad
+    score_calidad: float = Field(ge=0.0, le=100.0)
     registros_validos: List[Dict[str, Any]]
     n_rechazados: int
     violaciones: List[str] = Field(default_factory=list)
@@ -64,6 +81,7 @@ class VariablesEntrada(Contrato):
 
 
 class VariablesSalida(Contrato):
+    feature_set_id: str
     features: List[Dict[str, float]]
     nombres: List[str]
 
@@ -72,13 +90,16 @@ class VariablesSalida(Contrato):
 class ModeladoEntrada(Contrato):
     contexto: Contexto
     features: List[Dict[str, float]]
+    targets: Optional[List[float]] = None
 
 
 class ModeladoSalida(Contrato):
     modelo_id: str
     version_modelo: str
+    artefacto_uri: str
     metricas: Dict[str, float]
     variables: List[str]
+    supera_baseline: bool
 
 
 # 6. Validación y gobierno
@@ -88,14 +109,16 @@ class ValidacionEntrada(Contrato):
     version_modelo: str
     metricas: Dict[str, float]
     variables: List[str]
+    supera_baseline: bool
 
 
 class ValidacionSalida(Contrato):
     aprobado: bool
+    veredicto: str
     motivos: List[str] = Field(default_factory=list)
 
 
-# Servicio de inferencia (determinístico)
+# Servicio de Inferencia (Determinístico)
 class InferenciaEntrada(Contrato):
     contexto: Contexto
     modelo_id: str
@@ -120,6 +143,7 @@ class InterpretacionSalida(Contrato):
     severidad: Severidad
     variables_influyentes: List[str]
     modo_falla: Optional[str] = None
+    explicacion_tecnica: str
 
 
 # 8. Recomendación operacional
@@ -127,21 +151,31 @@ class RecomendacionEntrada(Contrato):
     contexto: Contexto
     severidad: Severidad
     modo_falla: Optional[str] = None
+    variables_influyentes: List[str] = Field(default_factory=list)
+
+
+class AccionPropuesta(BaseModel):
+    accion_id: str
+    descripcion: str
+    urgencia: UrgenciaAccion
+    estado_revision: str = "pendiente_especialista"
 
 
 class RecomendacionSalida(Contrato):
-    acciones: List[str]
+    acciones: List[AccionPropuesta]
 
 
 # 9. Monitoreo y retroalimentación
 class MonitoreoEntrada(Contrato):
     contexto: Contexto
     riesgo: List[float]
-    acciones: List[str]
+    features_actuales: List[Dict[str, float]] = Field(default_factory=list)
 
 
 class MonitoreoSalida(Contrato):
     deriva_detectada: bool
+    metricas_drift: Dict[str, float] = Field(default_factory=dict)
+    requiere_reentrenamiento: bool = False
     feedback: List[str] = Field(default_factory=list)
 
 
@@ -153,13 +187,6 @@ class RegistroAuditoria(Contrato):
     fin: datetime
     duracion_ms: float
     error: Optional[str] = None
-
-
-class ResultadoFlujo(Contrato):
-    run_id: str
-    exito: bool
-    salidas: Dict[str, Any] = Field(default_factory=dict)
-    auditoria: List[RegistroAuditoria] = Field(default_factory=list)
 
 
 def ahora() -> datetime:
