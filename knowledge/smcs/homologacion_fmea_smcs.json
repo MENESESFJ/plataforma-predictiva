@@ -1,6 +1,37 @@
 {
-  "version": "1.0.0",
-  "descripcion": "Homologación controlada entre FMEA canónico y modos genéricos SMCS",
+  "version": "1.1.0",
+  "descripcion": "Homologación entre modos canónicos FMEA y modos genéricos de la matriz MF-SMCS.",
+  "fuente_smcs": {
+    "archivo": "Matriz_MF_SMCS_MAESTRO_CONSOLIDADO_v2.csv",
+    "sistema_inicial": "MOTOR",
+    "criterio": "Los modos SMCS se utilizan como contextualización operacional y no como confirmación causal."
+  },
+  "valores_permitidos": {
+    "cardinalidad": [
+      "uno_a_uno",
+      "uno_a_muchos",
+      "muchos_a_uno",
+      "muchos_a_muchos"
+    ],
+    "tipo_equivalencia": [
+      "exacta",
+      "parcial",
+      "contextual",
+      "sin_equivalencia"
+    ],
+    "direccion_especificidad": [
+      "equivalente",
+      "fmea_mas_especifico",
+      "smcs_mas_especifico",
+      "no_aplica"
+    ],
+    "estado_revision": [
+      "propuesto",
+      "pendiente_revision",
+      "aprobado",
+      "rechazado"
+    ]
+  },
   "mapeos": [
     {
       "id_fmea": "MF-001",
@@ -8,29 +39,12 @@
       "sistema": "MOTOR",
       "id_mf_smcs": "0058",
       "descripcion_mf_smcs": "Temperatura Alta",
-      "relacion": "parcial",
-      "estado_revision": "pendiente_revision",
-      "observacion": "El modo SMCS 0058 es genérico; requiere contexto de sistema de refrigeración."
-    },
-    {
-      "id_fmea": "MF-002",
-      "nombre_fmea": "desgaste_cojinetes",
-      "sistema": "MOTOR",
-      "id_mf_smcs": "0014",
-      "descripcion_mf_smcs": "Lubricación Deficiente",
-      "relacion": "parcial",
-      "estado_revision": "pendiente_revision",
-      "observacion": "Asociación por causa precursora común en cojinetes."
-    },
-    {
-      "id_fmea": "MF-002",
-      "nombre_fmea": "desgaste_cojinetes",
-      "sistema": "MOTOR",
-      "id_mf_smcs": "0022",
-      "descripcion_mf_smcs": "Presencia de Contaminación",
-      "relacion": "parcial",
-      "estado_revision": "pendiente_revision",
-      "observacion": "Cojinetes degradados liberan Cu y PQI al lubricante."
+      "cardinalidad": "uno_a_uno",
+      "tipo_equivalencia": "parcial",
+      "direccion_especificidad": "fmea_mas_especifico",
+      "estado_revision": "propuesto",
+      "observacion": "El modo SMCS Temperatura Alta es más genérico que sobrecalentamiento. La relación debe contextualizarse con la variable de temperatura de refrigerante y el sistema del componente.",
+      "activo": false
     },
     {
       "id_fmea": "MF-004",
@@ -38,9 +52,75 @@
       "sistema": "MOTOR",
       "id_mf_smcs": "0062",
       "descripcion_mf_smcs": "Presión Baja",
-      "relacion": "parcial",
-      "estado_revision": "pendiente_revision",
-      "observacion": "Modo genérico de presión baja aplicable al circuito de aceite/cárter."
+      "cardinalidad": "uno_a_muchos",
+      "tipo_equivalencia": "parcial",
+      "direccion_especificidad": "fmea_mas_especifico",
+      "estado_revision": "propuesto",
+      "observacion": "Presión Baja es un modo SMCS genérico. Sólo representa baja presión de lubricación cuando el código SMCS y el contexto operacional corresponden al circuito de lubricación del motor.",
+      "activo": false
+    },
+    {
+      "id_fmea": "MF-004",
+      "nombre_fmea": "baja_presion_lubricacion",
+      "sistema": "MOTOR",
+      "id_mf_smcs": "0014",
+      "descripcion_mf_smcs": "Lubricación Deficiente",
+      "cardinalidad": "uno_a_muchos",
+      "tipo_equivalencia": "parcial",
+      "direccion_especificidad": "fmea_mas_especifico",
+      "estado_revision": "propuesto",
+      "observacion": "Lubricación Deficiente representa una condición más amplia que baja presión de lubricación. Puede relacionarse con pérdida de presión, bajo nivel, contaminación, restricción o degradación del lubricante.",
+      "activo": false
+    }
+  ],
+  "pendientes_revision": [
+    {
+      "id_fmea": "MF-002",
+      "nombre_fmea": "desgaste_cojinetes",
+      "sistema": "MOTOR",
+      "motivo": "No existe un modo genérico denominado Desgaste en la matriz SMCS para el sistema MOTOR.",
+      "candidatos_contextuales": [
+        {
+          "id_mf_smcs": "0014",
+          "descripcion_mf_smcs": "Lubricación Deficiente",
+          "justificacion": "Puede ser una causa o condición asociada al desgaste de cojinetes, pero no representa el mismo modo de falla."
+        },
+        {
+          "id_mf_smcs": "0057",
+          "descripcion_mf_smcs": "Ruidoso /Ruido Anormal",
+          "justificacion": "Puede ser un síntoma del desgaste, pero no es una equivalencia del modo de falla."
+        },
+        {
+          "id_mf_smcs": "0059",
+          "descripcion_mf_smcs": "Exceso Vibración",
+          "justificacion": "Puede ser un precursor o síntoma contextual, pero no representa directamente el desgaste de cojinetes."
+        }
+      ],
+      "estado_revision": "pendiente_revision"
+    },
+    {
+      "id_fmea": "MF-003",
+      "nombre_fmea": "desgaste_camisas_anillos",
+      "sistema": "MOTOR",
+      "motivo": "No existe un modo genérico denominado Desgaste en la matriz SMCS para el sistema MOTOR.",
+      "candidatos_contextuales": [
+        {
+          "id_mf_smcs": "0064",
+          "descripcion_mf_smcs": "Exceso Blowby",
+          "justificacion": "Puede ser un síntoma técnico relevante del desgaste de camisas y anillos, pero no representa el mismo modo de falla."
+        },
+        {
+          "id_mf_smcs": "0060",
+          "descripcion_mf_smcs": "Exceso Humo",
+          "justificacion": "Puede ser una manifestación operacional asociada, pero no equivale directamente al desgaste de camisas y anillos."
+        },
+        {
+          "id_mf_smcs": "0032",
+          "descripcion_mf_smcs": "Baja Potencia",
+          "justificacion": "Puede ser un efecto del desgaste, pero no representa el mismo modo de falla."
+        }
+      ],
+      "estado_revision": "pendiente_revision"
     }
   ]
 }
