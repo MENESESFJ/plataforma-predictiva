@@ -1,4 +1,4 @@
-"""contratos/agentes.py: Contratos Pydantic versionados."""
+"""Contratos Pydantic versionados para los agentes y el servicio de inferencia."""
 from __future__ import annotations
 
 from datetime import date, datetime, timezone
@@ -30,13 +30,6 @@ class VeredictoCalidad(str, Enum):
     APROBADO = "aprobado"
     APROBADO_CON_OBSERVACIONES = "aprobado_con_observaciones"
     RECHAZADO = "rechazado"
-
-
-class UrgenciaAccion(str, Enum):
-    INMEDIATA_24H = "24h"
-    CORTO_PLAZO_72H = "72h"
-    PROXIMO_MANTENIMIENTO = "proximo_mantenimiento"
-    MONITOREO_RUTINARIO = "monitoreo_rutinario"
 
 
 class Contexto(Contrato):
@@ -90,19 +83,17 @@ class VariablesSalida(Contrato):
 class ModeladoEntrada(Contrato):
     contexto: Contexto
     features: List[Dict[str, float]]
-    targets: Optional[List[float]] = None
 
 
 class ModeladoSalida(Contrato):
     modelo_id: str
     version_modelo: str
-    artefacto_uri: str
     metricas: Dict[str, float]
     variables: List[str]
-    supera_baseline: bool
+    supera_baseline: bool = True
 
 
-# 6. Validación y gobierno
+# 6. Validación
 class ValidacionEntrada(Contrato):
     contexto: Contexto
     modelo_id: str
@@ -118,7 +109,7 @@ class ValidacionSalida(Contrato):
     motivos: List[str] = Field(default_factory=list)
 
 
-# Servicio de Inferencia (Determinístico)
+# Servicio Inferencia
 class InferenciaEntrada(Contrato):
     contexto: Contexto
     modelo_id: str
@@ -131,7 +122,7 @@ class InferenciaSalida(Contrato):
     shap: List[Dict[str, float]]
 
 
-# 7. Interpretación técnica
+# 7. Interpretación
 class InterpretacionEntrada(Contrato):
     contexto: Contexto
     riesgo: List[float]
@@ -143,10 +134,10 @@ class InterpretacionSalida(Contrato):
     severidad: Severidad
     variables_influyentes: List[str]
     modo_falla: Optional[str] = None
-    explicacion_tecnica: str
+    diagnostico: str
 
 
-# 8. Recomendación operacional
+# 8. Recomendación
 class RecomendacionEntrada(Contrato):
     contexto: Contexto
     severidad: Severidad
@@ -155,9 +146,10 @@ class RecomendacionEntrada(Contrato):
 
 
 class AccionPropuesta(BaseModel):
-    accion_id: str
-    descripcion: str
-    urgencia: UrgenciaAccion
+    id: str
+    accion: str
+    urgencia: str
+    severidad: str
     estado_revision: str = "pendiente_especialista"
 
 
@@ -165,17 +157,15 @@ class RecomendacionSalida(Contrato):
     acciones: List[AccionPropuesta]
 
 
-# 9. Monitoreo y retroalimentación
+# 9. Monitoreo
 class MonitoreoEntrada(Contrato):
     contexto: Contexto
     riesgo: List[float]
-    features_actuales: List[Dict[str, float]] = Field(default_factory=list)
+    acciones: List[AccionPropuesta] = Field(default_factory=list)
 
 
 class MonitoreoSalida(Contrato):
     deriva_detectada: bool
-    metricas_drift: Dict[str, float] = Field(default_factory=dict)
-    requiere_reentrenamiento: bool = False
     feedback: List[str] = Field(default_factory=list)
 
 
@@ -187,6 +177,13 @@ class RegistroAuditoria(Contrato):
     fin: datetime
     duracion_ms: float
     error: Optional[str] = None
+
+
+class ResultadoFlujo(Contrato):
+    run_id: str
+    exito: bool
+    salidas: Dict[str, Any] = Field(default_factory=dict)
+    auditoria: List[RegistroAuditoria] = Field(default_factory=list)
 
 
 def ahora() -> datetime:
