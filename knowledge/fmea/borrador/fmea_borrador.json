@@ -1,0 +1,5080 @@
+{
+  "version": "1.0.0-borrador",
+  "estado": "propuesto",
+  "fuentes": [
+    "FMEA_Memoria_798AC.xlsx",
+    "FMECA_Lists_ENG.xlsx"
+  ],
+  "modos_falla": [
+    {
+      "id": "MFP-01",
+      "nombre": "desgaste_cojinetes",
+      "severidad": "alta",
+      "variables": [
+        "cu_ppm",
+        "particulado_inspeccion",
+        "pb_ppm",
+        "pqi",
+        "presion_aceite"
+      ],
+      "senales": [
+        {
+          "variable": "pb_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "cu_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "pqi",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "presion_aceite",
+          "direccion": "disminucion"
+        }
+      ],
+      "precursores": [
+        "Copper high (SOS)",
+        "Cupper (Cu) High Values (SOS)",
+        "Filter cut with Particulate Level 2 (Particulate)",
+        "Filter cut with Particulate Level 3 (Particulate)",
+        "High levels of Metallic Particulate (SOS)",
+        "Lead high (SOS)",
+        "Low Engine Oil Pressure (VIMS)",
+        "Low oil pressure of 10 PSI (VIMS)",
+        "PQI Value increases (SOS)",
+        "Patch test with particulate presence (Particulate)",
+        "Pressure low (VIMS)",
+        "Screen with metallic particle (Particulate)",
+        "Sodim (Na) and Cupper (Cu) High Values (SOS)"
+      ],
+      "codigos_smcs": [
+        "1000",
+        "1319"
+      ],
+      "modos_rcm_padre": [
+        "RCM-002",
+        "RCM-038"
+      ],
+      "sintomas_soporte": [
+        "SIN-001",
+        "SIN-006",
+        "SIN-011",
+        "SIN-013",
+        "SIN-016",
+        "SIN-019",
+        "SIN-066",
+        "SIN-080",
+        "SIN-101",
+        "SIN-108",
+        "SIN-109",
+        "SIN-110",
+        "SIN-111"
+      ],
+      "modelos_aplicables": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "MFP-02",
+      "nombre": "desgaste_camisas_anillos",
+      "severidad": "alta",
+      "variables": [
+        "fe_ppm",
+        "hollin",
+        "particulado_inspeccion",
+        "pqi",
+        "presion_carter"
+      ],
+      "senales": [
+        {
+          "variable": "fe_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "presion_carter",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "hollin",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "pqi",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "aumento"
+        }
+      ],
+      "precursores": [
+        "Crankcrase High Pressure (VIMS)",
+        "Filter cut with Particulate Level 2 (Particulate)",
+        "Filter cut with Particulate Level 3 (Particulate)",
+        "High levels of Metallic Particulate (SOS)",
+        "Iron (Fe) High Values (SOS)",
+        "Iron (Fe) particles increasing (SOS)",
+        "Iron high (SOS)",
+        "PQI Value increases (SOS)",
+        "Patch test with Soot (St) presence (Particulate)",
+        "Patch test with particulate presence (Particulate)",
+        "Pressure high (VIMS)",
+        "Screen with metallic particle (Particulate)",
+        "Stoot (St) and Iron (Fe) High Values (SOS)"
+      ],
+      "codigos_smcs": [
+        "1000"
+      ],
+      "modos_rcm_padre": [
+        "RCM-002"
+      ],
+      "sintomas_soporte": [
+        "SIN-005",
+        "SIN-010",
+        "SIN-011",
+        "SIN-013",
+        "SIN-017",
+        "SIN-018",
+        "SIN-068",
+        "SIN-093",
+        "SIN-108",
+        "SIN-109",
+        "SIN-110",
+        "SIN-111",
+        "SIN-113"
+      ],
+      "modelos_aplicables": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "MFP-03",
+      "nombre": "contaminacion_refrigerante_en_aceite",
+      "severidad": "alta",
+      "variables": [
+        "cu_ppm",
+        "k_ppm",
+        "na_ppm",
+        "nivel_refrigerante"
+      ],
+      "senales": [
+        {
+          "variable": "na_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "k_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "cu_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "nivel_refrigerante",
+          "direccion": "disminucion"
+        }
+      ],
+      "precursores": [
+        "Contamination by Sodium (Na) (SOS)",
+        "Copper high (SOS)",
+        "Cupper (Cu) High Values (SOS)",
+        "Increase in Potassium (K) (SOS)",
+        "Level low (VIMS, VisionLink)",
+        "Low Level Coolant (VIMS)",
+        "Sodim (Na) and Cupper (Cu) High Values (SOS)",
+        "Sodium (Na) High Values (SOS)",
+        "Sodium (Na) and Potassiuk (K) High Values (SOS)",
+        "Sodium high (SOS)"
+      ],
+      "codigos_smcs": [
+        "1000"
+      ],
+      "modos_rcm_padre": [
+        "RCM-002"
+      ],
+      "sintomas_soporte": [
+        "SIN-003",
+        "SIN-006",
+        "SIN-007",
+        "SIN-008",
+        "SIN-009",
+        "SIN-016",
+        "SIN-019",
+        "SIN-020",
+        "SIN-082",
+        "SIN-105"
+      ],
+      "modelos_aplicables": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "MFP-04",
+      "nombre": "ingreso_abrasivo_polvo",
+      "severidad": "media",
+      "variables": [
+        "fe_ppm",
+        "restriccion_filtro_aire",
+        "si_ppm"
+      ],
+      "senales": [
+        {
+          "variable": "si_ppm",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "restriccion_filtro_aire",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "fe_ppm",
+          "direccion": "aumento"
+        }
+      ],
+      "precursores": [
+        "Air Filters Plugged (VIMS)",
+        "Contamination by Dust (SOS)",
+        "Iron (Fe) High Values (SOS)",
+        "Iron (Fe) particles increasing (SOS)",
+        "Iron high (SOS)",
+        "Patch test with presence of Silica (Si) (Particulate)",
+        "Restricted (VIMS)",
+        "Silicon high (SOS)",
+        "Stoot (St) and Iron (Fe) High Values (SOS)"
+      ],
+      "codigos_smcs": [
+        "1050",
+        "1054"
+      ],
+      "modos_rcm_padre": [
+        "RCM-020",
+        "RCM-023",
+        "RCM-015"
+      ],
+      "sintomas_soporte": [
+        "SIN-004",
+        "SIN-005",
+        "SIN-010",
+        "SIN-014",
+        "SIN-017",
+        "SIN-018",
+        "SIN-071",
+        "SIN-083",
+        "SIN-112"
+      ],
+      "modelos_aplicables": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "MFP-05",
+      "nombre": "dilucion_combustible",
+      "severidad": "alta",
+      "variables": [
+        "viscosidad"
+      ],
+      "senales": [
+        {
+          "variable": "viscosidad",
+          "direccion": "disminucion"
+        }
+      ],
+      "precursores": [
+        "Low Viscosity (SOS)",
+        "Low Viscosity (VIMS)",
+        "Viscosity does not meet expected limits (SOS)"
+      ],
+      "codigos_smcs": [
+        "1251",
+        "1290"
+      ],
+      "modos_rcm_padre": [
+        "RCM-037",
+        "RCM-029"
+      ],
+      "sintomas_soporte": [
+        "SIN-002",
+        "SIN-015",
+        "SIN-096"
+      ],
+      "modelos_aplicables": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "MFP-06",
+      "nombre": "sobrecalentamiento",
+      "severidad": "alta",
+      "variables": [
+        "nivel_refrigerante",
+        "presion_refrigerante",
+        "temp_aceite",
+        "temp_refrigerante"
+      ],
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "temp_aceite",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "nivel_refrigerante",
+          "direccion": "disminucion"
+        },
+        {
+          "variable": "presion_refrigerante",
+          "direccion": "disminucion"
+        }
+      ],
+      "precursores": [
+        "High Coolant Temperature Values (VIMS)",
+        "High Oil Temperature (VIMS)",
+        "Level low (VIMS, VisionLink)",
+        "Low Fan Speed (VIMS)",
+        "Low Level Coolant (VIMS)",
+        "Low coolant pressure. (VIMS)",
+        "Temperature High (VIMS)"
+      ],
+      "codigos_smcs": [
+        "1000"
+      ],
+      "modos_rcm_padre": [
+        "RCM-002"
+      ],
+      "sintomas_soporte": [
+        "SIN-065",
+        "SIN-070",
+        "SIN-075",
+        "SIN-077",
+        "SIN-082",
+        "SIN-098",
+        "SIN-099",
+        "SIN-105"
+      ],
+      "modelos_aplicables": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "MFP-07",
+      "nombre": "baja_presion_lubricacion",
+      "severidad": "critica",
+      "variables": [
+        "nivel_aceite",
+        "presion_aceite",
+        "viscosidad"
+      ],
+      "senales": [
+        {
+          "variable": "presion_aceite",
+          "direccion": "disminucion"
+        },
+        {
+          "variable": "nivel_aceite",
+          "direccion": "disminucion"
+        },
+        {
+          "variable": "viscosidad",
+          "direccion": "disminucion"
+        }
+      ],
+      "precursores": [
+        "Level low (VIMS)",
+        "Low Engine Oil Pressure (VIMS)",
+        "Low Oil Level (VIMS)",
+        "Low Viscosity (SOS)",
+        "Low Viscosity (VIMS)",
+        "Low oil pressure of 10 PSI (VIMS)",
+        "Pressure low (VIMS)",
+        "Viscosity does not meet expected limits (SOS)"
+      ],
+      "codigos_smcs": [
+        "1000",
+        "1319"
+      ],
+      "modos_rcm_padre": [
+        "RCM-008",
+        "RCM-009",
+        "RCM-011",
+        "RCM-038"
+      ],
+      "sintomas_soporte": [
+        "SIN-002",
+        "SIN-015",
+        "SIN-066",
+        "SIN-067",
+        "SIN-080",
+        "SIN-085",
+        "SIN-096",
+        "SIN-101"
+      ],
+      "modelos_aplicables": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "MFP-08",
+      "nombre": "combustion_deficiente",
+      "severidad": "alta",
+      "variables": [
+        "hollin",
+        "presion_admision",
+        "temp_admision",
+        "temp_escape",
+        "temp_escape_diferencial"
+      ],
+      "senales": [
+        {
+          "variable": "temp_escape",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "temp_escape_diferencial",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "hollin",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "temp_admision",
+          "direccion": "aumento"
+        },
+        {
+          "variable": "presion_admision",
+          "direccion": "desviacion"
+        }
+      ],
+      "precursores": [
+        "Exhaust Temperature Increasing (VIMS)",
+        "Exhaust Temperature equal to or greater than 700°C (VIMS)",
+        "Exhaust Temperature equal to or less than 700°C (VIMS)",
+        "IMAP Low Value (VIMS)",
+        "Increase Exhaust Temperature (VIMS)",
+        "Intake IMAT High Temperature (VIMS)",
+        "Low Booster Pressure (VIMS)",
+        "Patch test with Soot (St) presence (Particulate)",
+        "Pressure high (VIMS)",
+        "Pressure low (VIMS)",
+        "Stoot (St) and Iron (Fe) High Values (SOS)",
+        "Temp Differential (VIMS)",
+        "Temperature High (None)",
+        "Temperature High (VIMS, VisionLink)"
+      ],
+      "codigos_smcs": [
+        "1052",
+        "1054",
+        "1064",
+        "1290"
+      ],
+      "modos_rcm_padre": [
+        "RCM-037",
+        "RCM-019",
+        "RCM-027",
+        "RCM-020",
+        "RCM-023"
+      ],
+      "sintomas_soporte": [
+        "SIN-017",
+        "SIN-053",
+        "SIN-061",
+        "SIN-062",
+        "SIN-064",
+        "SIN-073",
+        "SIN-074",
+        "SIN-079",
+        "SIN-084",
+        "SIN-087",
+        "SIN-097",
+        "SIN-100",
+        "SIN-104",
+        "SIN-113"
+      ],
+      "modelos_aplicables": [
+        "793F",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "estado_revision": "propuesto"
+    }
+  ],
+  "modos_rcm": [
+    {
+      "id": "RCM-001",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD TOTAL DE PROPORCIONAR POTENCIA",
+      "modo_falla": "FALLA EN EL ARRANQUE POR CABLE GND DE MOTORES DE ARRANQUE EN CORTOCIRCUITO",
+      "efecto": "EL EQUIPO NO ENCIENDE Y FALLA NO ES EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL MOTOR (PAUTA MANTENIMIENTO) BUSQUEDA DE FALLA",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 3
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-002",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD TOTAL DE PROPORCIONAR POTENCIA",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "EL EQUIPO NO ENCIENDE Y FALLA ES EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "SC",
+      "tarea": "REEEMPLAZO DE MOTOR (VIDA SE DEBE AJUSTAR DE ACUERDO A FACTOR DE CARGA Y POTENCIA)",
+      "frecuencia": "666D (16.000H)",
+      "intervalo_h": 16000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 4
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-003",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD PARCIAL DE PROPORCIONAR UNA POTENCIA DE HASTA 4000 HP A 1800 RPM",
+      "modo_falla": "RESTRICCION DE FLUJO DE COMBUSTIBLE EN TUBERIAS",
+      "efecto": "PÉRDIDA DE POTENCIA DE VEHÍCULO POR BAJA PRESION Y FALLA PODRIA SER EVIDENTE POR SENSORES DE NIVEL DE COMBUSTIBLE Y PRESION",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL DE TUBERIAS Y CAMBIO DE FILTROS PRIMARIOS O SECUNDARIOS (PAUTA MANTENIMIENTO) CONSIDERAR POSIBLE CONTAMINACION EN TANQUE DE COMBUSTIBLE",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 5
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-004",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD PARCIAL DE PROPORCIONAR UNA POTENCIA DE HASTA 4000 HP A 1800 RPM",
+      "modo_falla": "PERFORACION DE FILTRO PRIMARIO DE COMBUSTIBLE",
+      "efecto": "CONTAMINACION DEL COMBUSTIBLE POR FALLA EN FILTRO Y PERDIDA DE POTENCIA FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL BUSQUEDA DE FALLA",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 6
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-005",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD PARCIAL DE PROPORCIONAR UNA POTENCIA DE HASTA 4000 HP A 1800 RPM",
+      "modo_falla": "RESTRICCION DE COMBUSTIBLE POR FALTA DE CONEXIÓN EN LINEA DE VENTEO",
+      "efecto": "NO PERMITE ABASTECER COMBUSTIBLE Y PERDIDA DE POTENCIA FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL MOTOR (PAUTA MANTENIMIENTO) BUSQUEDA DE FALLA",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 7
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-006",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD PARCIAL DE PROPORCIONAR UNA POTENCIA DE HASTA 4000 HP A 1800 RPM",
+      "modo_falla": "RESTRICCION DE FILTRO DE COMBUSTIBLE POR INESTABILIDAD DE SENSOR DE NIVEL COMBUSTIBLE",
+      "efecto": "FALLA EVIDENTE POR ACTIVACION INTERMITENTE DE SENSOR (ERROR)",
+      "evidente": true,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "baja",
+      "regla_severidad": "evidente sin consecuencia operacional",
+      "tipo_tarea": "OT",
+      "tarea": "NO REALIZAR MANTENIMIENTO PROGRAMADO Y REDISEÑO DE SENSOR DESEABLE DEBIDO A ERROR DE SENSOR",
+      "frecuencia": "N/A",
+      "intervalo_h": null,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 8
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-007",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD PARCIAL DE PROPORCIONAR UNA POTENCIA DE HASTA 4000 HP A 1800 RPM",
+      "modo_falla": "FALLA EN ARNES DE SENSOR DE PRESION POR CORTE",
+      "efecto": "INESTABILIDAD DE LECTURA DE PRESION DE COMBUSTIBLE FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "baja",
+      "regla_severidad": "evidente sin consecuencia operacional",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL BUSQUEDA DE FALLA",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 9
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-008",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD PARCIAL DE PROPORCIONAR UNA POTENCIA DE HASTA 4000 HP A 1800 RPM",
+      "modo_falla": "BAJO NIVEL DE ACEITE",
+      "efecto": "PÉRDIDA DE POTENCIA DE VEHÍCULO POR BAJO NIVEL DE ACEITE Y SOBRECALENTAMIENTO FALLA ES EVIDENTE POR SENSOR DE NIVEL DE ACEITE",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "SC",
+      "tarea": "CHEQUEO NIVEL DE ACEITE Y/O CAMBIO DE ACEITE (471 LITROS)",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 10
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-009",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD PARCIAL DE PROPORCIONAR UNA POTENCIA DE HASTA 4000 HP A 1800 RPM",
+      "modo_falla": "SATURACION O TAPONAMIENTO DE FILTRO CENTRIFUGO (PAPEL)",
+      "efecto": "PÉRDIDA DE POTENCIA DE VEHÍCULO Y FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "SC",
+      "tarea": "CHEQUEO Y CAMBIO DE FILTRO CENTRÍFUGO (PAUTA MANTENIMIENTO)",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 11
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-010",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD PARCIAL DE PROPORCIONAR UNA POTENCIA DE HASTA 4000 HP A 1800 RPM",
+      "modo_falla": "SATURACION DE FILTROS DE COMBUSTIBLE",
+      "efecto": "PÉRDIDA DE POTENCIA DE VEHÍCULO POR BAJA PRESION DE COMBUSTIBLE Y FALLA NO ES EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "SC",
+      "tarea": "INSPECCION VISUAL Y CAMBIO DE FILTROS PRIMARIOS O SECUNDARIOS (PAUTA MANTENIMIENTO)",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 12
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-011",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD PARCIAL DE PROPORCIONAR UNA POTENCIA DE HASTA 4000 HP A 1800 RPM",
+      "modo_falla": "FUGAS DE ACEITE EN CIGÜEÑAL",
+      "efecto": "PÉRDIDA DE POTENCIA DE VEHÍCULO POR BAJO NIVEL DE ACEITE Y PRESION Y FALLA ES EVIDENTE POR DERRAMAMIENTO DE ACEITE EN COMPONENTES",
+      "evidente": true,
+      "consecuencia_rcm": "E",
+      "severidad_sugerida": "critica",
+      "regla_severidad": "consecuencia de seguridad o medio ambiente",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL BUSQUEDA DE FALLA",
+      "frecuencia": "10D (250H)",
+      "intervalo_h": 250,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 13
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-012",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD PARCIAL DE PROPORCIONAR UNA POTENCIA DE HASTA 4000 HP A 1800 RPM",
+      "modo_falla": "DESAJUSTE O SOLTURA DE PERNO DE RETENEDOR DE ACEITE 41-5789 RETEINER-PIN",
+      "efecto": "DESPLAZAMIENTO DE PASADOR FALLA NO ES EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL BUSQUEDA DE FALLAS (AJUSTE Y CONEXIONES O POSIBLES FUGAS Y DESPLAZAMIENTOS)",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 14
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-013",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD PARCIAL DE PROPORCIONAR UNA POTENCIA DE HASTA 4000 HP A 1800 RPM",
+      "modo_falla": "SATURACION FILTRO AUTOLIMPIEZA",
+      "efecto": "CONTAMINACION DEL FLUJO Y AUMENTO DE PRESION FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "SC",
+      "tarea": "SCF FILTRO AUTOLIMPIEZA CAMBIO (CHEQUEO DE FUNCIONAMIENTO GIRO MOTOR)",
+      "frecuencia": "2000H",
+      "intervalo_h": 2000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 15
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-014",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "MOTOR DIESEL PRINCIPAL 1000 - ENGINE",
+      "codigo_smcs": "1000",
+      "smcs_en_matriz": "NO ENCONTRADO",
+      "funcion": "PROPORCIONAR HASTA 4000 HP DE POTENCIA A UNA VELOCIDAD DE 1800 RPM",
+      "falla_funcional": "INCAPACIDAD PARCIAL DE PROPORCIONAR UNA POTENCIA DE HASTA 4000 HP A 1800 RPM",
+      "modo_falla": "EXCESO DE RANGO DE SENSOR DE PRESION DE RIEL DE COMBUSTIBLE",
+      "efecto": "PERDIDA DE CONTROL DE PRESION DE COMBUSTIBLE Y POTENCIA FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "baja",
+      "regla_severidad": "evidente sin consecuencia operacional",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL BUSQUEDA DE FALLA",
+      "frecuencia": "10D (250H)",
+      "intervalo_h": 250,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 16
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-015",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "ADIMISION Y ESCAPE (1050-AIR INDUCTION & EXH SYS )",
+      "codigo_smcs": "1050",
+      "smcs_en_matriz": "MOTOR: Sistema de entrega y dosificación de combustible",
+      "funcion": "PERMITIR LA ENTRADA DE AIRE A PRESION Y TEMPERATURA AL MOTOR Y LIBERAR LOS GASES DE COMBUSTION ASEGURANDO CONTENCION DE FLUJO",
+      "falla_funcional": "NO PERMITE LA ENTRADA DE AIRE A PRESION Y TEMPERATURA ADECUADA",
+      "modo_falla": "RESTRICCION DE FLUJO DE AIRE POR CONTAMINACION",
+      "efecto": "DIFERENCIA DE TEMPERATURA Y DEFICIENCIA EN COMBUSTION Y FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL (BUSQUEDA DE FALLA) DE FILTROS DE AIRE",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 17
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-016",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "ADIMISION Y ESCAPE (1050-AIR INDUCTION & EXH SYS )",
+      "codigo_smcs": "1050",
+      "smcs_en_matriz": "MOTOR: Sistema de entrega y dosificación de combustible",
+      "funcion": "PERMITIR LA ENTRADA DE AIRE A PRESION Y TEMPERATURA AL MOTOR Y LIBERAR LOS GASES DE COMBUSTION ASEGURANDO CONTENCION DE FLUJO",
+      "falla_funcional": "NO PERMITE LA ENTRADA DE AIRE A PRESION Y TEMPERATURA ADECUADA",
+      "modo_falla": "MAL ARMADO DE ESCAPE POR FALTA EXTENSION DE ESCAPE",
+      "efecto": "DIFERENCIA DE TEMPERATURA Y FALLA EVIDENTE POR INSPECCION",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL (BUSQUEDA DE FALLA) DE ARMADO DE ESCAPES",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 18
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-017",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "ADIMISION Y ESCAPE (1050-AIR INDUCTION & EXH SYS )",
+      "codigo_smcs": "1050",
+      "smcs_en_matriz": "MOTOR: Sistema de entrega y dosificación de combustible",
+      "funcion": "PERMITIR LA ENTRADA DE AIRE A PRESION Y TEMPERATURA AL MOTOR Y LIBERAR LOS GASES DE COMBUSTION ASEGURANDO CONTENCION DE FLUJO",
+      "falla_funcional": "NO PERMITE LA ENTRADA DE AIRE A PRESION Y TEMPERATURA ADECUADA",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "SC",
+      "tarea": "REVISAR CONDICION Y CAMBIAR DE ACUERDO A INSPECCION (DUCTOS ADMISION Y ESCAPE)",
+      "frecuencia": "PRIMERA A 10D (250H) Y LUEGO CADA 20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 19
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-018",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "ADIMISION Y ESCAPE (1050-AIR INDUCTION & EXH SYS )",
+      "codigo_smcs": "1050",
+      "smcs_en_matriz": "MOTOR: Sistema de entrega y dosificación de combustible",
+      "funcion": "PERMITIR LA ENTRADA DE AIRE A PRESION Y TEMPERATURA AL MOTOR Y LIBERAR LOS GASES DE COMBUSTION ASEGURANDO CONTENCION DE FLUJO",
+      "falla_funcional": "NO PERMITE LA ENTRADA DE AIRE A PRESION Y TEMPERATURA ADECUADA",
+      "modo_falla": "MAL ARMADO DE ESCAPE Y SILENCIADOR",
+      "efecto": "FALLA DE PROPULSION Y FALLA NO EVIDENTE POR MODO DE FALLA POR SI SOLO",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL (BUSQUEDA DE FALLA) DE SISTEMA EFR POR FALLAS ANTERIOR ASOCIADAS A LAS CONEXIONES",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 20
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-019",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "TURBOCARGADOR (1052-TURBOCHARGER)",
+      "codigo_smcs": "1052",
+      "smcs_en_matriz": "MOTOR: Turboalimentador",
+      "funcion": "SUMINISTRAR AIRE COMPRIMIDO DE ENTRADA AL DUCTO DE ADMISION DEL MOTOR A TEMPERATURA REQUERIDA",
+      "falla_funcional": "NO SUMINISTRA AIRE A PRESION O TEMPERATURA ADECUADA",
+      "modo_falla": "DESGASTE POR VIDA ÚTIL",
+      "efecto": "BAJO NIVEL DE PRESION DE AIRE DE ENTRADA DE ADMISION DEFICIENCIA DE COMBUTION FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "SC",
+      "tarea": "REEMPLAZO DE TURBOCARGADOR",
+      "frecuencia": "666D (16.000H)",
+      "intervalo_h": 16000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 21
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-020",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "FILTRO DE AIRE PRIMARIO (1054-AIR FILTER ELEMENT PRIMARIO)",
+      "codigo_smcs": "1054",
+      "smcs_en_matriz": "MOTOR: Filtro de aire secundario",
+      "funcion": "RETENER CONTAMINACION Y AGENTES EXTERNOS EN LA ENTRADA DE AIRE AL MOTOR",
+      "falla_funcional": "INCAPACIDAD PARA RETENER CONTAMINACION U AGENTES EXTERNOS",
+      "modo_falla": "SATURACION O TAPONAMIENTO",
+      "efecto": "BAJA EFICIENCIA DE COMBUSTION Y PERDIDA DE POTENCIA Y FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "SC",
+      "tarea": "INSPECCION VISUAL PRE PM Y CAMBIO DE FILTROS PRIMARIOS (PAUTA MANTENIMIENTO POR CONDICION MINA)",
+      "frecuencia": "10D (250H)",
+      "intervalo_h": 250,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 22
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-021",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "FILTRO DE AIRE PRIMARIO (1054-AIR FILTER ELEMENT PRIMARIO)",
+      "codigo_smcs": "1054",
+      "smcs_en_matriz": "MOTOR: Filtro de aire secundario",
+      "funcion": "RETENER CONTAMINACION Y AGENTES EXTERNOS EN LA ENTRADA DE AIRE AL MOTOR",
+      "falla_funcional": "INCAPACIDAD PARA RETENER CONTAMINACION U AGENTES EXTERNOS",
+      "modo_falla": "DESVIACION DE PARAMETROS DE SENSOR DE PRESION DE ENTRADA AIRE DE COMPRESOR 1",
+      "efecto": "BAJA EFICIENCIA DE COMBUSTION Y PERDIDA DE POTENCIA Y FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "OT",
+      "tarea": "CHEQUEO SENSOR DE PRESION DE ENTRADA AIRE COMPRESOR 1",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 23
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-022",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "FILTRO DE AIRE PRIMARIO (1054-AIR FILTER ELEMENT PRIMARIO)",
+      "codigo_smcs": "1054",
+      "smcs_en_matriz": "MOTOR: Filtro de aire secundario",
+      "funcion": "RETENER CONTAMINACION Y AGENTES EXTERNOS EN LA ENTRADA DE AIRE AL MOTOR",
+      "falla_funcional": "INCAPACIDAD PARA RETENER CONTAMINACION U AGENTES EXTERNOS",
+      "modo_falla": "DESVIACION DE PARAMETROS DE SENSOR DE PRESION DE ENTRADA AIRE DE COMPRESOR 2",
+      "efecto": "BAJA EFICIENCIA DE COMBUSTION Y PERDIDA DE POTENCIA Y FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "OT",
+      "tarea": "CHEQUEO SENSOR DE PRESION DE ENTRADA AIRE COMPRESOR 2",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 24
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-023",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "FILTRO DE AIRE SECUNDARIO (1054-AIR FILTER ELEMENT SECUNDARIO)",
+      "codigo_smcs": "1054",
+      "smcs_en_matriz": "MOTOR: Filtro de aire secundario",
+      "funcion": "RETENER CONTAMINACION Y AGENTES EXTERNOS FINOS EN LA ENTRADA DE AIRE AL MOTOR",
+      "falla_funcional": "INCAPACIDAD PARA RETENER CONTAMINACION U AGENTES EXTERNOS FINOS",
+      "modo_falla": "SATURACION O TAPONAMIENTO",
+      "efecto": "BAJA EFICIENCIA DE COMBUSTION Y PERDIDA DE POTENCIA Y FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "SC",
+      "tarea": "INSPECCION VISUAL PRE PM Y CAMBIO DE FILTROS PRIMARIOS (PAUTA MANTENIMIENTO POR CONDICION MINA)",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 25
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-024",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "FILTRO DE AIRE SECUNDARIO (1054-AIR FILTER ELEMENT SECUNDARIO)",
+      "codigo_smcs": "1054",
+      "smcs_en_matriz": "MOTOR: Filtro de aire secundario",
+      "funcion": "RETENER CONTAMINACION Y AGENTES EXTERNOS FINOS EN LA ENTRADA DE AIRE AL MOTOR",
+      "falla_funcional": "INCAPACIDAD PARA RETENER CONTAMINACION U AGENTES EXTERNOS FINOS",
+      "modo_falla": "DESVIACION DE PARAMETROS DE SENSOR DE PRESION DE ENTRADA AIRE DE COMPRESOR 1",
+      "efecto": "BAJA EFICIENCIA DE COMBUSTION Y PERDIDA DE POTENCIA Y FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "OT",
+      "tarea": "CHEQUEO SENSOR DE PRESION DE ENTRADA AIRE COMPRESOR 1",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 26
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-025",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "FILTRO DE AIRE SECUNDARIO (1054-AIR FILTER ELEMENT SECUNDARIO)",
+      "codigo_smcs": "1054",
+      "smcs_en_matriz": "MOTOR: Filtro de aire secundario",
+      "funcion": "RETENER CONTAMINACION Y AGENTES EXTERNOS FINOS EN LA ENTRADA DE AIRE AL MOTOR",
+      "falla_funcional": "INCAPACIDAD PARA RETENER CONTAMINACION U AGENTES EXTERNOS FINOS",
+      "modo_falla": "DESVIACION DE PARAMETROS DE SENSOR DE PRESION DE ENTRADA AIRE DE COMPRESOR 2",
+      "efecto": "BAJA EFICIENCIA DE COMBUSTION Y PERDIDA DE POTENCIA Y FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "OT",
+      "tarea": "CHEQUEO SENSOR DE PRESION DE ENTRADA AIRE COMPRESOR 2",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 27
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-026",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "SILENCIADOR (1062-MUFFLER)",
+      "codigo_smcs": "1062",
+      "smcs_en_matriz": "MAQUINA: Silenciador",
+      "funcion": "DISMINUCION DE RUIDOS POR SALIDA DE GASES DE ESCAPE POR DUCTOS",
+      "falla_funcional": "INCAPACIDAD PARA DISMINUIR RUIDO",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "AUMENTO DE RUIDO DE GASES DE ESCAPE DE MOTOR DE COMBUSTION FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "baja",
+      "regla_severidad": "evidente sin consecuencia operacional",
+      "tipo_tarea": "SC",
+      "tarea": "REEMPLAZO DE MUFFLER",
+      "frecuencia": "1666D (40.000H)",
+      "intervalo_h": 40000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 28
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-027",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "TURBOALIMENTACION Y POSENFRIAMIENTO AIRE-AIRE (1064-ATAAC)",
+      "codigo_smcs": "1064",
+      "smcs_en_matriz": "MOTOR: Aftercooler core",
+      "funcion": "MANTENER TEMPERATURAS BAJAS DE AIRE DE ADMISION",
+      "falla_funcional": "INCAPACIDAD PARA BAJAR TEMPERATURA DE AIRE DE ADMISION",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "BAJA EFICIENCIA DE COMBUSTION Y PERDIDA DE POTENCIA Y FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "SC",
+      "tarea": "REEMPLAZO DE ATAAC",
+      "frecuencia": "1250D (30.000H)",
+      "intervalo_h": 30000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 29
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-028",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "BOMBA DE INYECCION DE COMBUSTIBLE DE ALTA PRESION (1251-FUEL INJECTION PUMP DE ALTA ( HPFP ))",
+      "codigo_smcs": "1251",
+      "smcs_en_matriz": "MOTOR: Bomba inyectora",
+      "funcion": "SUMINISTRAR COMBUSTIBLE REQUERIDO A ALTAS PRESIONES Y TEMPERATURA ADECUADA AL RIEL DE INYECTORES",
+      "falla_funcional": "INCAPACIDAD DE SUMINISTRAR COMBUSTIBLE REQUERIDO A PRESION Y TEMPERATURAS ADECUADAS",
+      "modo_falla": "EXCESO DE VOLTAJE DE SENSOR DE PRESION DE COMBUSTIBLE PREVIO A FILTROS",
+      "efecto": "INESTABILIDAD DE LECTURA DE PRESION DE COMBUSTIBLE PREVIO A FILTROS Y FALLA EVIDENTE POR DETECCION VIMS",
+      "evidente": true,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "baja",
+      "regla_severidad": "evidente sin consecuencia operacional",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL BUSQUEDA DE FALLA Y REVISION DE TAPON MAGNETICO (HPFP)",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 30
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-029",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "BOMBA DE INYECCION DE COMBUSTIBLE DE ALTA PRESION (1251-FUEL INJECTION PUMP DE ALTA ( HPFP ))",
+      "codigo_smcs": "1251",
+      "smcs_en_matriz": "MOTOR: Bomba inyectora",
+      "funcion": "SUMINISTRAR COMBUSTIBLE REQUERIDO A ALTAS PRESIONES Y TEMPERATURA ADECUADA AL RIEL DE INYECTORES",
+      "falla_funcional": "INCAPACIDAD DE SUMINISTRAR COMBUSTIBLE REQUERIDO A PRESION Y TEMPERATURAS ADECUADAS",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "BAJA DE PRESION DE COMBUSTIBLE Y PERDIDA DE POTENCIA FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "RC",
+      "tarea": "RESTAURACION DE COMPONENTE BOMBA",
+      "frecuencia": "333D (8.000H)",
+      "intervalo_h": 8000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 31
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-030",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "BOMBA DE TRANSPORTE DE COMBUSTIBLE (1256-FUEL TRANSFER PUMP)",
+      "codigo_smcs": "1256",
+      "smcs_en_matriz": "MOTOR: Bomba transferencia combustible",
+      "funcion": "SUMINISTRAR COMBUSTIBLE A SISTEMA",
+      "falla_funcional": "INCAPACIDAD PARA SUMINISTRAR COMBUSTIBLE REQUERIDO",
+      "modo_falla": "RESTRICCION DE FLUJO DE COMBUSTIBLE POR CONTAMINACION EN VALVULA",
+      "efecto": "BAJA PRESION DE SUMINISTRO DE COMBUSTIBLE Y PROBLEMA DE EFICIENCIA DE CFM O DESACTIVACION FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "OT",
+      "tarea": "CHEQUEO PRESION DE ENTRADA DE BOMBA DE TRANSFERENCIA Y PRESION DE BOMBA DE TRANSFERENCIA FILTRADO (BUSQUEDA DE FALLA)",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 32
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-031",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "BOMBA DE TRANSPORTE DE COMBUSTIBLE (1256-FUEL TRANSFER PUMP)",
+      "codigo_smcs": "1256",
+      "smcs_en_matriz": "MOTOR: Bomba transferencia combustible",
+      "funcion": "SUMINISTRAR COMBUSTIBLE A SISTEMA",
+      "falla_funcional": "INCAPACIDAD PARA SUMINISTRAR COMBUSTIBLE REQUERIDO",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "BAJA PRESION DE SUMINISTRO DE COMBUSTIBLE Y PERDIDA DE POTENCIA FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "SC",
+      "tarea": "REEMPLAZO DE BOMBA CFM",
+      "frecuencia": "666D (16.000H)",
+      "intervalo_h": 16000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 33
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-032",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "BOMBA DE CEBADO DE COMBUSTIBLE (1258-FUEL PRIMING PUMP)",
+      "codigo_smcs": "1258",
+      "smcs_en_matriz": "MOTOR: Bomba cebado combustible",
+      "funcion": "REMOVER AIRE Y AGENTES EXTERNOS AL COMBUSTIBLE",
+      "falla_funcional": "INCAPACIDAD PARA REMOVER AIRE O AGENTES EXTERNOS AL COMBUSTIBLE",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "PERDIDA DE PRESION DE COMBUSTIBLE Y POTENCIA FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "SC",
+      "tarea": "REEMPLAZO DE BOMBA DE CEBADO",
+      "frecuencia": "666D (16.000H)",
+      "intervalo_h": 16000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 34
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-033",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "TANQUE DE COMBUSTIBLE (1273-FUEL TANK)",
+      "codigo_smcs": "1273",
+      "smcs_en_matriz": "MAQUINA: Tanque de combustible",
+      "funcion": "ALMACENAR HASTA 4922 L DE COMBUSTIBLE SIN CONTAMINANTES O SEDIMENTOS",
+      "falla_funcional": "ALMACENAR COMBUSTIBLE CONTAMINADO O CON SEDIMENTOS",
+      "modo_falla": "CONTAMINACION POR CORTE DEBIDO A SOBREAPRIETE EN FILTROS",
+      "efecto": "CFM NO ELEVA PRESION EN SUMINISTRO DE COMBUSTIBLE FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL (END) (PAUTA MANTENIMIENTO) BUSQUEDA DE FALLA",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 35
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-034",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "TANQUE DE COMBUSTIBLE (1273-FUEL TANK)",
+      "codigo_smcs": "1273",
+      "smcs_en_matriz": "MAQUINA: Tanque de combustible",
+      "funcion": "ALMACENAR HASTA 4922 L DE COMBUSTIBLE SIN CONTAMINANTES O SEDIMENTOS",
+      "falla_funcional": "ALMACENAR COMBUSTIBLE CONTAMINADO O CON SEDIMENTOS",
+      "modo_falla": "CONTAMINACION EN VALVULA DE CARGA",
+      "efecto": "PERDIDA DE POTENCIA POR MALA CALIDAD DE COMBUSTIBLE Y FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 36
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-035",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "TANQUE DE COMBUSTIBLE (1273-FUEL TANK)",
+      "codigo_smcs": "1273",
+      "smcs_en_matriz": "MAQUINA: Tanque de combustible",
+      "funcion": "ALMACENAR HASTA 4922 L DE COMBUSTIBLE SIN CONTAMINANTES O SEDIMENTOS",
+      "falla_funcional": "ALMACENAR COMBUSTIBLE CONTAMINADO O CON SEDIMENTOS",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "AUMENTO DE POSIBILIDAD DE FUGAS Y DAÑOS EN SUPERFICIE FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "RC",
+      "tarea": "RESTAURACION CICLICA DE TANQUE (Y ADEMAS DRENAR CADA 20.000 HRS)",
+      "frecuencia": "1666D (40.000H)",
+      "intervalo_h": 40000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 37
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-036",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "TANQUE DE COMBUSTIBLE (1273-FUEL TANK)",
+      "codigo_smcs": "1273",
+      "smcs_en_matriz": "MAQUINA: Tanque de combustible",
+      "funcion": "ALMACENAR HASTA 4922 L DE COMBUSTIBLE SIN CONTAMINANTES O SEDIMENTOS",
+      "falla_funcional": "ALMACENAR COMBUSTIBLE CONTAMINADO O CON SEDIMENTOS",
+      "modo_falla": "SATURACION DE FILTRO DE RESPIRADERO",
+      "efecto": "PERDIDA DE POTENCIA Y FALLA ES NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "SC",
+      "tarea": "CAMBIAR FILTRO DE RESPIRADERO",
+      "frecuencia": "41D (1000H)",
+      "intervalo_h": 1000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 38
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-037",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "SET DE UNIDADES DE INYECTOR DE COMBUSTIBLE (1290-UNIT INJECTOR)",
+      "codigo_smcs": "1290",
+      "smcs_en_matriz": "MOTOR: Inyector unitario",
+      "funcion": "SUMINISTRAR COMBUSTIBLE ATOMIZADO A PRESION A CAMARA DE COMBUSTION",
+      "falla_funcional": "INCAPACIDAD PARA SUMINISTRAR COMBUSTIBLE",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "EQUIPO NO ENCIENDE O PERDIDA DE POTENCIA Y FALLA ES EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "SC",
+      "tarea": "REEMPLAZO DE SET DE INYECTORES",
+      "frecuencia": "250D (6.000H)",
+      "intervalo_h": 6000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 39
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-038",
+      "sistema": "SISTEMA ENG (MOTOR)",
+      "subunidad": "BOMBA DE PRELUBRICACION (1319-PRELUBRICATION PUMP)",
+      "codigo_smcs": "1319",
+      "smcs_en_matriz": "MOTOR: Bomba pre lubricación motor",
+      "funcion": "SUMINISTRAR REFUERZO DE ACEITE LUBRICANTE ANTES DE PUESTA EN MARCHA",
+      "falla_funcional": "INCAPACIDAD PARA SUMINISTRAR ACEITE LUBRICANTE ANTES DE PUESTA EN MARCHA",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "LUBRICACION DEFICIENTE DE COMPONENTES Y POSIBLE AUMENTO DE TEMPERATURA FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "RC",
+      "tarea": "RESTAURACION DE BOMBA DE PRELUBRICACION (CONSIDERAR EN MIDLIFE)",
+      "frecuencia": "333D (8.000H)",
+      "intervalo_h": 8000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 40
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-039",
+      "sistema": "SISTEMA CS (ENFRIAMIENTO)",
+      "subunidad": "VENTILADOR (1356-FAN)",
+      "codigo_smcs": "1356",
+      "smcs_en_matriz": "MAQUINA: Ventilador",
+      "funcion": "SUMINISTRAR FLUJO DE AIRE PARA FAVORECER EFICIENCIA DE ENFRIAMIENTO DE RADIADOR",
+      "falla_funcional": "INCAPACIDAD PARCIAL PARA SUMINISTRAR FLUJO DE AIRE",
+      "modo_falla": "EXCESO DE VELOCIDAD DE GIRO",
+      "efecto": "INESTABILIDAD DE SUMINISTRO DE FLUJO Y POSIBLE DISMINUCION DE VIDA UTIL DE VENTILADOR FALLA EVIDENTE POR DETECCION VIMS",
+      "evidente": true,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "baja",
+      "regla_severidad": "evidente sin consecuencia operacional",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL DE SENSORES Y CONFIGURACION (ESTADO GENERAL)",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 41
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-040",
+      "sistema": "SISTEMA CS (ENFRIAMIENTO)",
+      "subunidad": "VENTILADOR (1356-FAN)",
+      "codigo_smcs": "1356",
+      "smcs_en_matriz": "MAQUINA: Ventilador",
+      "funcion": "SUMINISTRAR FLUJO DE AIRE PARA FAVORECER EFICIENCIA DE ENFRIAMIENTO DE RADIADOR",
+      "falla_funcional": "INCAPACIDAD PARCIAL PARA SUMINISTRAR FLUJO DE AIRE",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "AUMENTO DE TEMPERATURA DE COMPONENTES POR FALTA DE VENTILACION Y FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "baja",
+      "regla_severidad": "evidente sin consecuencia operacional",
+      "tipo_tarea": "SC",
+      "tarea": "REEMPLAZO VENTILADOR (CONSIDERADA EN OVERHAUL RADIADOR)",
+      "frecuencia": "1000D (24.000H)",
+      "intervalo_h": 24000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 42
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-041",
+      "sistema": "SISTEMA CS (ENFRIAMIENTO)",
+      "subunidad": "TERMOSTATO (135V-THERMOSTATIC VALVE)",
+      "codigo_smcs": "135V",
+      "smcs_en_matriz": "MAQUINA: Válvula termostática",
+      "funcion": "REGULAR EL FLUJO DE REFRIGERANTE EN FUNCION DE LA TEMPERATURA",
+      "falla_funcional": "NO REGULA EL FLUJO DE REFRIGERANTE EN FUNCION DE LA TEMPERATURA",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "AUMENTO DE TEMPERATURA REDUCCION DE POTENCIA FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "SC",
+      "tarea": "REEMPLAZO DE TERMOSTATO SEGÚN CONDICION",
+      "frecuencia": "666D (16.000H)",
+      "intervalo_h": 16000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 43
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-042",
+      "sistema": "SISTEMA CS (ENFRIAMIENTO)",
+      "subunidad": "RADIADOR (1353-RADIATOR)",
+      "codigo_smcs": "1353",
+      "smcs_en_matriz": "MAQUINA: Radiador",
+      "funcion": "DISIPAR Y DISMINUIR TEMPERATURA DE REFRIGERANTE PROVENIENTE DEL SISTEMA MOTOR",
+      "falla_funcional": "INCAPACIDAD PARA DISMINUIR TEMPERATURA DE REFRIGERANTE",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "DISMINUCION DE EFICIENCIA DE ENFRIAMIENTO FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "SC",
+      "tarea": "REEMPLAZO DE RADIADOR",
+      "frecuencia": "1000D (24.000H)",
+      "intervalo_h": 24000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 44
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-043",
+      "sistema": "SISTEMA CS (ENFRIAMIENTO)",
+      "subunidad": "BOMBA DE AGUA (1361-WATER PUMP)",
+      "codigo_smcs": "1361",
+      "smcs_en_matriz": "MOTOR: Bomba de agua",
+      "funcion": "IMPULSAR EL REFRIGERANTE DESDE EL RADIADOR HASTA LOS ENFRIADORES DE ACEITE DEL MOTOR Y EL BLOCK DE FORMA CONTENIDA",
+      "falla_funcional": "INCAPACIDAD DE IMPULSAR REFRIGERANTE DE FORMA CONTENIDA",
+      "modo_falla": "FUGAS EN SELLOS DE POLEA",
+      "efecto": "AUMENTO DE TEMPERATURA POR DISMINUCION DE EFICIENCIA DE ENFRIAMIENTO FALLA EVIDENTE POR DERRAMAMIENTO",
+      "evidente": true,
+      "consecuencia_rcm": "E",
+      "severidad_sugerida": "critica",
+      "regla_severidad": "consecuencia de seguridad o medio ambiente",
+      "tipo_tarea": "SC",
+      "tarea": "INSPECCION VISUAL Y CHEQUEO (CAMBIO DE SELLOS)",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 45
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-044",
+      "sistema": "SISTEMA CS (ENFRIAMIENTO)",
+      "subunidad": "BOMBA DE AGUA (1361-WATER PUMP)",
+      "codigo_smcs": "1361",
+      "smcs_en_matriz": "MOTOR: Bomba de agua",
+      "funcion": "IMPULSAR EL REFRIGERANTE DESDE EL RADIADOR HASTA LOS ENFRIADORES DE ACEITE DEL MOTOR Y EL BLOCK DE FORMA CONTENIDA",
+      "falla_funcional": "INCAPACIDAD DE IMPULSAR REFRIGERANTE DE FORMA CONTENIDA",
+      "modo_falla": "FUGAS EN CONEXIONES",
+      "efecto": "AUMENTO DE TEMPERATURA POR DISMINUCION DE EFICIENCIA DE ENFRIAMIENTO FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "E",
+      "severidad_sugerida": "critica",
+      "regla_severidad": "consecuencia de seguridad o medio ambiente",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL BUSQUEDA DE FALLAS",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 46
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-045",
+      "sistema": "SISTEMA CS (ENFRIAMIENTO)",
+      "subunidad": "BOMBA DE AGUA (1361-WATER PUMP)",
+      "codigo_smcs": "1361",
+      "smcs_en_matriz": "MOTOR: Bomba de agua",
+      "funcion": "IMPULSAR EL REFRIGERANTE DESDE EL RADIADOR HASTA LOS ENFRIADORES DE ACEITE DEL MOTOR Y EL BLOCK DE FORMA CONTENIDA",
+      "falla_funcional": "INCAPACIDAD DE IMPULSAR REFRIGERANTE",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "AUMENTO DE TEMPERATURA POR DISMINUCION DE EFICIENCIA DE ENFRIAMIENTO FALLA EVIDENTE",
+      "evidente": true,
+      "consecuencia_rcm": "O",
+      "severidad_sugerida": "alta",
+      "regla_severidad": "consecuencia operacional",
+      "tipo_tarea": "RC",
+      "tarea": "RESTAURACION DE BOMBA",
+      "frecuencia": "333D (8.000H)",
+      "intervalo_h": 8000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 47
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-046",
+      "sistema": "SISTEMA CS (ENFRIAMIENTO)",
+      "subunidad": "BOMBA DE AGUA AUXILIAR (1371-AUXILIARY/RAW WATER PUMP)",
+      "codigo_smcs": "1371",
+      "smcs_en_matriz": "MOTOR: Bomba de agua auxiliar",
+      "funcion": "IMPULSAR REFRIGERANTE DESDE EL RADIADOR A TRAVÉS DE ENFRIADOR DE ACEITE DE FRENOS",
+      "falla_funcional": "INCAPACIDAD DE IMPULSAR REFRIGERANTE",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "AUMENTO DE TEMPERATURA POR DISMINUCION DE EFICIENCIA DE ENFRIAMIENTO FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "RC",
+      "tarea": "RESTAURACION DE BOMBA AUXILIAR (CONSIDERAR EN MIDLIFE)",
+      "frecuencia": "333D (8.000H)",
+      "intervalo_h": 8000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 48
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-047",
+      "sistema": "SISTEMA CS (ENFRIAMIENTO)",
+      "subunidad": "ENFRIADOR DE ACEITE HIDRAULICO DE FRENOS (1374-HYDRAULIC OIL COOLER)",
+      "codigo_smcs": "1374",
+      "smcs_en_matriz": "LEVANTE/IMPLEMENTO: Enfriador de aceite hidráulico",
+      "funcion": "DISIPAR Y DISMINUIR TEMPERATURA DE ACEITE HIDRAULICO DE FRENOS DEL EQUIPO",
+      "falla_funcional": "INCAPACIDAD PARA DISIPAR Y DISMINUIR LA TEMPERATURA DEL ACEITE",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "AUMENTO DE TEMPERATURA DE FRENOS POR DISMINUCION DE EFICIENCIA DE ENFRIAMIENTO FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "SC",
+      "tarea": "REEMPLAZO DE COMPONENTE (CON CAMBIO MOTOR)",
+      "frecuencia": "666D (16.000H)",
+      "intervalo_h": 16000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 49
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-048",
+      "sistema": "SISTEMA CS (ENFRIAMIENTO)",
+      "subunidad": "MANGUERAS Y LINEAS DE ENFRIAMIENTO (1380-COOLANT HOSE/LINES)",
+      "codigo_smcs": "1380",
+      "smcs_en_matriz": "MOTOR: Líneas de enfriamiento",
+      "funcion": "TRANSPORTAR FLUIDO REFRIGERANTE PARA ENFRIAR COMPONENTES DE MOTOR DIESEL GARANTIZANDO CONTENCION",
+      "falla_funcional": "INCAPACIDAD PARA GARANTIZAR CONTENCION DE FLUIDO TRANSPORTADO",
+      "modo_falla": "FUGAS EN TUBOS REFRIGERANTES DE MOTOR",
+      "efecto": "AUMENTO DE TEMPERATURA POR DISMINUCION DE EFICIENCIA O FALTA DE ENFRIAMIENTO FALLA EVIDENTE POR DERRAMAMIENTO",
+      "evidente": true,
+      "consecuencia_rcm": "E",
+      "severidad_sugerida": "critica",
+      "regla_severidad": "consecuencia de seguridad o medio ambiente",
+      "tipo_tarea": "OT",
+      "tarea": "INSPECCION VISUAL BUSQUEDA DE FALLAS",
+      "frecuencia": "20D (500H)",
+      "intervalo_h": 500,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 50
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-049",
+      "sistema": "SISTEMA CS (ENFRIAMIENTO)",
+      "subunidad": "MANGUERAS Y LINEAS DE ENFRIAMIENTO (1380-COOLANT HOSE/LINES)",
+      "codigo_smcs": "1380",
+      "smcs_en_matriz": "MOTOR: Líneas de enfriamiento",
+      "funcion": "TRANSPORTAR FLUIDO REFRIGERANTE PARA ENFRIAR COMPONENTES DE MOTOR DIESEL GARANTIZANDO CONTENCION",
+      "falla_funcional": "INCAPACIDAD PARA GARANTIZAR CONTENCION DE FLUIDO TRANSPORTADO",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "AUMENTO DE TEMPERATURA POR DISMINUCION DE EFICIENCIA O FALTA DE ENFRIAMIENTO FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "SC",
+      "tarea": "REEMPLAZO DE DUCTOS (CON CAMBIO MOTOR)",
+      "frecuencia": "666D (16.000H)",
+      "intervalo_h": 16000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 51
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-050",
+      "sistema": "SISTEMA CS (ENFRIAMIENTO)",
+      "subunidad": "MOTOR VENTILADOR HIDRAULICO (1386-HYDRAULIC FAN MOTOR)",
+      "codigo_smcs": "1386",
+      "smcs_en_matriz": "MAQUINA: Motor hidráulico del ventilador",
+      "funcion": "SUMINISTRAR POTENCIA ELECTRICA A VENTILADOR DE RADIADOR CON POSIBILIDAD DE OBTENER VELOCIDADES VARIABLES",
+      "falla_funcional": "INCAPACIDAD PARA SUMINISTRAR POTENCIA",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "VENTILADOR NO ENCIENDE AUMENTO DE TEMPERATURA DE MOTOR Y FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "RC",
+      "tarea": "RESTAURACION DE VENTILADOR (CONSIDERADO EN OVERHAUL RADIADOR)",
+      "frecuencia": "1000D (24.000H)",
+      "intervalo_h": 24000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 52
+      },
+      "estado_revision": "propuesto"
+    },
+    {
+      "id": "RCM-051",
+      "sistema": "SISTEMA CS (ENFRIAMIENTO)",
+      "subunidad": "BOMBA HIDRAULICA DE VENTILADOR (1387-HYDRAULIC FAN PUMP)",
+      "codigo_smcs": "1387",
+      "smcs_en_matriz": "MAQUINA: Bomba hidráulica del ventilador",
+      "funcion": "SUMINISTRAR ACEITE LUBRICANTE AL VENTILADOR",
+      "falla_funcional": "INCAPACIDAD DE SUMINISTRAR ACEITE LUBRICANTE",
+      "modo_falla": "DESGASTE POR VIDA UTIL",
+      "efecto": "AUMENTO DE TEMPERATURA POR DISMINUCION DE EFICIENCIA DE ENFRIAMIENTO FALLA NO EVIDENTE",
+      "evidente": false,
+      "consecuencia_rcm": "-",
+      "severidad_sugerida": "media",
+      "regla_severidad": "falla oculta (riesgo de falla múltiple)",
+      "tipo_tarea": "RC",
+      "tarea": "RESTAURACION DE BOMBA DE VENTILADOR",
+      "frecuencia": "1000D (24.000H)",
+      "intervalo_h": 24000,
+      "origen": {
+        "archivo": "FMEA_Memoria_798AC.xlsx",
+        "hoja": "FMECA",
+        "fila": 53
+      },
+      "estado_revision": "propuesto"
+    }
+  ],
+  "sintomas": [
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Engine",
+      "rutina": "SOS",
+      "modo_origen": "Wear element.",
+      "sintoma": "Lead high",
+      "plan_accion": "Elevated lead alone is often related to sleeve bearings Re sample to confirm readings Confirm if fluid hours have been extended and justify elevated readings Inspect filters, plugs and screens for any signs of metal or debris Inspect breathers, coupler, clamps, seals for condition to limit dirt ingestion Confirm correct oil viscosity for application",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "pb_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 17
+        }
+      ],
+      "id": "SIN-001",
+      "modos_predictivos": [
+        "MFP-01"
+      ]
+    },
+    {
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "SOS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Viscosity does not meet expected limits",
+      "plan_accion": "Confirm if oil grade was changed. Fuel contamination can cause lower viscosity. Use CAT ET to confirm injector operation. Trouble shoot HPFP for possible source of fuel contamination. Run priming fuel pump with magnetic plug from HPFP removed.",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "viscosidad",
+          "direccion": "disminucion",
+          "unidad": "cSt"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 33
+        }
+      ],
+      "id": "SIN-002",
+      "modos_predictivos": [
+        "MFP-05",
+        "MFP-07"
+      ]
+    },
+    {
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "SOS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Sodium high",
+      "plan_accion": "Elevated sodium is often related to coolant contamination. Supporting indicators are K, Si. Resample to confirm readings. Monitor engine oil and coolant levels. Inspect expansion tank for signs of oil in the coolant. Inspect for external leaks at water pumps and cylinder block. Possible integral gasket failure, inspect for visible change in the exhaust. Less common are liner seals or cracks.",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "na_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 35
+        }
+      ],
+      "id": "SIN-003",
+      "modos_predictivos": [
+        "MFP-03"
+      ]
+    },
+    {
+      "modelos": [
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "SOS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Silicon high",
+      "plan_accion": "Inspect: -Filter seal / condition -tension of clamps -condition of coupler / elbow -condition of pipe",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "si_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 36
+        }
+      ],
+      "id": "SIN-004",
+      "modos_predictivos": [
+        "MFP-04"
+      ]
+    },
+    {
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "SOS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Iron high",
+      "plan_accion": "Iron can be sourced to Liners, crankshaft, camshaft. Look for the root cause of elevated iron. New component. Recent repairs. contamination causing third body abrasion. Supporting wear metals that may indicate component failure. Cut open and inspect filter.",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "fe_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 39
+        }
+      ],
+      "id": "SIN-005",
+      "modos_predictivos": [
+        "MFP-02",
+        "MFP-04"
+      ]
+    },
+    {
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "SOS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Copper high",
+      "plan_accion": "Elevated copper can be related to wear of brass components. Supporting indicators are Pb, Sn, Ni. Brass components can be a crank or cam thrust washers, Cooler Core, Severe sleeve bearing wear (precursor Pb, Sn). Copper on its own if often related to cooler leaching. Confirm if there were a change in oil type or contaminants (IE: coolant, Oxidation) causing cooler core leaching which is not related to wear. Inspect filters and plugs for signs of contaminants in the system causing third body abrasion (dirt, soot, metals, etc).",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "cu_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 40
+        }
+      ],
+      "id": "SIN-006",
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-03"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Contaminated Oil",
+      "sintoma": "Increase in Potassium (K)",
+      "plan_accion": "Check present alerts Perform hot plate tests to discard or confirm contamination take against sample Check vents for possible condensation Check washing process and possible leaks Check water pump status Check coolers Replace oil and filters",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "k_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 8
+        }
+      ],
+      "id": "SIN-007",
+      "modos_predictivos": [
+        "MFP-03"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Presence of undetermined particulate.",
+      "sintoma": "Sodium (Na) High Values",
+      "plan_accion": "Check oil levels Check reinforcement work pressures",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "na_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 12
+        }
+      ],
+      "id": "SIN-008",
+      "modos_predictivos": [
+        "MFP-03"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Traspaso refrigerante",
+      "sintoma": "Contamination by Sodium (Na)",
+      "plan_accion": "Field tests such as hot plate must be carried out to determine contamination of the refrigerant to the lubrication system. Inspect oil level, engine vent for condensation. Check for leaks by UF and by coolant pump acknowledgment. If the condition is maintained, the engine oil cooler should be evaluated. After the repair, oil and filter changes must be made. Take lubrication and temperature pressures. Schedule a new sample for the next 50 hours to monitor trends.",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "na_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 19
+        }
+      ],
+      "id": "SIN-009",
+      "modos_predictivos": [
+        "MFP-03"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Metallic piece",
+      "sintoma": "Iron (Fe) particles increasing",
+      "plan_accion": "Perform internal inspection with borescope to assess the level of wear to determine the change of component Perform mitigation plan (oil change) as long as the component is reprogrammed for component change Keep on monitoring until the component replacement",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "fe_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 20
+        }
+      ],
+      "id": "SIN-010",
+      "modos_predictivos": [
+        "MFP-02",
+        "MFP-04"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Wear Element",
+      "sintoma": "PQI Value increases",
+      "plan_accion": "Perform inspection of particulate routines Check lubrication pressures Take new sample for trend control",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "pqi",
+          "direccion": "aumento",
+          "unidad": "indice"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 30
+        }
+      ],
+      "id": "SIN-011",
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-02"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Wear Element",
+      "sintoma": "High levels of wear",
+      "plan_accion": "Verify the accuracy of service to determine the action plan (do not consider engines with oil hours extension) Verify if there is a previous chiller change or an engine change, this condition is considered normal (leaching process) Complement routine analysis Particulate as appropriate (filters, grilles and patch test) Depending on the engine hours, check and subsequent regulation of motor valves should only be carried out if they are out of range. Take lubrication pressures of pressure and operating temperature. new sample for trend control",
+      "categoria": "aceite_lab",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 39
+        }
+      ],
+      "id": "SIN-012",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Wear Element",
+      "sintoma": "High levels of Metallic Particulate",
+      "plan_accion": "Perform particulate routine evaluations (patch test, filter cut and grid inspection) Depending on the engine hours, check and subsequent regulation of motor valves should be carried out only those that are out of range Perform inspection for possible leakage of oil (remove) Take oil pressures and take new oil sample for trend control",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "aumento",
+          "unidad": "nivel"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 44
+        }
+      ],
+      "id": "SIN-013",
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-02"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Contamination by Water",
+      "sintoma": "Contamination by Dust",
+      "plan_accion": "Check possible filling with lower viscosity oil Check oil level and investigate for possible transfer Check particulate in magnetic plug, filters and oil draining process Check lubrication pressures Consider changing oil and keep on constant monitoring",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "si_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 49
+        }
+      ],
+      "id": "SIN-014",
+      "modos_predictivos": [
+        "MFP-04"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Viscosity",
+      "sintoma": "Low Viscosity",
+      "plan_accion": "Take 2 samples to perform field tests with viscometer and another to send to the laboratory. Take lubrication pressures and pressure trend analysis. Perform evaluation of diagnostic codes of injectors and visually check those that present problems to evaluate possible leaks at the top. (Trouble coils) Perform cylinder cutting Perform high pump magnetic plug inspection Check transfer pump status Pressurize fuel system to determine possible leaks of injector ring seals Use diagnostic reference information REHS3007",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "viscosidad",
+          "direccion": "disminucion",
+          "unidad": "cSt"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 51
+        }
+      ],
+      "id": "SIN-015",
+      "modos_predictivos": [
+        "MFP-05",
+        "MFP-07"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Coolant Transfer",
+      "sintoma": "Sodim (Na) and Cupper (Cu) High Values",
+      "plan_accion": "Field tests such as hot plate must be carried out to determine contamination of the refrigerant to the lubrication system. Inspect oil level, engine vent for condensation. Check leaks by refrigerant pump acknowledgment. Evaluate engine oil cooler. After the repair, oil and filter changes must be made. Take lubrication and temperature pressures. Schedule a new sample for the next 50 hours to monitor trends",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "na_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        },
+        {
+          "variable": "cu_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 55
+        }
+      ],
+      "id": "SIN-016",
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-03"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Soot (St) Excess",
+      "sintoma": "Stoot (St) and Iron (Fe) High Values",
+      "plan_accion": "Verify the accuracy of service to determine the action plan (do not consider engines with oil hours extension) Perform event control by air filter saturations and low power arrests to complement analysis. Complement analysis of particulate routines as appropriate (filters, grilles and patch test) According to the engine hours a check and subsequent regulation of motor valves should be carried out only those that are out of range Take lubrication pressures in a manometric way and temperature of operation Take a new sample for trend control",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "fe_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        },
+        {
+          "variable": "hollin",
+          "direccion": "aumento",
+          "unidad": "%"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 56
+        }
+      ],
+      "id": "SIN-017",
+      "modos_predictivos": [
+        "MFP-02",
+        "MFP-04",
+        "MFP-08"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Wear Element",
+      "sintoma": "Iron (Fe) High Values",
+      "plan_accion": "Analyze particulate in filters, patch test and grilles Inspect sweeping pump sprocket by sight glass cover for possible wear or pump looseness Take lubrication pressures Evaluate a check and regulate valves only if the condition and hours of the engine so Amerita Take new oil sample for monitoring",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "fe_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 61
+        }
+      ],
+      "id": "SIN-018",
+      "modos_predictivos": [
+        "MFP-02",
+        "MFP-04"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Wear Element",
+      "sintoma": "Cupper (Cu) High Values",
+      "plan_accion": "Check if there is a change of previous cooler or a change of engine, this condition is considered normal (leaching process) Take new sample for trend control Perform patch test and / or filter cut",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "cu_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 62
+        }
+      ],
+      "id": "SIN-019",
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-03"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "SOS",
+      "modo_origen": "Coolant Transfer",
+      "sintoma": "Sodium (Na) and Potassiuk (K) High Values",
+      "plan_accion": "Field tests such as hot plate must be carried out to determine contamination of the refrigerant to the lubrication system. Inspect oil level, engine vent for condensation. Check for leaks by UF and by coolant pump acknowledgment. If the condition is maintained, the engine oil cooler should be evaluated. After the repair, oil and filter changes must be made. Take lubrication and temperature pressures. Schedule a new sample for the next 50 hours to monitor trends.",
+      "categoria": "aceite_lab",
+      "senales": [
+        {
+          "variable": "na_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        },
+        {
+          "variable": "k_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 69
+        }
+      ],
+      "id": "SIN-020",
+      "modos_predictivos": [
+        "MFP-03"
+      ]
+    },
+    {
+      "modelos": [
+        "794 AC",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "componente": "Engine, HPFP",
+      "rutina": "VIMS",
+      "modo_origen": "High pressure fuel pump",
+      "sintoma": "FMI 9 - Abnormal Update Rate",
+      "plan_accion": "The events appearing are “Fuel Control Valve: Special Instruction” (263-18-14) “SAE J1939 Data Link #2” (263-2348-9). \"Fuel Control Valve: Abnormal Update Rate\" (36-18-9) Are events are associated with the FCV communication.",
+      "categoria": "evento_diagnostico",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "HPFP",
+          "fila": 7
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 22
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE 798AC",
+          "fila": 13
+        }
+      ],
+      "id": "SIN-021",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine, Radiator",
+      "rutina": "VIMS",
+      "modo_origen": "Temperature control module(E-stat)",
+      "sintoma": "FMI 9 - Abnormal Update Rate",
+      "plan_accion": "The increasing number of 2854 - 9 events indicate that the TCM. (E Stat) cannot communicate with the engine ECM. Perform circuit testing of the CAN Datalink. ( SiS M0069788-02) *Note* A Fluke 123 meter can be a helpful tool for Datalink troubleshooting.",
+      "categoria": "evento_diagnostico",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 25
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "RADIATOR",
+          "fila": 8
+        }
+      ],
+      "id": "SIN-022",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "High pressure fuel pump",
+      "sintoma": "FMI 12 - Failure",
+      "plan_accion": "Check magnetic plugs for debris , replace HPCR fuel pump as soon as possible. The event 1684-12 is registered and due to the failure mode (FMI12) there are internal problems of the high pump, this must be replaced as soon as possible, since it will have an imminent failure (As it indicates internal bulletin TIBU2015067)",
+      "categoria": "evento_diagnostico",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 28
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE 798AC",
+          "fila": 14
+        }
+      ],
+      "id": "SIN-023",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel injector",
+      "sintoma": "FMI 7 - Not Responding Properly",
+      "plan_accion": "Perform Fuel system verification.Replace fuel injectors that remain - 07 codes at next service interval.",
+      "categoria": "evento_diagnostico",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 30
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE 798AC",
+          "fila": 15
+        }
+      ],
+      "id": "SIN-024",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Mechanical Element",
+      "sintoma": "FMI-12 - Resonator elemnt HPFP",
+      "plan_accion": "Once the resonator event (1684-12) has been presented, the HPFP pump must be checked and the equipment stopped immediately Replace the high fuel pump Inspect the outgoing pump magnetic plug to identify if there is any type of particulate and perform the following steps: 1- If the magnetic plug of the removed pump shows excessive contamination, it indicates that the failure of the pump did NOT generate contamination for the fuel system, since the fault is in the lower part of the pump. The equipment can be sent to operation without additional interventions. 2- If the magnetic plug of the pump does NOT have excessive contamination, the “in-line high-pressure fuel filter element” (also known as “edge filter” or “edge filter”) must be replaced. Once the edge filter is replaced, \"Injector Bypass Fuel Flow - Test\" must be performed, available in SIS MS075103",
+      "categoria": "evento_diagnostico",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 59
+        }
+      ],
+      "id": "SIN-025",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Mechanical Element",
+      "sintoma": "FMI-07 - Injector Faliure",
+      "plan_accion": "Use ET tool to check active codes, download product status and ECM replacement file. With the ECM replacement file perform the analysis of the VOT chart to define the injectors with problems (only for contracts that use the VOT analyzes) With the report of the product status or background vims check when the first injector events were generated with FMI-07. Schedule injector replacement before exceeding 1,500 hours of operation since the first FMI-07 event was generated.",
+      "categoria": "evento_diagnostico",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 63
+        }
+      ],
+      "id": "SIN-026",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797B",
+        "797F"
+      ],
+      "componente": "TC, Rear Differential, Right Rear Final Drive, Left Rear Final Drive, Engine, Rear Engine, Steering System, Brake System, Transmission",
+      "rutina": "VIMS",
+      "modo_origen": "Electrical Failure",
+      "sintoma": "Without Communication",
+      "plan_accion": "Check communication lines and connectors Check GPRS module",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "CONVERTER",
+          "fila": 19
+        }
+      ],
+      "id": "SIN-027",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797B",
+        "797F"
+      ],
+      "componente": "TC, Rear Differential, Right Rear Final Drive, Left Rear Final Drive, Front Engine, Rear Engine, Steering Systrem, Brake System, Transmission",
+      "rutina": "VIMS",
+      "modo_origen": "Electrical",
+      "sintoma": "Without Communication",
+      "plan_accion": "To check communication lines and connectors Check GPRS module",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "REAR DIFFERENTIAL",
+          "fila": 20
+        }
+      ],
+      "id": "SIN-028",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "794 AC",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "componente": "Engine, Equipment",
+      "rutina": "VIMS",
+      "modo_origen": "Temperature sensor",
+      "sintoma": "FMI 19 - Data Error",
+      "plan_accion": "- Inspect coolant pump outlet temperature sensor and wiring/connectors. - Physically inspect sensor probe for signs of erosion. - Confirm functionality of CAN data link between sensor and TCM. - Refer to KENR5398-24 for troubleshooting event 2349-19",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "EQUIPMENT",
+          "fila": 7
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 18
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE 798AC",
+          "fila": 10
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "EQUIPMENT 798AC",
+          "fila": 6
+        }
+      ],
+      "id": "SIN-029",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "componente": "Engine, Equipment",
+      "rutina": "VIMS",
+      "modo_origen": "Turbocharger Turbine intake temperature",
+      "sintoma": "FMI 4 - Voltage Below Normal",
+      "plan_accion": "Inspect harness and connectors for damage Connect ET and verify sensor operation Replace sensor and thermowell (Best practice to replace in pairs.)",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "EQUIPMENT",
+          "fila": 10
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 20
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE 798AC",
+          "fila": 12
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "EQUIPMENT 798AC",
+          "fila": 9
+        }
+      ],
+      "id": "SIN-030",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Equipment, Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "Electrical Failure",
+      "plan_accion": "Perform a new evaluation with ET diagnostic tool at the time of your arrest Evaluate the connector, sensor and harness according to the FMI detected. Check electronic device for problems Perform system tests to verify proper functioning.",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "EQUIPMENT",
+          "fila": 21
+        }
+      ],
+      "id": "SIN-031",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797B",
+        "797F"
+      ],
+      "componente": "TC, Rear Differential, Right Rear Final Drive, Left Rear Final Drive, Front Engine, Rear Engine, Steering System, Brake System, Transmission",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "Without Contamination",
+      "plan_accion": "Check communication lines and connectors Check GPRS module",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "RR FINAL DRIVE",
+          "fila": 13
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "RL FINAL DRIVE",
+          "fila": 13
+        }
+      ],
+      "id": "SIN-032",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Erratic signal.",
+      "sintoma": "FMI 2 - Erratic, Intermittent, or Incorrect",
+      "plan_accion": "Refer to M0069788-05. Sensor Signal (Analog, Active) - Test",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 6
+        }
+      ],
+      "id": "SIN-033",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Pressure sensor",
+      "sintoma": "FMI 4 - Voltage Below Normal",
+      "plan_accion": "Connect ET to find active sensor codes. Trouble shoot sensor supply. Document KENR5398-25 for work aid.",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 8
+        }
+      ],
+      "id": "SIN-034",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "793F",
+        "794 AC",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Speed sensor",
+      "sintoma": "FMI 8 - Abnormal Frequency, Pulse Width, or Period",
+      "plan_accion": "- Hookup ET and check for codes/sensor communication - Inspect sensor condition. Check SIS for sensor resistance. - Inspect harness condition. Check for opens or shorts in the harness.",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 11
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE 798AC",
+          "fila": 8
+        }
+      ],
+      "id": "SIN-035",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "793F",
+        "797F"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel injector",
+      "sintoma": "Current Low",
+      "plan_accion": "Connect ET Perform injector solenoid test. Repair/replace failed harness/connectors. Replace Fuel injector. Install trim code. Perform fuel verification test.",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 12
+        }
+      ],
+      "id": "SIN-036",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel injector",
+      "sintoma": "Current High",
+      "plan_accion": "Connect ET. Perform injector solenoid test. Repair/replace harness/connectors. Replace injector. Replace trim file. Perform fuel verification.",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 14
+        }
+      ],
+      "id": "SIN-037",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "794 AC",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Exhaust",
+      "sintoma": "FMI 4 - Voltage Below Normal",
+      "plan_accion": "Inspect harness and connections.( Buffer condition) Hook up ET verify sensor operation Perform wiggle test Replace sensor",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 21
+        }
+      ],
+      "id": "SIN-038",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Loss of Communication",
+      "sintoma": "No tendency for loss of communication - FMI19",
+      "plan_accion": "Conduct evaluation of the electrical system, check codes and active events associated with the engine ECM Perform inspection of the motor ECM connectors and main vims. Perform manual download of the vims mainly from the trend memory for later analysis. Review versions of software loaded in the ECM engine. Report on the work done to track and verify condition of parameters.",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 9
+        }
+      ],
+      "id": "SIN-039",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "FMI-08 - Electrical Problem",
+      "plan_accion": "Realizar una nueva evaluación con herramienta de diagnóstico ET y verificar si se mantiene el código activo FMI-08 ( Frecuencia o pulso PWM anormal) Revisar conector,sensor de velocidad y arnes , chequear que no exista contaminación , aislamiento o daños en lo posible desmontar y revisar el sensor (Pick-Up magnético) Medir el voltaje de alimentación del sensor Realizar puesta en marcha para verificar funcionamiento , códigos y velocidades entregada.",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 13
+        }
+      ],
+      "id": "SIN-040",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Erratic Signal",
+      "sintoma": "FMI-05 - Electrical Problem",
+      "plan_accion": "Ensure that the diagnostic code present FMI-05 is maintained at the time of the evaluation. If the connector and connection are in good condition continue with the evaluation. Measure the resistance of the relay and harness to identify the part of the harness that encounters problems. Perform operational tests to verify its proper functioning.",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 15
+        }
+      ],
+      "id": "SIN-041",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Electric Frequencies",
+      "sintoma": "High fan speed",
+      "plan_accion": "Use ET tool to check electrical codes associated with the ECM brakes and solenoid displacement Verify that the engine, brakes, aftercooler, converter and transmission temperatures are correct before any intervention Perform calibration with ET tool If the condition is maintained, the conditions must be taken pressures and adjust if the condition warrants according to reference information RSNR2571-03",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 17
+        }
+      ],
+      "id": "SIN-042",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "FMI-04 - Electrical Problem",
+      "plan_accion": "Perform a new evaluation with ET diagnostic tool and check if the active code FMI-04 is maintained (normal voltage or short circuit to ground) Check sensor connector and wiring, harness and physical condition of the sensor. Check the supply voltage, signal delivered by the sensor and resistance. Perform system tests to check the correct operation of reading and code removal",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 18
+        }
+      ],
+      "id": "SIN-043",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "Motor Speed Sensor",
+      "plan_accion": "Check sensor assembly installation Inspection of electrical connectors and wiring Perform a 45 N (10 lb) tensile test on the connector wires. Check the harness to see if there are abrasions and pinch points. Check the supply voltage to the sensors Measure the voltage at the sensor connectors between terminals A and terminal B Check the signal voltage at the sensor. Check the signal voltage at the ECM. Check the supply voltage of the motor speed / synchronization sensors in the ECM",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 21
+        }
+      ],
+      "id": "SIN-044",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "FMI09 - ECM",
+      "plan_accion": "Refer to: Media number -KENR5398-25 / Document Number-i07508740- Data link - Test.",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 22
+        }
+      ],
+      "id": "SIN-045",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Erratic Signal",
+      "sintoma": "FMI-02 - Electrical Problem",
+      "plan_accion": "Perform a new evaluation with ET diagnostic tool at the time of your arrest. Evaluate according to the FMI detected the connector, sensor and harness Verify Installed Software that corresponds according to updates Electronic device for problems Perform system tests to verify proper operation.",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 29
+        }
+      ],
+      "id": "SIN-046",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Loss of Communication",
+      "sintoma": "Without Communication",
+      "plan_accion": "Check status and thermocouple reading Review Engine ECM status",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 32
+        }
+      ],
+      "id": "SIN-047",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "Fuel High Temperature",
+      "plan_accion": "Perform evaluation of the active codes at the time of their arrest. Evaluate the operation of the fuel temperature sensors (connectors and wiring in good condition). Operate the engine until it reaches normal operating temperature and with the use of the electronic tool ET ET verify fuel temperature difference (Rail Temperature and Fuel Temperature before High Pump). In case of keeping above 40 ° C, check HPFP pump hours, inspection of magnetic plug.",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 34
+        }
+      ],
+      "id": "SIN-048",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Erratic Signal",
+      "sintoma": "Wrong Data",
+      "plan_accion": "Perform a new evaluation with ET diagnostic tool at the time of your arrest to check the registered codes. Evaluate according to the IMF detected the connector, valves and harness measuring its voltage, resistance using reference information -KENR5398 Perform system tests using ET in parameter status to check the proper functioning of the accelerator and the percentage of the FCV. Engine Low Vacuum FCV must be 10-15% - Engine High Vacuum FCV must be 20-25%., Engine at full load FCV must be 40-50% Check fan filter status and check system In case of finding metallic particulate, it must be informed to check the system and replace the corresponding component.",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 36
+        }
+      ],
+      "id": "SIN-049",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "FMI-03 - Electrical Problem",
+      "plan_accion": "Perform a new evaluation with ET diagnostic tool and verify if the active code FMI-03 (voltage above normal) is maintained Check connector, sensor and harness, check for contamination, insulation. Perform harness vibration test with ET tool (Only if necessary) Perform system tests to check the correct operation of reading and code removal",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 72
+        }
+      ],
+      "id": "SIN-050",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797B",
+        "797F"
+      ],
+      "componente": "TC, Rear Differential, RR Final Drive, LR Final Drive, Front Engine, Rear Engine, Steering System, Brake System, Transmission",
+      "rutina": "VIMS",
+      "modo_origen": "Electric",
+      "sintoma": "Without Communication",
+      "plan_accion": "Check communication lines and connectors Check GPRS module",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "STEERING SYSTEM",
+          "fila": 21
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "BREAK SYSTEM",
+          "fila": 20
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "TRANSMISSION",
+          "fila": 21
+        }
+      ],
+      "id": "SIN-051",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VisionLink",
+      "modo_origen": "Electric",
+      "sintoma": "FMI09 - ECM",
+      "plan_accion": "Perform a new evaluation with ET diagnostic tool and verify if the active code FMI-09 is maintained Verify the data link resistance Verify the power supply and the ground connection on the device identified by the fault code check software compatibility. Check connector, sensor and harness, check for contamination, insulation. Perform harness vibration test with ET tool (Only if necessary) Perform system tests to check the correct operation of reading and code removal",
+      "categoria": "instrumentacion",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 23
+        }
+      ],
+      "id": "SIN-052",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Engine",
+      "rutina": null,
+      "modo_origen": "Exhaust",
+      "sintoma": "Temperature High",
+      "plan_accion": "Using Cat ET check for related codes. Inspect exhaust system for damaged/leaking bellows, broken clamps/bolts. Be aware of directional bellows installation. Perform fuel injector tests. Verify turbochargers condition. Check Exhaust temperature sensors wiring condition and thermowell orientation. Check valvetrain condition for broken/damaged components.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_escape",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 31
+        }
+      ],
+      "id": "SIN-053",
+      "modos_predictivos": [
+        "MFP-08"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "HPFP, Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Over heated",
+      "sintoma": "Fuel High Temp",
+      "plan_accion": "To inspect the pressure regulating valve and perform cleaning or replacement if necessary. Evaluate the operation of the fuel temperature sensors (connectors and wiring in good condition). Operate the engine until it reaches normal operating temperature and with the use of the electronic tool ET verify fuel temperature difference (Rail Temperature and Fuel Temperature before High Pump). If it is maintained above 40°C, it must be confirmed if the increase corresponds to the output T ° of the HPFP pump. Complement evaluation with inspection of high HPFP magnetic pump caps and determine a possible change of high HPFP pump according to results.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_combustible",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "HPFP",
+          "fila": 13
+        }
+      ],
+      "id": "SIN-054",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "794 AC",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "componente": "Engine, Equipment",
+      "rutina": "VIMS",
+      "modo_origen": "Aftertreatment DEF",
+      "sintoma": "Pressure low",
+      "plan_accion": "Refer to M0069788-02 \"DEF Pressure is Low\" - Check electrical connectors to DEF pump unit. - Inspect for DEF leaks in lines. - Run Dosing System Prime Test. Pump should maintain 116 psi. - Check for filter or suction line restrictions - Check backflow valve for proper operation.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_def",
+          "direccion": "disminucion",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "EQUIPMENT",
+          "fila": 8
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE 798AC",
+          "fila": 11
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "EQUIPMENT 798AC",
+          "fila": 7
+        }
+      ],
+      "id": "SIN-055",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797B",
+        "797F"
+      ],
+      "componente": "Equipment, Motor",
+      "rutina": "VIMS",
+      "modo_origen": "High frequency of events",
+      "sintoma": "Fan motor drain filter saturation",
+      "plan_accion": "Check if the condition is still present at the time of arrest. Perform electrical check of the state of the switch, connector and harness. If the condition is maintained, an inspection and filter cut must be carried out to see the level of particulate. Take a sample of oil to control trend Perform functional tests and testing of the FAN system (only if the condition warrants)",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_ventilador",
+          "direccion": "aumento",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "EQUIPMENT",
+          "fila": 22
+        }
+      ],
+      "id": "SIN-056",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Engine Fan",
+      "sintoma": "Overspeeds",
+      "plan_accion": "Refer to KENR8746 - Check fan pressures at different speeds. - Unplug fan solenoid and see if fan goes to full RPM. - Test high-pressure cutoffs",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "velocidad_ventilador",
+          "direccion": "desviacion",
+          "unidad": "rpm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 7
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE 798AC",
+          "fila": 6
+        }
+      ],
+      "id": "SIN-057",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "794 AC",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Pressure Differential",
+      "plan_accion": "Refer to M006978 - Check Oil Pressure Sensors. Ensure both sensors are at 0-2 psi with engine off. - Inspect wiring going to sensors. (If equipped with Self-Cleaning Oil Filter and Centrifugal Oil Filter) - Check motor for movement and free operation - Check COF for signs of blockage or contamination",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_aceite_diferencial",
+          "direccion": "aumento",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 10
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE 798AC",
+          "fila": 7
+        }
+      ],
+      "id": "SIN-058",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel",
+      "sintoma": "Restricted",
+      "plan_accion": "Inspect harnesses and connectors at fuel filter base. Repair/replace as required. Replace fuel filters.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_combustible",
+          "direccion": "aumento",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 13
+        }
+      ],
+      "id": "SIN-059",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "componente": "Engine, Hydraulic System, Steering System",
+      "rutina": "VIMS",
+      "modo_origen": "Fan Drive",
+      "sintoma": "Filter plugged",
+      "plan_accion": "- Remove and inspect fan drive filter for contamination - Check filter bypass switch - Take oil sample steering system",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_ventilador",
+          "direccion": "aumento",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 15
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "STEERING SYSTEM",
+          "fila": 9
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "HYDRAULIC SYSTEM",
+          "fila": 7
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE 798AC",
+          "fila": 9
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "HYDRAULIC SYSTEM 798AC",
+          "fila": 6
+        },
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "STEERING SYSTEM 798AC",
+          "fila": 7
+        }
+      ],
+      "id": "SIN-060",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Intake Manifold",
+      "sintoma": "Pressure high",
+      "plan_accion": "Inspect engine harness Inspect intake manifold pressure sensors Inspect for plugged exhaust",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_admision",
+          "direccion": "desviacion",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 16
+        }
+      ],
+      "id": "SIN-061",
+      "modos_predictivos": [
+        "MFP-08"
+      ]
+    },
+    {
+      "modelos": [
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Intake Manifold",
+      "sintoma": "Pressure low",
+      "plan_accion": "Check air cleaners. Check intake and exhaust system for leaks. Split hoses, loose clamps, failed bellows and hump hoses. Inspect for signs of oil leakage from piping, inspect turbochargers for damage to compressor/turbine wheels. Inspect aftercooler for cracks/leaks. Connect ET and check engine performance at the stall, possible multiple injector codes.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_admision",
+          "direccion": "desviacion",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 27
+        }
+      ],
+      "id": "SIN-062",
+      "modos_predictivos": [
+        "MFP-08"
+      ]
+    },
+    {
+      "modelos": [
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel/H2O Sep",
+      "sintoma": "Level high",
+      "plan_accion": "Drain water from primary fuel filters. Check operation of sensor and harness condition. Connect ET and perform water in fuel tests. Replace filters and /or probe.Refer to KENR5398-24",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "agua_en_combustible",
+          "direccion": "aumento",
+          "unidad": "nivel"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 29
+        }
+      ],
+      "id": "SIN-063",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "793F",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Exhaust",
+      "sintoma": "Temp Differential",
+      "plan_accion": "Connect ET and verify active condition. Check for exhaust and or boost leaks. Inspect exhaust temperature sensors and thermowells for proper installation. Run FSVT for injector health.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_escape_diferencial",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 32
+        }
+      ],
+      "id": "SIN-064",
+      "modos_predictivos": [
+        "MFP-08"
+      ]
+    },
+    {
+      "modelos": [
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Temperature High",
+      "plan_accion": "Verify the cooling system is full and water pumps/fan operation is good. Check engine oil level. Check the condition of engine oil bypass valve. Check engine oil cooler.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_aceite",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 34
+        }
+      ],
+      "id": "SIN-065",
+      "modos_predictivos": [
+        "MFP-06"
+      ]
+    },
+    {
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Pressure low",
+      "plan_accion": "Check engine oil level-Confirm oil pressure with a manual gauge to confirm sensor condition. -Replace and inspect engine oil filters - Confirm oil viscosity - Check for contamination (fuel/coolant) - Visually inspect the oil pump for signs of overheating-Take SOS sample.-Report findings",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_aceite",
+          "direccion": "disminucion",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 37
+        }
+      ],
+      "id": "SIN-066",
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-07"
+      ]
+    },
+    {
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Engine Oil",
+      "sintoma": "Level low",
+      "plan_accion": "Check engine oil level running and shutdown. Look for obvious leaks. If great difference noticed running vs static check for possible scavenge pump failure. Check engine oil filter for ferrous metal debris, inspect engine oil pump suction screen for metal debris.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "nivel_aceite",
+          "direccion": "disminucion",
+          "unidad": "nivel"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 38
+        }
+      ],
+      "id": "SIN-067",
+      "modos_predictivos": [
+        "MFP-07"
+      ]
+    },
+    {
+      "modelos": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Crankcase",
+      "sintoma": "Pressure high",
+      "plan_accion": "Verify correct engine oil level. Verify crankcase breathers not plugged. Check harness and sensor condition. Connect ET and verify sensor operation. Check atmospheric pressure sensor for reading correctly. If all OK, remove valve covers and check for valvetrain damage.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_carter",
+          "direccion": "aumento",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 41
+        }
+      ],
+      "id": "SIN-068",
+      "modos_predictivos": [
+        "MFP-02"
+      ]
+    },
+    {
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Coolant",
+      "sintoma": "Temperature Low",
+      "plan_accion": "Connect ET and verify associated codes. Check operation of E Stat. Verify harness and connections. Consider low ambient temperatures and light loads.Refer to KENR5398-24",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "disminucion",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 42
+        }
+      ],
+      "id": "SIN-069",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Coolant",
+      "sintoma": "Temperature High",
+      "plan_accion": "Check for proper coolant level. - Connect ET, verify high coolant temperature and E Stat operation. - Inspect radiator for damage and obvious leaks. - Verify coolant tank cap is well sealed. - Check for leaks and function of jacket water pump. - Verify proper operation of engine cooling fan. - Disconnect electrical to E Stat and confirm screw and valve not stuck. - Cycle key and confirm E Stat cycling, follow TCM troubleshooting in SiS.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 43
+        }
+      ],
+      "id": "SIN-070",
+      "modos_predictivos": [
+        "MFP-06"
+      ]
+    },
+    {
+      "modelos": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Air Filter",
+      "sintoma": "Restricted",
+      "plan_accion": "Inspect the plugged air filter Replace the primary and secondary air filter elements Check the condition of the pre cleaner venturis , check for plugging with dust/sand or ice If filters are found clean, confirm proper sensor operation and plug/harness condition Report your findings",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_aire",
+          "direccion": "aumento",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 45
+        }
+      ],
+      "id": "SIN-071",
+      "modos_predictivos": [
+        "MFP-04"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Thermostatic Valve Failure",
+      "sintoma": "Low Coolant Temperature",
+      "plan_accion": "Verify TCM battery current supply fuse status Evaluate and normalize electrical codes associated with the coolant T ° sensor, electric motor and TCM Perform evaluation and maintenance of 12-pin TCM connector and data transmission lines Verify thermostatic V V operation, TCM and coolant temperature sensor. If necessary change components with failures. P/N TCM module 341-2377 P / N Motor kit 399-8135 P / N Temperature sensor 238-0112",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "disminucion",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 7
+        }
+      ],
+      "id": "SIN-072",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "High Temp",
+      "sintoma": "Exhaust Temperature equal to or greater than 700°C",
+      "plan_accion": "Perform evaluation of the electrical system, connectors, harness and sensor Evaluation of possible leaks, loose clamps or damage to the ataac system, bellows escape Check saturation of air filters Perform admission certification according to detected condition Check condition of the turbo (only if required) ) Check injector codes and VOT analysis Perform power tests to certify the proper functioning of pressures and temperatures.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_escape",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 10
+        }
+      ],
+      "id": "SIN-073",
+      "modos_predictivos": [
+        "MFP-08"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "High Temp",
+      "sintoma": "Exhaust Temperature equal to or less than 700°C",
+      "plan_accion": "Perform evaluation of the electrical system, connectors, harness and sensor Evaluation of possible leaks, loose clamps or damage to the ataac system, bellows escape Perform admission certification according to detected condition Check condition of the turbo (only if required) Check codes of injectors and VOT analysis Perform power tests to certify the proper functioning of pressures and temperatures.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_escape",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 11
+        }
+      ],
+      "id": "SIN-074",
+      "modos_predictivos": [
+        "MFP-08"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Overheated",
+      "sintoma": "Low coolant pressure.",
+      "plan_accion": "Check the coolant levels and verify that there are no leaks in the system Check the branch line from the TK expansion to Bba and that there is no obstruction or leaks Evaluate electrical operation of the sensor, connector, harness and take operating pressures with low ET and high RPM Check engine operating temperature and, depending on the condition of this, continue evaluating the pump operation and / or some type of obstruction",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_refrigerante",
+          "direccion": "disminucion",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 14
+        }
+      ],
+      "id": "SIN-075",
+      "modos_predictivos": [
+        "MFP-06"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Operational",
+      "sintoma": "Pre Lube Cancellation",
+      "plan_accion": "The operator must keep the key in the starting position until the pre-lubrication cycle is completed correctly Avoid pre-lubrication cancellations, these bad practices can cause accelerated engine wear Perform re-operation instruction to avoid this type of event",
+      "categoria": "parametro_operacional",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 16
+        }
+      ],
+      "id": "SIN-076",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Over Temperature",
+      "sintoma": "Low Fan Speed",
+      "plan_accion": "Use the \"Override parameters\" diagnostic test in Cat ET to set the \"Motor fan cooling speed override\" desired. If event E1363 does not restart, check the motor fan speed sensor circuit (CID 544) or the engine cooling fan solenoid (CID 291). If the speed sensor and solenoid circuit are correct, verify that there is no fault in the fan system. Reference: To adjust the fan rpm, see Tests and adjustments, KENR8746, \"Piston pump pressure (hydraulic fan) - Test and adjust\" To calibrate, see Test and adjustment, KENR8746, \"Fan - Calibrate\".",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 24
+        }
+      ],
+      "id": "SIN-077",
+      "modos_predictivos": [
+        "MFP-06"
+      ]
+    },
+    {
+      "modelos": [
+        "797B",
+        "797F"
+      ],
+      "componente": "Equipo, Motor",
+      "rutina": "VIMS",
+      "modo_origen": "High Event Frequency",
+      "sintoma": "Fan Motor Drain Filter Plugged",
+      "plan_accion": "Check if the condition is still present at the time of arrest. Perform electrical check of the state of the switch, connector and harness. If the condition is maintained, an inspection and filter cut must be carried out to see the level of particulate. Take a sample of oil to control trend Perform functional tests and testing of the FAN system (only if the condition warrants)",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_ventilador",
+          "direccion": "aumento",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 25
+        }
+      ],
+      "id": "SIN-078",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "793F",
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Over Temperature",
+      "sintoma": "Intake IMAT High Temperature",
+      "plan_accion": "Evaluate ATAAC system that is not obstructed and perform cleaning if the condition requires it Perform electrical evaluation of the sensor, harness and connector Evaluate the correct functioning of the multiple temperature sensor (IMAT) Check that the \"FAN\" temperature dissipation system is find working in a good way and that others",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_admision",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 26
+        }
+      ],
+      "id": "SIN-079",
+      "modos_predictivos": [
+        "MFP-08"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Pressure",
+      "sintoma": "Low Engine Oil Pressure",
+      "plan_accion": "Check if there are electrical codes associated with the lubrication system (with engine stopped check sensor readings P°) Check oil level for possible low level for leaks or over level for fuel transfer (give solution according to condition) Take lubrication pressures of gauge vs digital and compare Evaluate the condition of the regulating valve or relief valve If the condition is maintained, an evaluation of the BBA Oil should be carried out, dismantling the suction duct for inspection If the condition and hours of the oil must be changed of oil and filter",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_aceite",
+          "direccion": "disminucion",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 27
+        }
+      ],
+      "id": "SIN-080",
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-07"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Presence of undetermined particulate.",
+      "sintoma": "Fuel Filter Plugged",
+      "plan_accion": "Perform electrical evaluation of connectors, harnesses, sensors. If condition is maintained, fuel filter must be changed. Perform filter cut and evaluate type of contamination.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_combustible",
+          "direccion": "aumento",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 28
+        }
+      ],
+      "id": "SIN-081",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Coolant Leaking",
+      "sintoma": "Low Level Coolant",
+      "plan_accion": "Check level and if there is a low level look for the cause and eliminate Perform electrical inspection of connectors, harness and measure level sensor voltage (8.0 +/- 0.4 VDC) In case of continuing electrical problem the circuit should be checked in general according to search of medium M0075101",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "nivel_refrigerante",
+          "direccion": "disminucion",
+          "unidad": "nivel"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 31
+        }
+      ],
+      "id": "SIN-082",
+      "modos_predictivos": [
+        "MFP-03",
+        "MFP-06"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Air Filter Restriction",
+      "sintoma": "Air Filters Plugged",
+      "plan_accion": "Check air filters and replace if necessary. If the condition is maintained, evaluation of the electrical system sensors, harnesses and connectors (sensor P ° input and atmospheric) must be performed. Perform patch test and according to condition admission certification must be performed. Take new sample for trend control",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_aire",
+          "direccion": "aumento",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 33
+        }
+      ],
+      "id": "SIN-083",
+      "modos_predictivos": [
+        "MFP-04"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Over Temperature",
+      "sintoma": "Exhaust Temperature Increasing",
+      "plan_accion": "Perform evaluation of the electrical system, connectors, harness and sensor Evaluation of possible leaks, loose clamps or damage to the ataac system, bellows escape Check saturation of air filters Perform admission certification according to detected condition Check condition of the turbo (only if required) ) Check injector codes and VOT analysis Perform power tests to certify the proper functioning of pressures and temperatures.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_escape",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 35
+        }
+      ],
+      "id": "SIN-084",
+      "modos_predictivos": [
+        "MFP-08"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Oil Leaking",
+      "sintoma": "Low Oil Level",
+      "plan_accion": "Check oil level by sight glass and check for external oil leaks. Check sensor and supply voltage of the oil level sensor. If no leaks and sensor are found in good condition, it must be filled in the case that requires it and commissioned to check if there is excess blue smoke due to the exhaust Check if there is oil transfer by crankshaft seal to the converter (see results of SOS TC for possible dark hue)",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "nivel_aceite",
+          "direccion": "disminucion",
+          "unidad": "nivel"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 37
+        }
+      ],
+      "id": "SIN-085",
+      "modos_predictivos": [
+        "MFP-07"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "BBA Alta Comb, Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Overheated",
+      "sintoma": "Fuel High Temperature",
+      "plan_accion": "Inspect the pressure regulating valve and perform cleaning or replacement if necessary. I evaluated the operation of the fuel temperature sensors (connectors and wiring in good condition). Operate the engine until it reaches normal operating temperature and with the use of the electronic tool ET ET verify fuel temperature difference (Rail Temperature and Fuel Temperature before High Pump). If it is maintained above 40 ° C, it must be confirmed if the increase corresponds to the output T ° of the HPFP pump. Complement evaluation with inspection of high HPFP magnetic pump caps and determine a possible change of high HPFP pump according to results.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_combustible",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 42
+        }
+      ],
+      "id": "SIN-086",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Pressure",
+      "sintoma": "Low Booster Pressure",
+      "plan_accion": "Check condition and saturation of the air filters, evaluate change them Verify condition and operation of sensors filters and harness of the air filters Certify complete admission system by checking the condition of the attack, elbows, ducts, rubber and broken or loose clamps Post evaluation carried out verify IMAP turbo pressure - IMAT.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_admision",
+          "direccion": "desviacion",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 43
+        }
+      ],
+      "id": "SIN-087",
+      "modos_predictivos": [
+        "MFP-08"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Coolant Low Temperature",
+      "sintoma": "Coolant Low Temperature",
+      "plan_accion": "Perform diagnostic code verification at the time of the evaluation Solution to the registered codes associated with the T° sensor, electric thermostatic v/v motor and TCM must be verified Verify thermostatic v/v operation Check the working T° and good operation of the FAN",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "disminucion",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 46
+        }
+      ],
+      "id": "SIN-088",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Pressure",
+      "sintoma": "Fuel Low Pressure",
+      "plan_accion": "Perform evaluation of diagnostic codes and event codes. Evaluate the fuel pressure sensors. Take pressure gauges Check the fuel pressure regulating valve. Check electrical connections of Fuel priming pump. Check transfer pump status.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_combustible",
+          "direccion": "desviacion",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 47
+        }
+      ],
+      "id": "SIN-089",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Pressure",
+      "sintoma": "Fuel High Pressure",
+      "plan_accion": "Perform evaluation with ET tool to verify and eliminate the codes present Verify status of P° sensor of the pump, harness and connectors Check status of the fuel regulating valve Check pressures and temperature of transfer pump and fuel system",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_combustible",
+          "direccion": "desviacion",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 48
+        }
+      ],
+      "id": "SIN-090",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Contamination by Water",
+      "sintoma": "High water level in Fuel Separator.",
+      "plan_accion": "Drain water from the fuel tank and water separator filter Change fuel filters Perform regular maintenance Check condition and operation of sensor, connector and harness",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "agua_en_combustible",
+          "direccion": "aumento",
+          "unidad": "nivel"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 50
+        }
+      ],
+      "id": "SIN-091",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Wearing",
+      "sintoma": "Engine Oil Filter Saturation",
+      "plan_accion": "Check if at the time of the evaluation there are diagnostic codes associated with the inlet and outlet pressure sensors of the filter \"Using the ET diagnostic tool, the operation of the filter pressure sensors that should only indicate the atmospheric pressure of otherwise, the corresponding ones must be replaced - Unfiltered oil pressure (Absolute) - Engine oil pressure (Absolute) If the problem persists, evaluation of the engine oil filter (particulate saturation or emulsified oil) should be carried out. condition is real oil change, oil filters and evaluate the root cause of the problem must be carried out Rescue contaminated filters and send monitoring conditions for analysis with other contaminant control routines According to the results obtained define a possible new action plan",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_aceite",
+          "direccion": "aumento",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 52
+        }
+      ],
+      "id": "SIN-092",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Pressure",
+      "sintoma": "Crankcrase High Pressure",
+      "plan_accion": "The code must be evaluated with ET at the time of your arrest. Inspect the electrical system, sensor, harness and connector. Check the engine oil level, the over level also alters the crankcase pressure. Check condition of motor vents that are not obstructed. Check SOS trends",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_carter",
+          "direccion": "aumento",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 54
+        }
+      ],
+      "id": "SIN-093",
+      "modos_predictivos": [
+        "MFP-02"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Mechanical Element",
+      "sintoma": "FCV Range Work Outisde",
+      "plan_accion": "Inspect for possible leaks by high pressure pipes and quill tube. Perform a new evaluation with ET diagnostic tool at the time of your arrest to check the registered codes. Evaluate the connector, valves and harness according to the IMF. Perform system tests using ET in parameter status to check the proper functioning of the accelerator and the percentage of the FCV. a.- Low empty engine the FCV must be 10-15%. b.- High vacuum engine the FCV must be 20-25%. c.- Full load engine the FCV must be 40-50%.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_combustible",
+          "direccion": "desviacion",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 57
+        }
+      ],
+      "id": "SIN-094",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Mechanical Element",
+      "sintoma": "Fuel High Temperature",
+      "plan_accion": "Inspect the pressure regulating valve and perform cleaning or replacement if necessary. I evaluated the operation of the fuel temperature sensors (connectors and wiring in good condition). Operate the engine until it reaches normal operating temperature and with the use of the electronic tool ET ET verify fuel temperature difference (Rail Temperature and Fuel Temperature before High Pump). If it is maintained above 40 ° C, it must be confirmed if the increase corresponds to the output T ° of the HPFP pump. Complement evaluation with inspection of high HPFP magnetic pump caps and determine a possible change of high HPFP pump according to results.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_combustible",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 58
+        }
+      ],
+      "id": "SIN-095",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel Presence",
+      "sintoma": "Low Viscosity",
+      "plan_accion": "Take an oil sample and check if there is any intervention prior to the results of the sample. Perform field tests such as, check of possible oil level above level and viscometer test. Perform cylinder cut to identify injectors with problems. Perform solenoid inspection. of fuel leakage injectors (use revealing liquid if necessary) To take advantage of having the UF uncovered, prezurization (100 lb / in) per fuel return line must be performed and see if there are air leaks Check fuel pump transfer.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "viscosidad",
+          "direccion": "disminucion",
+          "unidad": "cSt"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 64
+        }
+      ],
+      "id": "SIN-096",
+      "modos_predictivos": [
+        "MFP-05",
+        "MFP-07"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Exhaust Temperature",
+      "sintoma": "IMAP Low Value",
+      "plan_accion": "Verify electrical codes at the time of their arrest Normalize the electrical system if required, harness, connectors and sensor Perform inspection of air filters for possible saturation Perform inspection of the intake ducts, ATAAC system and bellow Perform power test to check the proper functioning",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_admision",
+          "direccion": "desviacion",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 65
+        }
+      ],
+      "id": "SIN-097",
+      "modos_predictivos": [
+        "MFP-08"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Oil Temperature",
+      "sintoma": "High Oil Temperature",
+      "plan_accion": "Check for possible leaks in the coolant system and inspect the radiator panel for possible obstruction. TCM problem \"control module\" or Thermostat locked for failure in electric motor or mechanical failure Expansion tank valve does not operate or opens by compression in system Cooling failure of engine oil Check the correct operation of fan",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_aceite",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 66
+        }
+      ],
+      "id": "SIN-098",
+      "modos_predictivos": [
+        "MFP-06"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Coolant Temperature",
+      "sintoma": "High Coolant Temperature Values",
+      "plan_accion": "Check for possible leaks in the coolant system and inspect the radiator panel for possible obstruction. TCM problem \"control module\" or Thermostat locked for failure in electric motor or mechanical failure Expansion tank valve does not operate or opens by compression in system Verify proper operation of fan",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_refrigerante",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 67
+        }
+      ],
+      "id": "SIN-099",
+      "modos_predictivos": [
+        "MFP-06"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Exhaust Temperature",
+      "sintoma": "Increase Exhaust Temperature",
+      "plan_accion": "Perform evaluation of the electrical system, connectors, harness and sensor Evaluation of possible leaks, loose clamps or damage to the ataac system, bellows escape Perform admission certification according to detected condition Check nozzle codes and VOT analysis Perform power tests to certify proper operation of pressures and temperatures.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_escape",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 70
+        }
+      ],
+      "id": "SIN-100",
+      "modos_predictivos": [
+        "MFP-08"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "VIMS",
+      "modo_origen": "Oil Contaminated",
+      "sintoma": "Low oil pressure of 10 PSI",
+      "plan_accion": "Equipment presents low pressure lubrication at high and low rpm of 10 psi approx. Take lubrication pressures manometrically before performing any intervention. Perform status assessment of regulating valve or relief valve (check for possible contamination and perform cleaning) Internal TIB –2015008 If necessary according to evaluation make the change of regulating valve, single or dual. • Single P/N: 379-2945 • Dual P/N: 327-0818 and 327-0817 Inspect wear on filters, grilles and patch test Take new oil sample and evaluate its viscosity for possible presence of fuel Take lubrication pressures post intervention",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_aceite",
+          "direccion": "disminucion",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 71
+        }
+      ],
+      "id": "SIN-101",
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-07"
+      ]
+    },
+    {
+      "modelos": [
+        "793F",
+        "794 AC",
+        "797F",
+        "797F Tier 4",
+        "798 AC"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS",
+      "modo_origen": "Fuel",
+      "sintoma": "Pressure high",
+      "plan_accion": "Connect ET and check for related codes. Inspect fuel lines for damage or restriction. Check fuel pressure regulator for debris or stuck valving, replace if necessary. Check fuel transfer pump relief valve. Verify harness and connector condition. Confirm filter condition.(Replace as necessary.) Confirm harness properly connected. (Not reversed.)",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "presion_combustible",
+          "direccion": "desviacion",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE 798AC",
+          "fila": 16
+        }
+      ],
+      "id": "SIN-102",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "793F",
+        "797F"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS, VisionLink",
+      "modo_origen": "Fuel",
+      "sintoma": "Filter plugged",
+      "plan_accion": "Event E232 High Fuel/Water Separator Level - Service water separator asap to avoid water being drawn into fuel system past the filter. - Ensure water separator is being checked and drained daily - If no water is found in separator, troubleshoot sensor and or wiring",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "restriccion_filtro_combustible",
+          "direccion": "aumento",
+          "unidad": "kPa"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 19
+        }
+      ],
+      "id": "SIN-103",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS, VisionLink",
+      "modo_origen": "Intake Manifold",
+      "sintoma": "Temperature High",
+      "plan_accion": "Check ET for codes - Check for air filter restrictions - Check for restriction in exhaust system - heck for insufficient air flow through aftercooler - Check for boost leaks - Check cooling system condition.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "temp_admision",
+          "direccion": "aumento",
+          "unidad": "°C"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 26
+        }
+      ],
+      "id": "SIN-104",
+      "modos_predictivos": [
+        "MFP-08"
+      ]
+    },
+    {
+      "modelos": [
+        "793C",
+        "793D",
+        "793F",
+        "793F Tier 4",
+        "794 AC",
+        "797",
+        "797B",
+        "797F",
+        "797F Tier 4"
+      ],
+      "componente": "Engine",
+      "rutina": "VIMS, VisionLink",
+      "modo_origen": "Coolant",
+      "sintoma": "Level low",
+      "plan_accion": "Check coolant sight glass to confirm levels are low. Top up if necessary. - Visually inspect the cooling system for leaks. - Pressure check system if required. Check sight glass after 12 hours of operation to see if coolant is being consumed.",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "nivel_refrigerante",
+          "direccion": "disminucion",
+          "unidad": "nivel"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 44
+        }
+      ],
+      "id": "SIN-105",
+      "modos_predictivos": [
+        "MFP-03",
+        "MFP-06"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "Visual Inspection",
+      "modo_origen": "Desalineamiento",
+      "sintoma": "Element distorted or badly positioned",
+      "plan_accion": "Disassemble element, inspect for possible damage and reinstall correctly or replace element. Inspect surrounding or related items for similar faults.",
+      "categoria": "parametro_operacional",
+      "senales": [],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 41
+        }
+      ],
+      "id": "SIN-106",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "Visual Inspection",
+      "modo_origen": "Oil Leaking",
+      "sintoma": "Crankcase oil leaks",
+      "plan_accion": "Inspect crankcase bolt looseness Inspect oil level Check engine oil pressure. Check larger particulate (filter cut and magnetic grid Insp.)",
+      "categoria": "parametro_operacional",
+      "senales": [
+        {
+          "variable": "fuga_aceite",
+          "direccion": "aumento",
+          "unidad": "evento"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 45
+        }
+      ],
+      "id": "SIN-107",
+      "modos_predictivos": []
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "Particulate",
+      "modo_origen": "Wearing",
+      "sintoma": "Screen with metallic particle",
+      "plan_accion": "Perform visual inspection to sweeping pump assembly. Back up photographically condition. Check condition of crankshaft drive gear. Back up photographically. If the gear shows major damage it is not recommended to reuse. Evaluate the change of the major component. Evaluate and support settlement surface status of sweeping pump. If the surface damage is greater, it is required to send backups to CT to validate. Perform oil filter cut and verify% of contamination present. If the oil filters show a large amount of contamination, it is necessary to evaluate the main oil pump, since this can present greater wear and consequently a low efficiency. Support condition. After repairs, it is recommended to keep the component under monitoring. Check grid condition of sweeping pump. Perform cleaning and save photographic backups. The following documents are required to remove and install the sweeping pump. In addition to taking into account the correct cleaning of the areas and condition of threads.",
+      "categoria": "particulado",
+      "senales": [
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "aumento",
+          "unidad": "nivel"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 6
+        }
+      ],
+      "id": "SIN-108",
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-02"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "Particulate",
+      "modo_origen": "Wear Element",
+      "sintoma": "Filter cut with Particulate Level 3",
+      "plan_accion": "Supplement with patch test Check screens and their condition to check for wear of metal fragments. Take lubrication pressures manometrically in Low, High and Stall RPM Complement analysis with a history of pressure trends, arrests, event control and component hours.",
+      "categoria": "particulado",
+      "senales": [
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "aumento",
+          "unidad": "nivel"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 38
+        }
+      ],
+      "id": "SIN-109",
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-02"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "Particulate",
+      "modo_origen": "Wearing",
+      "sintoma": "Filter cut with Particulate Level 2",
+      "plan_accion": "Check engine grilles Manually measure lubrication pressures at Low, High and RPM Stall Verify component hours and pre-sampling intervention Take new oil sample for monitoring",
+      "categoria": "particulado",
+      "senales": [
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "aumento",
+          "unidad": "nivel"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 40
+        }
+      ],
+      "id": "SIN-110",
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-02"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "Particulate",
+      "modo_origen": "Wear Element",
+      "sintoma": "Patch test with particulate presence",
+      "plan_accion": "Complement analysis with events and pressure trends Perform complement with filter cut Take lubrication pressures Take new oil sample",
+      "categoria": "particulado",
+      "senales": [
+        {
+          "variable": "particulado_inspeccion",
+          "direccion": "aumento",
+          "unidad": "nivel"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 53
+        }
+      ],
+      "id": "SIN-111",
+      "modos_predictivos": [
+        "MFP-01",
+        "MFP-02"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "Particulate",
+      "modo_origen": "Contamination by Dust",
+      "sintoma": "Patch test with presence of Silica (Si)",
+      "plan_accion": "Check condition with a new sample to discard a poorly taken sample Perform inspection and possible entry of silicon through pipelines, rubbers, loose clamps Perform admission system certification according to detected condition Perform power test and verify booster pressures",
+      "categoria": "particulado",
+      "senales": [
+        {
+          "variable": "si_ppm",
+          "direccion": "aumento",
+          "unidad": "ppm"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 60
+        }
+      ],
+      "id": "SIN-112",
+      "modos_predictivos": [
+        "MFP-04"
+      ]
+    },
+    {
+      "modelos": [
+        "797F"
+      ],
+      "componente": "Motor",
+      "rutina": "Particulate",
+      "modo_origen": "Soot (St) Excess",
+      "sintoma": "Patch test with Soot (St) presence",
+      "plan_accion": "Inspect the air filter restriction, Check leaks in the fuel system, Perform admission certification, perform oil and filter changes.",
+      "categoria": "particulado",
+      "senales": [
+        {
+          "variable": "hollin",
+          "direccion": "aumento",
+          "unidad": "%"
+        }
+      ],
+      "origen": [
+        {
+          "archivo": "FMECA_Lists_ENG.xlsx",
+          "hoja": "ENGINE",
+          "fila": 68
+        }
+      ],
+      "id": "SIN-113",
+      "modos_predictivos": [
+        "MFP-02",
+        "MFP-08"
+      ]
+    }
+  ]
+}

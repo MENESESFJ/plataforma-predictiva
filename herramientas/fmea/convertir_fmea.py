@@ -1,10 +1,8 @@
 """Convierte la memoria RCM (FMECA) y la lista de síntomas por condición a un borrador
 de FMEA en el formato del modelo, más un Excel de revisión para Confiabilidad.
 
-Uso:
-    python herramientas/fmea/convertir_fmea.py \
-        --memoria FMEA_Memoria_798AC.xlsx --sintomas "FMECA_Lists - ENG.xlsx" \
-        --salida salidas/fmea
+Uso (con las fuentes versionadas en knowledge/fmea/fuentes/):
+    python herramientas/fmea/convertir_fmea.py
 
 Todo lo generado queda en estado "propuesto": la tabla de cruce modo<->síntoma, la
 severidad y el diccionario de variables requieren aprobación de Confiabilidad.
@@ -372,9 +370,9 @@ def escribir_excel(ruta, modos_rcm, sintomas, predictivos):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--memoria", required=True)
-    ap.add_argument("--sintomas", required=True)
-    ap.add_argument("--salida", default="salidas/fmea")
+    ap.add_argument("--memoria", default=str(RAIZ / "knowledge/fmea/fuentes/FMEA_Memoria_798AC.xlsx"))
+    ap.add_argument("--sintomas", default=str(RAIZ / "knowledge/fmea/fuentes/FMECA_Lists_ENG.xlsx"))
+    ap.add_argument("--salida", default=str(RAIZ / "knowledge/fmea/borrador"))
     ap.add_argument("--sistema", default=r"\bENG\b|\bCS\b",
                     help="regex del sistema en la memoria RCM (motor y enfriamiento)")
     ap.add_argument("--componente", default=r"engine|motor", help="regex de componente en la lista de síntomas")
