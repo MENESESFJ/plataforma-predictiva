@@ -149,7 +149,9 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 | Riesgo | Mitigación |
 |---|---|
 | Solo 9 cambios imprevistos | Detección de anomalías + degradación; validación caso a caso; intervalos, no porcentajes |
-| Leakage por AFA/RCA o por fecha de muestra SOS | AFA/RCA prohibidos como predictor; SOS se corta por fecha de informe (ambos con regla en el contrato) |
+| Leakage por AFA/RCA o por fecha de muestra SOS | AFA/RCA prohibidos como predictor; SOS se usa desde fecha de muestra + 3 días (ambos con regla en el contrato) |
+| Conocimiento limitado de procesos existentes | No se modifica nada existente (DP-001); lo que se rearme queda documentado y versionado en el proyecto (DP-002). Ver `docs/fase0/decisiones_proyecto.md` |
+| Anomalías de Gold con lógica desconocida | Se generan de cero en el proyecto y Gold se usa solo como comparación (DP-003, propuesta) |
 | Umbrales arbitrarios | Calibración con el histórico, baseline individual y poblacional |
 | Sobreinterpretación del FMEA | Salida como compatibilidad; niveles propuesto → aplicable → validado |
 | Duty cycle del accionamiento eléctrico | Baseline propio de DMH 798AC; no extrapolar desde otras flotas o faenas |

@@ -82,7 +82,7 @@ datasets_798:
     Resultados/798/DMasterIntervals798.csv:     {mb: 1.9, uso: "intervalos por vida de componente (trabajo analítico previo)"}
     Resultados/798/DMasterIntervalsAcum798.csv: {mb: 2.4, uso: "intervalos acumulados"}
     foresight/798/ds_Sum{Trend,Sos,EventEngine,Cycle,…}_798.csv: {uso: "agregados por intervalo del trabajo previo"}
-    amt/798/ds_SumMaintenance_798.csv:          {uso: "agregados de mantenimiento"}
+    amt/798/ds_SumMaintenance_798.csv:          {uso: POR_REVISAR}   # contenido real se revisa antes de usarlo (DP-004)
     argos/798/ds_SumParticulado_798.csv:        {uso: "agregados de particulado"}
     nota: >-
       Gold contiene la ingeniería de variables del trabajo previo (Predictivo 4.0). Se puede usar como
