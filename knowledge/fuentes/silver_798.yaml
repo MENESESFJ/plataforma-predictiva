@@ -1,0 +1,129 @@
+# Perfil y homologación de datasets Silver "_798" (motor)
+#
+# Origen: exportaciones de muestra entregadas por el responsable del proyecto (2026-10-14).
+# Las exportaciones venían truncadas a 64 KB (salida de notebook), así que conteos, rangos
+# de fechas y listas de valores son de la MUESTRA, no del universo. Aquí se guarda solo
+# estructura y mapeo, nunca filas de datos.
+#
+# Marcas: CONFIRMADO (visto en la muestra) · SUPUESTO · POR_CONFIRMAR.
+version: "0.1.0"
+fecha_perfil: "2026-10-14"
+
+hallazgos_generales:
+  - id: H-01
+    tema: alcance
+    detalle: >-
+      Los datasets "_798" incluyen ~135 equipos (prefijos TKD, RT, MH, AN, TTC). Parecen cubrir
+      todos los 798AC de varias faenas, no solo los 12 de DMH.
+    estado: POR_CONFIRMAR   # cómo se identifican los 12 equipos DMH
+  - id: H-02
+    tema: clave_equipo
+    detalle: >-
+      SerialNumber (formato SKH00xxx) es estable entre datasets. El código de equipo varía:
+      con y sin guion (TKD-144 / TKD144, MH-340 / MH340) y con valores sueltos (c20, 23, M).
+    decision: "Usar SerialNumber como clave del equipo; el código de equipo solo como atributo descriptivo."
+    estado: SUPUESTO
+  - id: H-03
+    tema: componente
+    detalle: >-
+      La columna Componente usa códigos SMCS: "1000.00.CC.0 MOTOR" (motor), "4016.xx.CC.0 CILINDRO RUEDA",
+      "4050.xx.CC.0 MANDO FINAL". El motor es SMCS 1000, el código que faltaba en la matriz SMCS.
+      En análisis de aceite ~8% de las filas tiene Componente vacío y no se puede asignar a motor.
+    estado: CONFIRMADO
+  - id: H-04
+    tema: granularidad_fecha
+    detalle: "Todas las fechas son diarias (YYYY-MM-DD); no hay hora ni fecha de carga."
+    estado: CONFIRMADO
+
+datasets:
+  ds_Trends_798:
+    tipo: tendencias de monitoreo (VIMS u otra plataforma)   # familia POR_CONFIRMAR
+    granularidad: equipo · día · tendencia · condición de operación
+    columnas:
+      Fecha: fecha del agregado diario
+      SerialNumber: serie del equipo (clave)
+      Equipo: código de equipo (formato variable)
+      Componente: "SMCS + nombre; motor = 1000.00.CC.0 MOTOR"
+      Tendencia: "nombre del parámetro (formato largo, una fila por parámetro)"
+      Condition: condición de operación del agregado (p. ej. "Engine Running, RPM High, Warm, Loaded")
+      CountTrend: número de lecturas agregadas
+      AverageTrend: promedio del parámetro en ese día y condición
+    unidades: POR_CONFIRMAR   # no vienen en el dataset; los valores de Boost (~34) no calzan con kPa
+    regla_corte: "fecha de disponibilidad no viene; POR_CONFIRMAR si existe fecha de carga"
+    condiciones_vistas: ["Engine Running, RPM High, Warm, Loaded", "Engine Running, RPM High, Warm",
+                         "Engine Running", "Engine Running, RPM Low, Warm"]
+    calidad:
+      - "Valores negativos imposibles en temperaturas de escape (mínimo -3277.4, típico de un valor centinela de 16 bits)"
+      - "Picos implausibles: escape hasta 4756, restricción filtro aire #1 hasta 104 con mediana 0.8, filtro combustible succión hasta 562"
+      - "Comparar siempre dentro de la misma Condition: el valor depende de carga y temperatura"
+  ds_EventDuration_798:
+    tipo: eventos de monitoreo (VIMS u otra plataforma)   # familia POR_CONFIRMAR
+    granularidad: equipo · día · evento
+    columnas:
+      Date: fecha del evento
+      SerialNumber: serie del equipo (clave)
+      Equipo: código de equipo (formato variable)
+      EventName: nombre del evento
+      Componente: SMCS + nombre
+      EventSeverity: severidad (1 a 3 en la muestra)
+      EventDuration: duración   # unidad POR_CONFIRMAR (¿segundos?)
+    nota: "La mayoría de los eventos de la muestra son de chasis (Frame Bias/Rack/Pitch); solo ~6% son de motor."
+  ds_fe_798:
+    tipo: análisis de aceite (SOS), elemento Fe
+    granularidad: equipo · fecha · componente (muestra de aceite)
+    columnas:
+      Date: fecha de la muestra o del informe   # POR_CONFIRMAR: define la regla anti-leakage
+      SerialNumber: serie del equipo (clave)
+      equipment: código de equipo (formato variable)
+      Componente: SMCS + nombre (vacío en ~8%)
+      Fe: hierro en ppm   # unidad SUPUESTA (estándar SOS)
+    supuesto: "Existe un dataset por elemento (ds_cu_798, ds_pb_798…)"   # POR_CONFIRMAR
+    calidad:
+      - "Filas repetidas para la misma fecha, serie y componente, a veces con valores distintos (35 y 36)"
+  ds_changed_798:
+    tipo: análisis de aceite (SOS), indicador de cambio de aceite
+    granularidad: igual que ds_fe_798 (mismas claves)
+    columnas:
+      Changed: "Y / N / U"   # SUPUESTO: aceite cambiado en el muestreo (Y=sí, N=no, U=desconocido)
+    uso: "Contexto: horas o días desde el último cambio de aceite; reinicia la tendencia de desgaste"
+
+# Mapeo a variables canónicas del contrato de datos (components/motor_diesel/data_contract.yaml)
+homologacion:
+  # --- ds_Trends_798 (filtrar Componente = 1000.00.CC.0 MOTOR)
+  presion_aceite:          {dataset: ds_Trends_798, filtro: {Tendencia: "Engine Oil Pressure"}, campo: AverageTrend}
+  presion_admision:        {dataset: ds_Trends_798, filtro: {Tendencia: ["Boost Pressure", "Boost Pressure #2"]}, campo: AverageTrend}
+  temp_admision:           {dataset: ds_Trends_798, filtro: {Tendencia: ["Intake Manifold Air Temperature", "Intake Manifold #2 Air Temperature"]}, campo: AverageTrend}
+  temp_escape:             {dataset: ds_Trends_798, filtro: {Tendencia: ["Left Exhaust Temperature", "Right Exhaust Temperature", "Engine Turbocharger 1..4 Turbine Intake Temperature"]}, campo: AverageTrend}
+  temp_escape_diferencial: {dataset: ds_Trends_798, derivada: "diferencia izquierda-derecha y entre turbos 1..4, misma fecha y condición"}
+  temp_refrigerante:       {dataset: ds_Trends_798, filtro: {Tendencia: "Engine Coolant Temperature"}, campo: AverageTrend}
+  restriccion_filtro_aire: {dataset: ds_Trends_798, filtro: {Tendencia: ["Air Filter #1 Restriction", "Air Filter #2 Restriction"]}, campo: AverageTrend}
+  # --- ds_EventDuration_798 (Componente = 1000.00.CC.0 MOTOR)
+  nivel_aceite:            {dataset: ds_EventDuration_798, filtro: {EventName: ["Low Engine Oil Level", "Oil Level Add Mark"]}, tipo: evento}
+  nivel_refrigerante:      {dataset: ds_EventDuration_798, filtro: {EventName: "Low Engine Coolant Level"}, tipo: evento}
+  # --- ds_fe_798 (Componente = 1000.00.CC.0 MOTOR)
+  fe_ppm:                  {dataset: ds_fe_798, campo: Fe}
+  # --- contexto
+  horas_desde_cambio_aceite: {dataset: ds_changed_798, campo: Changed, derivada: "fecha del último Changed = Y"}
+
+# Parámetros vistos que no son variables del FMEA pero sirven como contexto o para otros modos
+parametros_adicionales:
+  ds_Trends_798:
+    - {nombre: "Oil Filter Differential Pressure", uso: "restricción del filtro de aceite (síntoma del catálogo)"}
+    - {nombre: "Fuel Filter Differential Pressure", uso: "restricción del filtro de combustible"}
+    - {nombre: "Fuel Filter (Suction Side) Differential Pressure", uso: "restricción del filtro de combustible"}
+    - {nombre: "Fuel Pressure", uso: "presión de combustible"}
+    - {nombre: "Fuel Rail Temperature", uso: "temperatura de combustible"}
+    - {nombre: "Fuel Temperature", uso: "temperatura de combustible"}
+    - {nombre: "Fuel Actuator Position Command", uso: "proxy de carga del motor (contexto operacional)"}
+    - {nombre: "Ambient Air Temperature", uso: "contexto: normalizar temperaturas"}
+  ds_EventDuration_798:
+    - {nombre: "High Turbocharger Turbine Intake Differential Temperature", uso: "evento de temp_escape_diferencial"}
+    - {nombre: "High Engine Coolant Temperature", uso: "evento de temp_refrigerante"}
+    - {nombre: "Low Engine Pre-Lube Pressure", uso: "lubricación (MFP-07)"}
+    - {nombre: "High Engine Cooling Fan Speed", uso: "enfriamiento (MFP-06)"}
+
+# Variables del FMEA que NO aparecen en la muestra
+sin_fuente_en_muestra:
+  vims: [presion_carter, temp_aceite, presion_refrigerante]
+  sos: [cu_ppm, pb_ppm, na_ppm, k_ppm, si_ppm, pqi, hollin, viscosidad]
+  particulado: [particulado_inspeccion]

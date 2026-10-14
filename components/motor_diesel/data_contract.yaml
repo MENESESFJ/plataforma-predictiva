@@ -33,7 +33,9 @@ acceso:
 # Los nombres físicos (tabla, campo) no se asumen: se completan al validar las fuentes.
 homologacion:
   cadena: [fuente, campo_fisico, variable_canonica, feature, modo_fmea]
-  registro_campos_fisicos: POR_CONFIRMAR   # archivo/tabla de mapeo a crear cuando se conozcan las tablas
+  registro_campos_fisicos: knowledge/fuentes/silver_798.yaml   # perfil y mapeo de los datasets Silver "_798"
+  clave_equipo: SerialNumber   # SUPUESTO: estable entre datasets; el código de equipo varía de formato
+  componente_motor: "1000.00.CC.0 MOTOR"   # código SMCS del motor en los datasets Silver
 
 claves:
   contrato: "Contrato / faena (p. ej. DMH)"
