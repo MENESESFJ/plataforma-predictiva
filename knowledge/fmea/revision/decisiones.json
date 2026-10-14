@@ -6,10 +6,32 @@
       "fecha": "2026-10-14",
       "tema": "aplicabilidad_modelo",
       "modelo": "798 AC",
-      "equivalente_a": ["793F", "793F Tier 4", "797F", "797F Tier 4"],
+      "equivalente_a": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
       "alcance": "todos los modos predictivos",
       "decision": "Los modos y síntomas documentados para 793F/797F aplican exactamente igual al 798 AC.",
       "confirmado_por": "Responsable del proyecto (sesión de trabajo)"
+    },
+    {
+      "id": "DEC-002",
+      "fecha": "2026-10-14",
+      "tema": "nivel_validacion",
+      "enmienda": "DEC-001",
+      "contrato": "DMH",
+      "modelo": "798 AC",
+      "nivel": "aplicable",
+      "alcance": "todos los modos predictivos",
+      "decision": "La equivalencia de DEC-001 hace a los modos APLICABLES al 798AC por similitud técnica de motores. Ningún modo queda VALIDADO para DMH 798AC hasta contrastarlo con los cambios de motor y sus AFA/RCA.",
+      "confirmado_por": "Responsable del proyecto (sesión de trabajo)"
     }
-  ]
+  ],
+  "niveles_validacion": {
+    "propuesto": "Modo derivado de fuentes documentales, sin revisión para el contrato/modelo.",
+    "aplicable": "Aplicable al contrato/modelo por similitud técnica o criterio experto; sin contrastar con eventos propios.",
+    "validado": "Contrastado con eventos del contrato/modelo (cambios de motor, AFA/RCA) y confirmado por especialistas."
+  }
 }

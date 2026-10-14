@@ -1,13 +1,39 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "componente": "motor_diesel",
   "descripcion": "Motor diésel de camión CAEX",
-  "evento_objetivo": {
-    "nombre": "falla_mayor_motor",
-    "codigos_ot": ["POR_CONFIRMAR_SAP_MAXIMO"],
-    "estado_codigos": "pendiente_confirmacion"
+  "caso_uso": {
+    "contrato": "DMH",
+    "modelo_equipo": "798 AC",
+    "universo_equipos": 12,
+    "estado": "confirmado_por_responsable_proyecto"
   },
-  "horizonte_util": {"dias": 30, "horas_operacion": 250},
-  "baseline": "kaplan_meier",
+  "objetivo": {
+    "primario": "Detectar tempranamente condiciones anormales del motor que justifiquen atención, seguimiento o intervención técnica",
+    "secundario": "Determinar si la condición anormal es consistente con un patrón de degradación y, con evidencia suficiente, asociarla a modos FMEA posibles (compatibilidad, no diagnóstico)"
+  },
+  "evento_objetivo": {
+    "nombre": "cambio_motor",
+    "tipos": ["imprevisto", "programado"],
+    "codigos_ot": ["POR_CONFIRMAR_SAP_MAXIMO"],
+    "estado_codigos": "pendiente_confirmacion",
+    "historico": {
+      "desde": "2023-09",
+      "total": 14,
+      "imprevistos": 9,
+      "programados": 5,
+      "nota_programados": "Por condición detectada y/o cumplimiento de PCR/TBO",
+      "estado": "informado; listado evento por evento POR_CONFIRMAR (docs/fase0/plantilla_eventos_motor.csv)"
+    },
+    "ground_truth": "AFA y RCA: solo para etiquetar y validar; prohibidos como variables predictoras"
+  },
+  "horizonte_util": {
+    "dias": 15,
+    "estado": "hipotesis_por_validar_con_historico"
+  },
+  "baseline": {
+    "practica_actual": "Reemplazo de motor a las 16.000 h ajustado por factor de carga (memoria RCM, RCM-002)",
+    "estadistico": "kaplan_meier (descriptivo: 14 eventos)"
+  },
   "variables_criticas": ["temp_refrigerante", "presion_carter", "fe_ppm", "cu_ppm", "pqi"]
 }
