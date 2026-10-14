@@ -41,12 +41,16 @@ Flujo conceptual: datos → calidad → features → detección de anomalía →
 | Campo | Valor | Estado |
 |---|---|---|
 | Cambios de motor desde sep-2023 | 14 | ✅ informado |
-| Imprevistos | 9 | ✅ informado |
-| Programados | 5, por condición detectada y/o PCR/TBO | ✅ informado |
+| Imprevistos | 9 informados; la planilla marca 10 (MH340 2025-07-05 dice "Imprevisto" con descripción "PCR") | 🟡 conciliar |
+| Programados | 5 informados; la planilla marca 4, todos por PCR (2 con overhaul) | 🟡 conciliar |
+| Causa dominante | 8 de los imprevistos: "BAJA PRESIÓN ACEITE MOTOR"; 1 "FALLA PREMATURA" (MH344, 8.575 h) | ✅ planilla |
+| Equipos con dos cambios | MH341 y MH344 | ✅ planilla |
 | Datos por cambio | Fecha de instalación y de retiro, causa, equipo e historia del período | ✅ informado |
-| Listado evento por evento | `docs/fase0/plantilla_eventos_motor.csv` | ⬜ completar con los 14 casos |
+| Listado evento por evento | `docs/fase0/eventos_motor_dmh_798_borrador.csv` (desde PlanillaCC798DMH, hoja "CC histórico") | 🟡 borrador, falta validar y asignar modo FMEA |
 | Validación por Confiabilidad | Caso a caso | ⬜ |
-| AFA / RCA | Disponibles en varios casos | ✅ informado · ⬜ cuáles |
+| AFA / RCA | Solo 2 de los 14 cambios tienen número de AFA en la planilla | 🟡 ⬜ ubicar el resto |
+
+**Implicancia para el FMEA:** la causa dominante apunta a MFP-07 (baja presión de lubricación) y MFP-01; son los primeros modos a validar contra los eventos. Hay datos directos: tendencia "Engine Oil Pressure" y evento "Low Engine Oil Pressure".
 
 **Regla:** AFA y RCA se generan después del evento. Sirven para etiquetar, validar resultados y contrastar con el FMEA. **Nunca son variables predictoras** (regla en el contrato de datos, con test).
 
@@ -125,8 +129,12 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 2. **Cat Inspect:** ¿corresponde a inspecciones de particulado, a inspecciones visuales, o a ambas?
 3. **SOS / APD:** ¿son la misma fuente o dos? ¿En la tabla queda registrada la fecha de informe además de la de muestra? Es la regla que evita leakage.
 4. **VIMS:** ¿hay tendencias resumidas, eventos, o ambos? ¿Con qué frecuencia y desde cuándo hay datos para los 12 equipos?
-5. **Cambios de motor:** ¿dónde está el listado de los 14 cambios? ¿Los AFA/RCA están digitalizados y con fecha de emisión?
+5. ~~**Cambios de motor:**~~ ✅ listado en la planilla DMH. Falta: conciliar 9/5 con 10/4 (MH340 2025-07-05) y ubicar los AFA/RCA.
 6. ~~**Persistencia:**~~ ✅ los resultados van a Databricks / Data Lake. Falta confirmar: esquema/catálogo de destino y si Power BI se conecta directo a Databricks.
+7. **Equipos del piloto:** el maestro AMT tiene 13 equipos activos (MH340–MH352 sin MH343, más MH353) y MH343 está de baja. ¿Cuáles son los 12? ¿Se usa la historia de MH343 para entrenar?
+8. **SOS:** ¿la fecha codificada en el "Id Lab." es el ingreso al laboratorio? ¿Cuántos días pasan hasta el informe?
+9. **Motores por equipo:** el diccionario SOS tiene ENG_FR/ENG_RR (dos motores). ¿Aplica al 798AC o solo a otros modelos? La planilla registra el motor en posición "PU".
+10. **Unidades:** el diccionario de tendencias no trae unidades ni frecuencia de muestreo.
 
 ## 11. Riesgos específicos del caso
 

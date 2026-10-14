@@ -47,11 +47,14 @@ fuentes:
   sos:
     descripcion: Análisis de aceite de laboratorio
     familias_candidatas: [SOS / APD]          # por_validar
-    tablas: POR_CONFIRMAR
+    tablas: [bronze/foresight/798/datasetSOS798.csv, "silver ds_<elemento>_798"]   # ver knowledge/fuentes/bronze_798.yaml
     granularidad: por muestra
     fecha_evento: fecha_muestra
-    fecha_disponible: fecha_informe     # el resultado solo existe desde que llega el informe
-    regla_corte: "usar solo muestras con fecha_informe <= fecha_corte"
+    # La tabla no trae fecha de informe. El "Id Lab." codifica una fecha 0-10 días posterior a la
+    # muestra (mediana 3): SUPUESTO = ingreso al laboratorio. Margen hasta el informe POR_CONFIRMAR.
+    fecha_disponible: fecha_id_lab + margen_informe_dias
+    margen_informe_dias: POR_CONFIRMAR
+    regla_corte: "usar solo muestras con fecha_id_lab + margen_informe_dias <= fecha_corte"
     responsable_acceso: POR_CONFIRMAR
   particulado:
     descripcion: Inspección de filtros, rejillas y patch test

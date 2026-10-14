@@ -101,6 +101,8 @@ homologacion:
   # --- ds_EventDuration_798 (Componente = 1000.00.CC.0 MOTOR)
   nivel_aceite:            {dataset: ds_EventDuration_798, filtro: {EventName: ["Low Engine Oil Level", "Oil Level Add Mark"]}, tipo: evento}
   nivel_refrigerante:      {dataset: ds_EventDuration_798, filtro: {EventName: "Low Engine Coolant Level"}, tipo: evento}
+  presion_carter:          {dataset: ds_EventDuration_798, filtro: {EventName: "High Crankcase Pressure"}, tipo: evento}        # sin tendencia en el diccionario
+  temp_aceite:             {dataset: ds_EventDuration_798, filtro: {EventName: "High Engine Oil Temperature"}, tipo: evento}    # sin tendencia en el diccionario
   # --- SOS: ds_<elemento>_798 (Componente = 1000.00.CC.0 MOTOR); estructura SUPUESTA igual a ds_fe_798
   fe_ppm:                  {dataset: ds_fe_798, campo: Fe}
   cu_ppm:                  {dataset: ds_cu_798, campo: POR_CONFIRMAR}
@@ -134,10 +136,10 @@ parametros_adicionales:
     - {nombre: "Low Engine Pre-Lube Pressure", uso: "lubricación (MFP-07)"}
     - {nombre: "High Engine Cooling Fan Speed", uso: "enfriamiento (MFP-06)"}
 
-# Variables del FMEA sin fuente identificada (pueden estar en la lista completa de tendencias:
-# revisar bronze/argos/trend_diccionario_798.csv)
+# Variables del FMEA sin fuente identificada, revisados trend_diccionario_798 y event_diccionario_798
+# (presion_carter y temp_aceite solo existen como evento, no como tendencia)
 sin_fuente_en_muestra:
-  vims: [presion_carter, temp_aceite, presion_refrigerante]
+  vims: [presion_refrigerante]
 
 # Indicadores SOS disponibles que no usa el FMEA actual (candidatos para Confiabilidad)
 sos_no_usados_por_fmea: [ag, al, cr, ni, sn, oxi, v]
