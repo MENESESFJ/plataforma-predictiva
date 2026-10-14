@@ -48,6 +48,7 @@ datasets:
   ds_Trends_798:
     tipo: tendencias de monitoreo (VIMS u otra plataforma)   # familia POR_CONFIRMAR
     granularidad: equipo · día · tendencia · condición de operación
+    frecuencia_origen: "~1 lectura por hora si el equipo transmite continuo; ~12 descargas por equipo al día"   # CONFIRMADO
     columnas:
       Fecha: fecha del agregado diario
       SerialNumber: serie del equipo (clave)

@@ -19,7 +19,7 @@ Principio: **el modelo detecta, el FMEA contextualiza, el especialista confirma.
 |---|---|---|
 | Contrato | DMH | ✅ |
 | Modelo de equipo | CAEX 798AC (accionamiento eléctrico) | ✅ |
-| Universo | 13 equipos: MH340–MH352. Incluye MH343, que salió del contrato por otras causas pero tiene historia. MH353 queda fuera por ahora (casi sin datos) | ✅ |
+| Universo | MH340–MH352 (13, incluye MH343, que salió del contrato por otras causas pero tiene historia) + MH353 en la medida que tenga datos | ✅ |
 | Motores por equipo | 1 (el 797B tiene 2) | ✅ |
 | Componente | Motor | ✅ |
 | Unidad de análisis | Motor instalado en un equipo durante su ciclo de vida (instalación → retiro) | 🟡 |
@@ -99,7 +99,7 @@ Ventanas de análisis por evento: T-90, T-60, T-30, T-15, T-7 y T0, donde T0 es 
 | Pipelines y orquestador corporativo | No se modifican | ✅ |
 | Persistencia de resultados y datasets derivados | Data Lake vía Databricks | ✅ |
 | Formato y esquema/catálogo de las tablas | Delta (estándar de Databricks); esquema por definir | 🟡 / ⬜ |
-| Lectura desde Power BI | Desde las tablas de resultados en Databricks / Data Lake | 🟡 por confirmar |
+| Lectura desde Power BI | Power BI lee las tablas de resultados que entregue el proyecto, como con los modelos productivos actuales | 🟡 por confirmar |
 | SQL Server | No requerido para los resultados del MVP | 🟡 |
 | Registro de modelos | MLflow (el que ya trae Databricks) | 🟡 |
 | Visualización | Power BI; no es la fuente de verdad | ✅ |
@@ -134,15 +134,15 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 1. **Familias sin asignar:** qué contiene cada una de Foresight, Argos/Argos Clone, AMT y API CAT, y si duplican o complementan a VIMS, SOS o mantenimiento.
 2. **Cat Inspect:** ¿corresponde a inspecciones de particulado, a inspecciones visuales, o a ambas?
 3. **SOS / APD:** ¿son la misma fuente o dos? ¿En la tabla queda registrada la fecha de informe además de la de muestra? Es la regla que evita leakage.
-4. **VIMS:** ¿hay tendencias resumidas, eventos, o ambos? ¿Con qué frecuencia y desde cuándo hay datos para los 13 equipos?
+4. ~~**VIMS:**~~ ✅ tendencias (~1 por hora, ~12 descargas por equipo al día) y eventos. Falta: unidades de cada tendencia.
 5. ~~**Cambios de motor:**~~ ✅ listado en la planilla DMH. Falta: conciliar 9/5 con 10/4 (MH340 2025-07-05) y ubicar los AFA/RCA.
 6. ~~**Persistencia:**~~ ✅ los resultados van a Databricks / Data Lake. Falta confirmar: esquema/catálogo de destino y si Power BI se conecta directo a Databricks.
-7. ~~**Equipos del piloto:**~~ ✅ 13 equipos, MH340–MH352 con MH343. Falta: ¿MH353 entra cuando tenga historia?
-8. **SOS:** el "Id Lab." es interno del laboratorio y no sirve como fecha. ¿Cuántos días pasan normalmente entre la muestra y el informe? Se usará un desfase conservador.
+7. ~~**Equipos del piloto:**~~ ✅ MH340–MH352 con MH343, más MH353 si tiene datos.
+8. ~~**SOS:**~~ ✅ el "Id Lab." es interno del laboratorio. La muestra se usa desde su fecha + 3 días (promedio hasta la carga).
 9. ~~**Motores por equipo:**~~ ✅ en SOS el motor del 798AC viene como `ENG`; ENG_FR/ENG_RR son de otros modelos.
 11. ~~**Particulado:**~~ ✅ hoy lo captura Cat Inspect, en SQL Server (fuera del lake). Falta: acceso de solo lectura y estructura de la tabla.
 12. **Plantilla de falla de componentes (SharePoint):** resume modo de falla y causa raíz cuando existe. Pendiente de adjuntar; se usará solo como etiqueta.
-10. **Unidades:** el diccionario de tendencias no trae unidades ni frecuencia de muestreo.
+10. **Unidades:** el diccionario de tendencias no trae unidades (la frecuencia ya está confirmada).
 
 ## 11. Riesgos específicos del caso
 

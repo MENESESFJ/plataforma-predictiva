@@ -13,7 +13,7 @@ fecha_revision: "2026-10-14"
 flota_dmh_798ac:
   fuente: bronze/amt/Equipment_amt.csv (Branch = "Ministro Hales", Fleet = "798AC Ministro Hales") + planilla DMH
   motores_por_equipo: 1   # CONFIRMADO (el 797B tiene 2: delantero y trasero)
-  equipos_piloto:   # 13 equipos, CONFIRMADO 2026-10-14 · equipo: serie
+  equipos_piloto:   # CONFIRMADO 2026-10-14: los 13 de MH340–MH352 + MH353 si tiene datos · equipo: serie
     MH340: SKH00615
     MH341: SKH00614
     MH342: SKH00623
@@ -27,8 +27,8 @@ flota_dmh_798ac:
     MH350: SKH00630
     MH351: SKH00631
     MH352: SKH00632
-  fuera_del_piloto:
-    MH353: {serie: SKH00793, nota: "Está en el maestro AMT pero casi no tiene datos en las muestras (1 fila de tendencias); POR_CONFIRMAR si entra cuando acumule historia"}
+    MH353: SKH00793   # situación contractual desconocida; entra en la medida que tenga datos (hoy casi no tiene)
+  regla_inclusion: "Un equipo participa en entrenamiento o inferencia solo si tiene datos en la ventana analizada"
 
 sos:
   archivo: bronze/foresight/798/datasetSOS798.csv
@@ -55,8 +55,9 @@ sos:
     id_lab: >-
       Número interno del laboratorio, fuera de nuestro control (CONFIRMADO). Aunque parece contener
       una fecha, no se usa para la regla de corte.
-    regla_corte_propuesta: "usar la muestra solo desde Fecha Muestra + desfase_informe_dias"
-    desfase_informe_dias: POR_CONFIRMAR   # tiempo típico muestra -> informe; usar un valor conservador
+    regla_corte: "usar la muestra solo desde Fecha Muestra + desfase_informe_dias"
+    desfase_informe_dias: 3   # CONFIRMADO: promedio desde que llega la muestra hasta su carga
+    nota: "Es un promedio; si se obtiene la distribución real, usar un percentil alto. Analizar sensibilidad con 3 y 7 días."
   calidad:
     - "Horómetro con retrocesos y valores 0 (3 retrocesos y 2 ceros en 78 filas)"
     - "Muestras repetidas en la misma fecha (contramuestras con distinto Id Lab.)"

@@ -17,7 +17,7 @@ tenant:
   contrato: DMH                 # CONFIRMADO
   modelo_equipo: "798 AC"       # CONFIRMADO
   componente: motor_diesel      # CONFIRMADO
-  universo_equipos: 13          # CONFIRMADO: MH340–MH352, incluye MH343 (fuera del contrato, con historia)
+  universo_equipos: 14          # CONFIRMADO: MH340–MH352 (incluye MH343, fuera del contrato con historia) + MH353 si tiene datos
 
 # Reglas de acceso a datos corporativos
 acceso:
@@ -26,6 +26,9 @@ acceso:
   datasets_derivados: propios del proyecto, versionados por dataset_id   # SUPUESTO_DISENO
   ubicacion_datasets_derivados: Data Lake vía Databricks   # CONFIRMADO
   ubicacion_resultados: Data Lake vía Databricks           # CONFIRMADO (fuente de verdad para Power BI)
+  consumo_power_bi: >-
+    SUPUESTO: Power BI lee las tablas de resultados que entregue el proyecto, igual que con los modelos
+    productivos actuales. POR_CONFIRMAR el mecanismo y el formato de esas tablas.
   formato_tablas: POR_CONFIRMAR                            # SUPUESTO_DISENO: Delta, estándar de Databricks
   esquema_o_catalogo: POR_CONFIRMAR
 
@@ -72,9 +75,9 @@ fuentes:
     granularidad: por muestra
     fecha_evento: fecha_muestra
     # La tabla no trae fecha de informe y el "Id Lab." es un número interno del laboratorio
-    # (CONFIRMADO), así que la disponibilidad se aproxima con un desfase fijo y conservador.
+    # (CONFIRMADO), así que la disponibilidad se aproxima con un desfase fijo.
     fecha_disponible: fecha_muestra + desfase_informe_dias
-    desfase_informe_dias: POR_CONFIRMAR
+    desfase_informe_dias: 3   # CONFIRMADO: promedio hasta la carga; analizar sensibilidad con 7
     regla_corte: "usar solo muestras con fecha_muestra + desfase_informe_dias <= fecha_corte"
     responsable_acceso: POR_CONFIRMAR
   particulado:
@@ -93,7 +96,7 @@ fuentes:
     descripcion: Parámetros (tendencias) y eventos del sistema de monitoreo del camión
     familias_candidatas: [VIMS eventos, VIMS tendencias]   # por_validar
     tablas: POR_CONFIRMAR
-    granularidad: POR_CONFIRMAR       # tendencias resumidas o eventos; se agregará a diario
+    granularidad: "tendencias ~1 por hora si el equipo transmite continuo; ~12 descargas por equipo al día (CONFIRMADO). Silver las agrega a diario"
     fecha_evento: timestamp
     fecha_disponible: fecha_descarga
     regla_corte: "usar solo datos con fecha_descarga <= fecha_corte"
