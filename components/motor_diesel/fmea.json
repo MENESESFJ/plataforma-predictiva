@@ -1,6 +1,357 @@
-{"version": "0.2.0", "modos_falla": [
- {"id": "MF-001", "nombre": "sobrecalentamiento", "severidad": "alta", "variables": ["temp_refrigerante"], "precursores": ["tendencia creciente de temperatura de refrigerante"]},
- {"id": "MF-002", "nombre": "desgaste_cojinetes", "severidad": "critica", "variables": ["cu_ppm", "pqi"], "precursores": ["aumento de Cu y PQI en aceite"]},
- {"id": "MF-003", "nombre": "desgaste_camisas_anillos", "severidad": "alta", "variables": ["fe_ppm", "pqi"], "precursores": ["aumento de Fe y PQI en aceite"]},
- {"id": "MF-004", "nombre": "baja_presion_lubricacion", "severidad": "critica", "variables": ["presion_carter"], "precursores": ["caída de presión de cárter"]}
-]}
+{
+ "version": "1.0.0",
+ "fuente": "knowledge/fmea/aprobado/fmea_motor_v1.json",
+ "modos_falla": [
+  {
+   "id": "MFP-01",
+   "nombre": "desgaste_cojinetes",
+   "severidad": "critica",
+   "variables": [
+    "cu_ppm",
+    "particulado_inspeccion",
+    "pb_ppm",
+    "pqi",
+    "presion_aceite"
+   ],
+   "senales": [
+    {
+     "variable": "pb_ppm",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "cu_ppm",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "pqi",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "particulado_inspeccion",
+     "direccion": "presencia"
+    },
+    {
+     "variable": "presion_aceite",
+     "direccion": "disminucion"
+    }
+   ],
+   "precursores": [
+    "Copper (Cu) High Values (SOS)",
+    "Copper high (SOS)",
+    "Filter cut with Particulate Level 2 (Particulate)",
+    "Filter cut with Particulate Level 3 (Particulate)",
+    "Lead high (SOS)",
+    "Low Engine Oil Pressure (VIMS)",
+    "Low oil pressure of 10 PSI (VIMS)",
+    "PQI Value increases (SOS)",
+    "Patch test with particulate presence (Particulate)",
+    "Pressure low (VIMS)",
+    "Screen with metallic particle (Particulate)"
+   ],
+   "codigos_smcs": [
+    "1000",
+    "1203"
+   ]
+  },
+  {
+   "id": "MFP-02",
+   "nombre": "desgaste_camisas_anillos",
+   "severidad": "alta",
+   "variables": [
+    "fe_ppm",
+    "hollin",
+    "particulado_inspeccion",
+    "pqi",
+    "presion_carter"
+   ],
+   "senales": [
+    {
+     "variable": "presion_carter",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "fe_ppm",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "pqi",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "particulado_inspeccion",
+     "direccion": "presencia"
+    },
+    {
+     "variable": "hollin",
+     "direccion": "aumento"
+    }
+   ],
+   "precursores": [
+    "Crankcase High Pressure (VIMS)",
+    "Filter cut with Particulate Level 2 (Particulate)",
+    "Filter cut with Particulate Level 3 (Particulate)",
+    "Iron (Fe) particles increasing (SOS)",
+    "Iron high (SOS)",
+    "PQI Value increases (SOS)",
+    "Patch test with Soot (St) presence (Particulate)",
+    "Patch test with particulate presence (Particulate)",
+    "Pressure high (VIMS)",
+    "Screen with metallic particle (Particulate)",
+    "Soot (St) and Iron (Fe) High Values (SOS)"
+   ],
+   "codigos_smcs": [
+    "1000",
+    "1213",
+    "1215",
+    "1216",
+    "1239"
+   ]
+  },
+  {
+   "id": "MFP-03",
+   "nombre": "contaminacion_refrigerante_en_aceite",
+   "severidad": "alta",
+   "variables": [
+    "cu_ppm",
+    "k_ppm",
+    "na_ppm",
+    "nivel_refrigerante"
+   ],
+   "senales": [
+    {
+     "variable": "na_ppm",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "k_ppm",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "nivel_refrigerante",
+     "direccion": "disminucion"
+    },
+    {
+     "variable": "cu_ppm",
+     "direccion": "aumento"
+    }
+   ],
+   "precursores": [
+    "Contamination by Sodium (Na) (SOS)",
+    "Copper (Cu) High Values (SOS)",
+    "Copper high (SOS)",
+    "Increase in Potassium (K) (SOS)",
+    "Level low (VIMS, VisionLink)",
+    "Low Level Coolant (VIMS)",
+    "Sodium (Na) and Potassium (K) High Values (SOS)",
+    "Sodium high (SOS)"
+   ],
+   "codigos_smcs": [
+    "1124",
+    "1217",
+    "1378"
+   ]
+  },
+  {
+   "id": "MFP-04",
+   "nombre": "ingreso_abrasivo_polvo",
+   "severidad": "media",
+   "variables": [
+    "fe_ppm",
+    "restriccion_filtro_aire",
+    "si_ppm"
+   ],
+   "senales": [
+    {
+     "variable": "si_ppm",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "restriccion_filtro_aire",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "fe_ppm",
+     "direccion": "aumento"
+    }
+   ],
+   "precursores": [
+    "Air Filters Plugged (VIMS)",
+    "Iron high (SOS)",
+    "Restricted (VIMS)",
+    "Silicon high (SOS)"
+   ],
+   "codigos_smcs": [
+    "1050",
+    "1051",
+    "1054",
+    "1068",
+    "1071"
+   ]
+  },
+  {
+   "id": "MFP-05",
+   "nombre": "dilucion_combustible",
+   "severidad": "alta",
+   "variables": [
+    "viscosidad"
+   ],
+   "senales": [
+    {
+     "variable": "viscosidad",
+     "direccion": "disminucion"
+    }
+   ],
+   "precursores": [
+    "Low Viscosity (SOS)",
+    "Low Viscosity (VIMS)",
+    "Viscosity does not meet expected limits (SOS)"
+   ],
+   "codigos_smcs": [
+    "1251",
+    "1254",
+    "1290"
+   ]
+  },
+  {
+   "id": "MFP-06",
+   "nombre": "sobrecalentamiento",
+   "severidad": "alta",
+   "variables": [
+    "nivel_refrigerante",
+    "presion_refrigerante",
+    "temp_aceite",
+    "temp_refrigerante"
+   ],
+   "senales": [
+    {
+     "variable": "temp_refrigerante",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "temp_aceite",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "nivel_refrigerante",
+     "direccion": "disminucion"
+    },
+    {
+     "variable": "presion_refrigerante",
+     "direccion": "disminucion"
+    }
+   ],
+   "precursores": [
+    "High Coolant Temperature Values (VIMS)",
+    "High Oil Temperature (VIMS)",
+    "Level low (VIMS, VisionLink)",
+    "Low Fan Speed (VIMS)",
+    "Low Level Coolant (VIMS)",
+    "Low coolant pressure. (VIMS)",
+    "Temperature High (VIMS)"
+   ],
+   "codigos_smcs": [
+    "1350",
+    "1353",
+    "1355",
+    "1361",
+    "1378"
+   ]
+  },
+  {
+   "id": "MFP-07",
+   "nombre": "baja_presion_lubricacion",
+   "severidad": "critica",
+   "variables": [
+    "nivel_aceite",
+    "presion_aceite",
+    "viscosidad"
+   ],
+   "senales": [
+    {
+     "variable": "presion_aceite",
+     "direccion": "disminucion"
+    },
+    {
+     "variable": "nivel_aceite",
+     "direccion": "disminucion"
+    },
+    {
+     "variable": "viscosidad",
+     "direccion": "disminucion"
+    }
+   ],
+   "precursores": [
+    "Level low (VIMS)",
+    "Low Engine Oil Pressure (VIMS)",
+    "Low Oil Level (VIMS)",
+    "Low Viscosity (SOS)",
+    "Low Viscosity (VIMS)",
+    "Low oil pressure of 10 PSI (VIMS)",
+    "Pressure low (VIMS)",
+    "Viscosity does not meet expected limits (SOS)"
+   ],
+   "codigos_smcs": [
+    "1300",
+    "1304",
+    "1308",
+    "1315",
+    "1319"
+   ]
+  },
+  {
+   "id": "MFP-08",
+   "nombre": "combustion_deficiente",
+   "severidad": "alta",
+   "variables": [
+    "hollin",
+    "presion_admision",
+    "temp_admision",
+    "temp_escape",
+    "temp_escape_diferencial"
+   ],
+   "senales": [
+    {
+     "variable": "temp_escape",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "temp_escape_diferencial",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "hollin",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "temp_admision",
+     "direccion": "aumento"
+    },
+    {
+     "variable": "presion_admision",
+     "direccion": "desviacion"
+    }
+   ],
+   "precursores": [
+    "Exhaust Temperature Increasing (VIMS)",
+    "Exhaust Temperature equal to or greater than 700°C (VIMS)",
+    "IMAP Low Value (VIMS)",
+    "Increase Exhaust Temperature (VIMS)",
+    "Intake IMAT High Temperature (VIMS)",
+    "Low Booster Pressure (VIMS)",
+    "Patch test with Soot (St) presence (Particulate)",
+    "Pressure high (VIMS)",
+    "Pressure low (VIMS)",
+    "Soot (St) and Iron (Fe) High Values (SOS)",
+    "Temp Differential (VIMS)",
+    "Temperature High (None)",
+    "Temperature High (VIMS, VisionLink)"
+   ],
+   "codigos_smcs": [
+    "1052",
+    "1054",
+    "1064",
+    "1290"
+   ]
+  }
+ ]
+}
