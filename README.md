@@ -11,8 +11,12 @@ inferencia/     # Servicio de Inferencia (placeholder hasta Fase 3)
 core/           # servicios de dominio compartidos (ConsultorSMCS)
 estado/         # persistencia del Estado global por request_id
 trazabilidad/   # registro append-only de trazas por paso de agente
-components/     # conocimiento por componente: definición, reglas de calidad, FMEA, catálogo de acciones y features
-knowledge/      # conocimiento transversal (matriz MF-SMCS y homologación FMEA↔SMCS)
+components/     # conocimiento por componente que lee el runtime: definición, reglas de calidad, FMEA aprobado, acciones y features
+knowledge/
+  smcs/         # matriz MF-SMCS y homologación FMEA↔SMCS
+  fmea/         # FMEA del motor: fuentes de Confiabilidad, borrador, revisiones, decisiones y versión aprobada (ver su README)
+herramientas/
+  fmea/         # convertir_fmea.py (fuentes → borrador) y aplicar_revision.py (revisión → FMEA aprobado)
 tests/
 ```
 
@@ -51,9 +55,9 @@ RepositorioEstado("plataforma.db").cargar(solicitud.request_id)  # reconstrucci�
 
 | Fase | Estado |
 |---|---|
-| 0 Caso de uso | Pendiente fuera del repo: Ficha aprobada, eventos etiquetados, códigos OT (`definition.json` en `POR_CONFIRMAR`) |
+| 0 Caso de uso | FMEA del motor v1.0 aprobado por Confiabilidad (8 modos predictivos) y en uso; 798AC cubierto por equivalencia con 793F/797F (DEC-001). Pendiente: flota piloto, Ficha aprobada, eventos etiquetados, códigos OT (`definition.json` en `POR_CONFIRMAR`) y los puntos abiertos de `knowledge/fmea/README.md` |
 | 1 Fundaciones | Contratos, Estado y trazas persistidos (SQLite), flujo reconstruible por `request_id`, CI. Pendiente: MLflow, entornos y secretos |
-| 2 Datos y Calidad | Ingesta stub con hash determinístico; Calidad con score y veredicto (solo reglas de rango). Pendiente: fuentes, point-in-time, reglas temporales |
+| 2 Datos y Calidad | Ingesta stub con hash determinístico; Calidad con score y veredicto (solo reglas de rango). Pendiente: fuentes, point-in-time, reglas temporales y las ~20 variables que usa el FMEA (hoy el catálogo tiene 5) |
 | 3 Features/Modelo/Validación | Stubs |
-| 4 Inferencia/Interpretación/Recomendación | Interpretación FMEA+SMCS y Recomendación por catálogo implementadas sobre una inferencia placeholder. En pausa hasta cerrar Fase 3 |
+| 4 Inferencia/Interpretación/Recomendación | Interpretación (con el FMEA aprobado y SMCS) y Recomendación por catálogo implementadas sobre una inferencia placeholder. Prompt LLM de Interpretación prototipado fuera del repo. En pausa hasta cerrar Fase 3 |
 | 5–7 | Supervisor lineal con paso `human_in_the_loop`; resto pendiente |
