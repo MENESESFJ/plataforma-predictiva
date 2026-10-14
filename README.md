@@ -17,6 +17,8 @@ knowledge/
   fmea/         # FMEA del motor: fuentes de Confiabilidad, borrador, revisiones, decisiones y versión aprobada (ver su README)
 herramientas/
   fmea/         # convertir_fmea.py (fuentes → borrador) y aplicar_revision.py (revisión → FMEA aprobado)
+docs/
+  fase0/        # Ficha de Caso de Uso (gate Fase 0)
 tests/
 ```
 
@@ -69,9 +71,9 @@ Interfaz web: `mlflow ui --backend-store-uri sqlite:///mlflow.db`.
 
 | Fase | Estado |
 |---|---|
-| 0 Caso de uso | FMEA del motor v1.0 aprobado por Confiabilidad (8 modos predictivos) y en uso; 798AC cubierto por equivalencia con 793F/797F (DEC-001). Pendiente: flota piloto, Ficha aprobada, eventos etiquetados, códigos OT (`definition.json` en `POR_CONFIRMAR`) y los puntos abiertos de `knowledge/fmea/README.md` |
+| 0 Caso de uso | Piloto: DMH 798AC, 12 equipos, motor; 14 cambios de motor desde sep-2023 (9 imprevistos). Objetivo: detección de anomalías y degradación, horizonte de 15 días por validar. FMEA v1.0 aprobado, **aplicable** a DMH 798AC (DEC-001/002), aún no validado. Pendiente: listado validado de los 14 eventos, inventario de fuentes, métrica y firmas. Seguimiento en `docs/fase0/ficha_caso_uso_motor.md` |
 | 1 Fundaciones | Contratos, Estado y trazas persistidos (SQLite), flujo reconstruible por `request_id`, CI, y MLflow para experimentos y registro de modelos (candidato → vigente con aprobación humana). Pendiente: entornos y secretos |
-| 2 Datos y Calidad | Ingesta stub con hash determinístico; Calidad con score y veredicto (solo reglas de rango). Pendiente: fuentes, point-in-time, reglas temporales y las ~20 variables que usa el FMEA (hoy el catálogo tiene 5) |
+| 2 Datos y Calidad | Ingesta stub con hash determinístico; Calidad con score y veredicto (solo reglas de rango). Pendiente: fuentes, point-in-time, reglas temporales y las 22 variables que usa el FMEA, ya especificadas en `components/motor_diesel/data_contract.yaml` (hoy el catálogo de features tiene 5) |
 | 3 Features/Modelo/Validación | Stubs |
 | 4 Inferencia/Interpretación/Recomendación | Interpretación (con el FMEA aprobado y SMCS) y Recomendación por catálogo implementadas sobre una inferencia placeholder. Prompt LLM de Interpretación prototipado fuera del repo. En pausa hasta cerrar Fase 3 |
 | 5–7 | Supervisor lineal con paso `human_in_the_loop`; resto pendiente |

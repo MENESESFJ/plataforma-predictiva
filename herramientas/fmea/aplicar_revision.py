@@ -75,6 +75,7 @@ def cargar_decisiones(ruta=DECISIONES):
 def construir(modos, sintomas, revision, decisiones=()):
     en_matriz = codigos_matriz()
     equivalencias = [d for d in decisiones if d["tema"] == "aplicabilidad_modelo"]
+    niveles = [d for d in decisiones if d["tema"] == "nivel_validacion"]
     aprobados = {k: s for k, s in sintomas.items() if s["estado"] == "aprobado"}
     salida, observaciones = [], []
     for m in modos:
@@ -115,6 +116,10 @@ def construir(modos, sintomas, revision, decisiones=()):
             "modelos_aplicables": aplicables,
             "modelos_con_evidencia_documental": con_evidencia,
             "modelos_por_equivalencia": por_equivalencia,
+            # nivel por contrato + modelo: propuesto -> aplicable -> validado (ver decisiones.json)
+            "estado_validacion": [{"contrato": d["contrato"], "modelo": d["modelo"],
+                                   "nivel": d["nivel"], "decision": d["id"]}
+                                  for d in niveles if d["modelo"] in aplicables],
             "evidencia": m["Evidencia"],
             "observaciones": obs,
         })
@@ -192,7 +197,7 @@ def main():
         "version": aprobado["version"],
         "fuente": "knowledge/fmea/aprobado/fmea_motor_v1.json",
         "modos_falla": [{k: m[k] for k in ("id", "nombre", "severidad", "variables", "senales",
-                                           "precursores", "codigos_smcs")}
+                                           "precursores", "codigos_smcs", "estado_validacion")}
                         for m in aprobado["modos_falla"]],
     }
     Path(a.runtime).write_text(json.dumps(runtime, ensure_ascii=False, indent=1) + "\n", "utf-8")

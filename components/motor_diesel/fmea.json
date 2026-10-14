@@ -51,6 +51,14 @@
    "codigos_smcs": [
     "1000",
     "1203"
+   ],
+   "estado_validacion": [
+    {
+     "contrato": "DMH",
+     "modelo": "798 AC",
+     "nivel": "aplicable",
+     "decision": "DEC-002"
+    }
    ]
   },
   {
@@ -105,6 +113,14 @@
     "1215",
     "1216",
     "1239"
+   ],
+   "estado_validacion": [
+    {
+     "contrato": "DMH",
+     "modelo": "798 AC",
+     "nivel": "aplicable",
+     "decision": "DEC-002"
+    }
    ]
   },
   {
@@ -149,6 +165,14 @@
     "1124",
     "1217",
     "1378"
+   ],
+   "estado_validacion": [
+    {
+     "contrato": "DMH",
+     "modelo": "798 AC",
+     "nivel": "aplicable",
+     "decision": "DEC-002"
+    }
    ]
   },
   {
@@ -186,6 +210,14 @@
     "1054",
     "1068",
     "1071"
+   ],
+   "estado_validacion": [
+    {
+     "contrato": "DMH",
+     "modelo": "798 AC",
+     "nivel": "aplicable",
+     "decision": "DEC-002"
+    }
    ]
   },
   {
@@ -210,6 +242,14 @@
     "1251",
     "1254",
     "1290"
+   ],
+   "estado_validacion": [
+    {
+     "contrato": "DMH",
+     "modelo": "798 AC",
+     "nivel": "aplicable",
+     "decision": "DEC-002"
+    }
    ]
   },
   {
@@ -255,6 +295,14 @@
     "1355",
     "1361",
     "1378"
+   ],
+   "estado_validacion": [
+    {
+     "contrato": "DMH",
+     "modelo": "798 AC",
+     "nivel": "aplicable",
+     "decision": "DEC-002"
+    }
    ]
   },
   {
@@ -296,6 +344,14 @@
     "1308",
     "1315",
     "1319"
+   ],
+   "estado_validacion": [
+    {
+     "contrato": "DMH",
+     "modelo": "798 AC",
+     "nivel": "aplicable",
+     "decision": "DEC-002"
+    }
    ]
   },
   {
@@ -351,6 +407,14 @@
     "1054",
     "1064",
     "1290"
+   ],
+   "estado_validacion": [
+    {
+     "contrato": "DMH",
+     "modelo": "798 AC",
+     "nivel": "aplicable",
+     "decision": "DEC-002"
+    }
    ]
   }
  ]
