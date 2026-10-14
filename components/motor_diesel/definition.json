@@ -5,7 +5,8 @@
   "caso_uso": {
     "contrato": "DMH",
     "modelo_equipo": "798 AC",
-    "universo_equipos": 12,
+    "universo_equipos": 14,
+    "equipos": "MH340–MH352 (incluye MH343, fuera del contrato pero con historia) + MH353 si tiene datos",
     "estado": "confirmado_por_responsable_proyecto"
   },
   "objetivo": {

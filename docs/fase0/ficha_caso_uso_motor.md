@@ -19,7 +19,8 @@ Principio: **el modelo detecta, el FMEA contextualiza, el especialista confirma.
 |---|---|---|
 | Contrato | DMH | ✅ |
 | Modelo de equipo | CAEX 798AC (accionamiento eléctrico) | ✅ |
-| Universo | 12 equipos | ✅ |
+| Universo | MH340–MH352 (13, incluye MH343, que salió del contrato por otras causas pero tiene historia) + MH353 en la medida que tenga datos | ✅ |
+| Motores por equipo | 1 (el 797B tiene 2) | ✅ |
 | Componente | Motor | ✅ |
 | Unidad de análisis | Motor instalado en un equipo durante su ciclo de vida (instalación → retiro) | 🟡 |
 | Historia disponible | ~3 años, desde el inicio de operación de DMH 798AC | ✅ aproximado |
@@ -41,12 +42,16 @@ Flujo conceptual: datos → calidad → features → detección de anomalía →
 | Campo | Valor | Estado |
 |---|---|---|
 | Cambios de motor desde sep-2023 | 14 | ✅ informado |
-| Imprevistos | 9 | ✅ informado |
-| Programados | 5, por condición detectada y/o PCR/TBO | ✅ informado |
+| Imprevistos | 9 informados; la planilla marca 10 (MH340 2025-07-05 dice "Imprevisto" con descripción "PCR") | 🟡 conciliar |
+| Programados | 5 informados; la planilla marca 4, todos por PCR (2 con overhaul) | 🟡 conciliar |
+| Causa dominante | 8 de los imprevistos: "BAJA PRESIÓN ACEITE MOTOR"; 1 "FALLA PREMATURA" (MH344, 8.575 h) | ✅ planilla |
+| Equipos con dos cambios | MH341 y MH344 | ✅ planilla |
 | Datos por cambio | Fecha de instalación y de retiro, causa, equipo e historia del período | ✅ informado |
-| Listado evento por evento | `docs/fase0/plantilla_eventos_motor.csv` | ⬜ completar con los 14 casos |
+| Listado evento por evento | `docs/fase0/eventos_motor_dmh_798_borrador.csv` (desde PlanillaCC798DMH, hoja "CC histórico") | 🟡 borrador, falta validar y asignar modo FMEA |
 | Validación por Confiabilidad | Caso a caso | ⬜ |
-| AFA / RCA | Disponibles en varios casos | ✅ informado · ⬜ cuáles |
+| AFA / RCA | Solo 2 de los 14 cambios tienen número de AFA en la planilla; la plantilla de falla de componentes (SharePoint) resume modo y causa raíz de los demás cuando existe | 🟡 por adjuntar |
+
+**Implicancia para el FMEA:** la causa dominante apunta a MFP-07 (baja presión de lubricación) y MFP-01; son los primeros modos a validar contra los eventos. Hay datos directos: tendencia "Engine Oil Pressure" y evento "Low Engine Oil Pressure".
 
 **Regla:** AFA y RCA se generan después del evento. Sirven para etiquetar, validar resultados y contrastar con el FMEA. **Nunca son variables predictoras** (regla en el contrato de datos, con test).
 
@@ -94,7 +99,7 @@ Ventanas de análisis por evento: T-90, T-60, T-30, T-15, T-7 y T0, donde T0 es 
 | Pipelines y orquestador corporativo | No se modifican | ✅ |
 | Persistencia de resultados y datasets derivados | Data Lake vía Databricks | ✅ |
 | Formato y esquema/catálogo de las tablas | Delta (estándar de Databricks); esquema por definir | 🟡 / ⬜ |
-| Lectura desde Power BI | Desde las tablas de resultados en Databricks / Data Lake | 🟡 por confirmar |
+| Lectura desde Power BI | Power BI lee las tablas de resultados que entregue el proyecto, como con los modelos productivos actuales | 🟡 por confirmar |
 | SQL Server | No requerido para los resultados del MVP | 🟡 |
 | Registro de modelos | MLflow (el que ya trae Databricks) | 🟡 |
 | Visualización | Power BI; no es la fuente de verdad | ✅ |
@@ -105,10 +110,14 @@ Ventanas de análisis por evento: T-90, T-60, T-30, T-15, T-7 y T0, donde T0 es 
 
 Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias vienen de la descripción del proyecto y se consideran **posiblemente válidas hasta confirmarlas**.
 
+> **Disclaimer de fuentes (confirmado):**
+> - **Foresight tiene prioridad sobre Argos y Argos Clone.** Argos se está congelando por el traspaso a otros sistemas y Foresight ya captura la mayor parte de sus datos. Argos queda solo como histórico; el particulado actual viene de Cat Inspect (SQL Server).
+> - **Los archivos del lake mezclan componentes, contratos y modelos.** Antes de usar un dataset se filtra: serie con prefijo `SKH` (798AC), equipos DMH según la lista de series de la flota (el código es `MH340` o `MH-340` según el sistema) y motor (`1000.00.CC.0 MOTOR` en Silver, `ENG` en SOS).
+
 | Fuente en el contrato | Familias candidatas | Validado | Responsable de acceso |
 |---|---|---|---|
 | Análisis de aceite | SOS / APD | ⬜ | ⬜ |
-| Particulado | Inspecciones de particulado, Cat Inspect | ⬜ | ⬜ |
+| Particulado | Cat Inspect (actual, SQL Server); Argos (histórico, congelándose) | ✅ origen · ⬜ acceso | ⬜ |
 | Monitoreo del equipo | VIMS eventos y tendencias | ⬜ | ⬜ |
 | Mantenimiento | Mantenimiento, fallas de componentes, SMCS | ⬜ | ⬜ |
 | Horas | Horas del equipo | ⬜ | ⬜ |
@@ -116,24 +125,33 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 | Rellenos | Rellenos | ⬜ | ⬜ |
 | Detenciones | Detenciones | ⬜ | ⬜ |
 | Operación | Variables operacionales | ⬜ | ⬜ |
-| AFA / RCA (solo etiqueta) | AFA, RCA | ⬜ | ⬜ |
-| **Sin asignar** | Foresight, Argos / Argos Clone, AMT, API CAT | ⬜ | ⬜ |
+| AFA / RCA (solo etiqueta) | AFA, RCA, plantilla de falla de componentes (SharePoint) | 🟡 por adjuntar | ⬜ |
+| **Prioridad** | Foresight > AMT / contratos > Argos / Argos Clone | ✅ | — |
+| **Sin asignar** | API CAT (no está en el lake) | ⬜ | ⬜ |
 
 ## 10. Validaciones pendientes con el responsable del proyecto
 
 1. **Familias sin asignar:** qué contiene cada una de Foresight, Argos/Argos Clone, AMT y API CAT, y si duplican o complementan a VIMS, SOS o mantenimiento.
 2. **Cat Inspect:** ¿corresponde a inspecciones de particulado, a inspecciones visuales, o a ambas?
 3. **SOS / APD:** ¿son la misma fuente o dos? ¿En la tabla queda registrada la fecha de informe además de la de muestra? Es la regla que evita leakage.
-4. **VIMS:** ¿hay tendencias resumidas, eventos, o ambos? ¿Con qué frecuencia y desde cuándo hay datos para los 12 equipos?
-5. **Cambios de motor:** ¿dónde está el listado de los 14 cambios? ¿Los AFA/RCA están digitalizados y con fecha de emisión?
+4. ~~**VIMS:**~~ ✅ tendencias (~1 por hora, ~12 descargas por equipo al día) y eventos. Falta: unidades de cada tendencia.
+5. ~~**Cambios de motor:**~~ ✅ listado en la planilla DMH. Falta: conciliar 9/5 con 10/4 (MH340 2025-07-05) y ubicar los AFA/RCA.
 6. ~~**Persistencia:**~~ ✅ los resultados van a Databricks / Data Lake. Falta confirmar: esquema/catálogo de destino y si Power BI se conecta directo a Databricks.
+7. ~~**Equipos del piloto:**~~ ✅ MH340–MH352 con MH343, más MH353 si tiene datos.
+8. ~~**SOS:**~~ ✅ el "Id Lab." es interno del laboratorio. La muestra se usa desde su fecha + 3 días (promedio hasta la carga).
+9. ~~**Motores por equipo:**~~ ✅ en SOS el motor del 798AC viene como `ENG`; ENG_FR/ENG_RR son de otros modelos.
+11. ~~**Particulado:**~~ ✅ hoy lo captura Cat Inspect, en SQL Server (fuera del lake). Falta: acceso de solo lectura y estructura de la tabla.
+12. **Plantilla de falla de componentes (SharePoint):** resume modo de falla y causa raíz cuando existe. Pendiente de adjuntar; se usará solo como etiqueta.
+10. **Unidades:** el diccionario de tendencias no trae unidades (la frecuencia ya está confirmada).
 
 ## 11. Riesgos específicos del caso
 
 | Riesgo | Mitigación |
 |---|---|
 | Solo 9 cambios imprevistos | Detección de anomalías + degradación; validación caso a caso; intervalos, no porcentajes |
-| Leakage por AFA/RCA o por fecha de muestra SOS | AFA/RCA prohibidos como predictor; SOS se corta por fecha de informe (ambos con regla en el contrato) |
+| Leakage por AFA/RCA o por fecha de muestra SOS | AFA/RCA prohibidos como predictor; SOS se usa desde fecha de muestra + 3 días (ambos con regla en el contrato) |
+| Conocimiento limitado de procesos existentes | No se modifica nada existente (DP-001); lo que se rearme queda documentado y versionado en el proyecto (DP-002). Ver `docs/fase0/decisiones_proyecto.md` |
+| Anomalías de Gold con lógica desconocida | Se generan de cero en el proyecto y Gold se usa solo como comparación (DP-003, propuesta) |
 | Umbrales arbitrarios | Calibración con el histórico, baseline individual y poblacional |
 | Sobreinterpretación del FMEA | Salida como compatibilidad; niveles propuesto → aplicable → validado |
 | Duty cycle del accionamiento eléctrico | Baseline propio de DMH 798AC; no extrapolar desde otras flotas o faenas |

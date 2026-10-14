@@ -1,0 +1,116 @@
+# Estructura de fuentes Bronze 798 y maestros (motor, DMH)
+#
+# Origen: archivos entregados por el responsable del proyecto (2026-10-14). Solo estructura,
+# reglas y hallazgos; no se versionan filas de datos ni nombres de personas.
+# Marcas: CONFIRMADO (visto en el archivo) · SUPUESTO · POR_CONFIRMAR.
+version: "0.1.0"
+fecha_revision: "2026-10-14"
+
+# DISCLAIMER (CONFIRMADO): los archivos pueden traer otros componentes, contratos y modelos.
+# Filtros: serie con prefijo SKH (798AC), equipo DMH 'MH340' o 'MH-340' según el sistema,
+# motor = 'ENG' en SOS. Foresight tiene prioridad sobre Argos/Argos Clone (congelándose).
+
+flota_dmh_798ac:
+  fuente: bronze/amt/Equipment_amt.csv (Branch = "Ministro Hales", Fleet = "798AC Ministro Hales") + planilla DMH
+  motores_por_equipo: 1   # CONFIRMADO (el 797B tiene 2: delantero y trasero)
+  equipos_piloto:   # CONFIRMADO 2026-10-14: los 13 de MH340–MH352 + MH353 si tiene datos · equipo: serie
+    MH340: SKH00615
+    MH341: SKH00614
+    MH342: SKH00623
+    MH343: SKH00624   # salió del contrato por causas ajenas al motor; se usa su historia
+    MH344: SKH00607
+    MH345: SKH00626
+    MH346: SKH00625
+    MH347: SKH00627
+    MH348: SKH00628
+    MH349: SKH00629
+    MH350: SKH00630
+    MH351: SKH00631
+    MH352: SKH00632
+    MH353: SKH00793   # situación contractual desconocida; entra en la medida que tenga datos (hoy casi no tiene)
+  regla_inclusion: "Un equipo participa en entrenamiento o inferencia solo si tiene datos en la ventana analizada"
+
+sos:
+  archivo: bronze/foresight/798/datasetSOS798.csv
+  granularidad: una fila por muestra de aceite
+  formato: "CSV con cada fila envuelta en comillas externas (requiere doble parseo)"
+  columnas:
+    "Numero Serie": serie del equipo (clave)
+    "Id Lab.": "código de laboratorio, formato R<lab>-5<Y><DDD>-<n>"
+    EvaluationCode: evaluación del laboratorio (A en la muestra; otros valores POR_CONFIRMAR)
+    Criticidad: vacía en la muestra
+    Componente: "compartimiento (ENG = motor; ver sos_diccionario)"
+    "Fecha Muestra": fecha de toma de la muestra
+    "Horas Maquina": horómetro del equipo al muestrear
+    SampleComment: interpretación del laboratorio en texto libre
+    "Cambio Filtro": Y/N/U
+    "Cambio Aceite": "Y/N/U · Y = muestra tomada antes de un cambio de aceite (CONFIRMADO para Changed en silver)"
+    OilType: marca o tipo de aceite (texto libre, inconsistente)
+    "Horas Aceite": horas de uso del aceite
+    OilGrade: grado (15W-40)
+    elementos_ppm: [Fe, Cu, Pb, Sn, Cr, Al, Si, Na, K, Ni, Ag, Mo, B, Mg, Ca, P, Zn, Ba, Co]
+    indicadores: [PQI, V40, V100, St, Oxi, Sul, Nit, H2O, ISO, Fuel, AntFreeze, T]
+    TrueOilChanged: Y/N   # POR_CONFIRMAR si coincide con Changed de silver
+  fecha_disponibilidad:
+    id_lab: >-
+      Número interno del laboratorio, fuera de nuestro control (CONFIRMADO). Aunque parece contener
+      una fecha, no se usa para la regla de corte.
+    regla_corte: "usar la muestra solo desde Fecha Muestra + desfase_informe_dias"
+    desfase_informe_dias: 3   # CONFIRMADO: promedio desde que llega la muestra hasta su carga
+    nota: "Es un promedio; si se obtiene la distribución real, usar un percentil alto. Analizar sensibilidad con 3 y 7 días."
+  calidad:
+    - "Horómetro con retrocesos y valores 0 (3 retrocesos y 2 ceros en 78 filas)"
+    - "Muestras repetidas en la misma fecha (contramuestras con distinto Id Lab.)"
+    - "Columnas vacías o constantes en la muestra: EvaluationCode, Criticidad, Cambio Filtro, V40, Co, H2O, T, ISO, Fuel, AntFreeze"
+    - "Horas Aceite = 0 cuando el dato no fue informado (no significa aceite nuevo)"
+  uso_sample_comment: >-
+    Texto del laboratorio disponible recién con el informe. Sirve como evidencia y para validar
+    detecciones; como predictor solo con la regla de corte. Candidato a procesamiento con LLM en 2027.
+
+rellenos:
+  archivo: bronze/foresight/798/datasetOilrefill798.csv
+  columnas: [Contrato, Equipo, Serie, Componente, Fecha, TipoRelleno, Litros]
+  tipos_relleno: [Aceite, Refrigerante, Aire]
+  calidad:
+    - "Filas duplicadas entre Contrato 'MINISTRO HALES 798AC' y 'DE BAJA' (MH343)"
+    - "Valor implausible: 13984 litros en un relleno"
+    - "TipoRelleno 'Aire' en componente Motor (POR_CONFIRMAR)"
+  uso: "consumo de aceite (contexto) y rellenos de refrigerante (evidencia de MFP-03/MFP-06)"
+
+diccionarios:
+  trend_diccionario_798:
+    tendencias_motor: 26
+    destacadas_no_vistas_en_muestra: ["Dif. Banco Derecho 798AC", "Dif. Banco Izquierdo 798AC",
+                                      "Right To Left Exhaust Differential Temperature", "ARGOS DIF TEMP FUEL BBA ALTA"]
+    unidades: no incluidas   # POR_CONFIRMAR
+    sin_tendencia: ["presión de cárter", "temperatura de aceite", "presión de refrigerante"]
+  event_diccionario_798:
+    eventos_motor: 32
+    relevantes_fmea:
+      presion_carter: "High Crankcase Pressure"
+      temp_aceite: "High Engine Oil Temperature"
+      presion_aceite: "Low Engine Oil Pressure"
+      nivel_aceite: ["Low Engine Oil Level", "Oil Level Add Mark", "Oil Level Low Mark"]
+      nivel_refrigerante: "Low Engine Coolant Level"
+      temp_refrigerante: ["High Engine Coolant Temperature", "Low Coolant Temperature"]
+      temp_escape_diferencial: ["High Turbocharger Turbine Intake Differential Temperature", "High Turbocharger #1..#4 Turbine Intake Temperature"]
+      restriccion_filtro_aceite: "High Oil Filter Differential Pressure"
+  sos_diccionario:
+    compartimientos_motor: {ENG: "1000.00.CC.0 MOTOR", ENG_FR: "1000.FF.CC.0 MOTOR", ENG_RR: "1000.RR.CC.0 MOTOR", ENG_CP: "acoplamiento entre motores"}
+    nota: "Diccionario compartido entre modelos. El 798AC tiene 1 motor y en SOS viene como 'ENG' (CONFIRMADO); FR/RR/CP son del 797B (2 motores)."
+  ubicacion: "Los diccionarios están bajo argos/; se usan como referencia de nombres aunque Argos se congele"
+  particulado_mantenimiento_diccionario:
+    uso: "homologa componentes AMT (SMCS) con nombres de Argos (Motor, Motor Del, Motor Trasero, BBA Alta Comb…)"
+
+planilla_cambios_dmh:
+  archivo: bronze/contratos/dmh/798/planilla_raw/PlanillaCC798DMH.xlsx
+  hojas:
+    "CC histórico": "un cambio de componente por fila (154 filas; 14 de motor)"
+    "COMP MAYORES": "estado actual por equipo y componente mayor (horas, PCR, % de uso)"
+    "Horas Componentes": "horas de cada componente por equipo"
+    horometros: "último horómetro por equipo"
+  columnas_cc_historico_usadas: ["Fecha Cambio", "Horómetro del Equipo", "Equipo", "Serie del Equipo", "Componentes",
+                                 "Posición", "Horas Comp. Removido", "Tipo Detención (Programada/Imprevisto)",
+                                 "Solicitud de AFA", "Numero AFA", "Descripción de la Falla", "Observación"]
+  datos_personales: "Contiene nombres (jefe de turno, ingeniero): no se versionan"
+  derivado: docs/fase0/eventos_motor_dmh_798_borrador.csv
