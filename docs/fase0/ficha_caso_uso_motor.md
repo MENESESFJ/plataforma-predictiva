@@ -109,10 +109,14 @@ Ventanas de análisis por evento: T-90, T-60, T-30, T-15, T-7 y T0, donde T0 es 
 
 Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias vienen de la descripción del proyecto y se consideran **posiblemente válidas hasta confirmarlas**.
 
+> **Disclaimer de fuentes (confirmado):**
+> - **Foresight tiene prioridad sobre Argos y Argos Clone.** Argos se está congelando por el traspaso a otros sistemas y Foresight ya captura la mayor parte de sus datos. Una variable que hoy salga solo de Argos (particulado) es un riesgo: hay que buscar su equivalente en Foresight.
+> - **Los archivos del lake mezclan componentes, contratos y modelos.** Antes de usar un dataset se filtra: serie con prefijo `SKH` (798AC), equipos DMH según la lista de series de la flota (el código es `MH340` o `MH-340` según el sistema) y motor (`1000.00.CC.0 MOTOR` en Silver, `ENG` en SOS).
+
 | Fuente en el contrato | Familias candidatas | Validado | Responsable de acceso |
 |---|---|---|---|
 | Análisis de aceite | SOS / APD | ⬜ | ⬜ |
-| Particulado | Inspecciones de particulado, Cat Inspect | ⬜ | ⬜ |
+| Particulado | Inspecciones de particulado (Argos, congelándose), Cat Inspect | ⬜ ¿equivalente en Foresight? | ⬜ |
 | Monitoreo del equipo | VIMS eventos y tendencias | ⬜ | ⬜ |
 | Mantenimiento | Mantenimiento, fallas de componentes, SMCS | ⬜ | ⬜ |
 | Horas | Horas del equipo | ⬜ | ⬜ |
@@ -121,7 +125,8 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 | Detenciones | Detenciones | ⬜ | ⬜ |
 | Operación | Variables operacionales | ⬜ | ⬜ |
 | AFA / RCA (solo etiqueta) | AFA, RCA | ⬜ | ⬜ |
-| **Sin asignar** | Foresight, Argos / Argos Clone, AMT, API CAT | ⬜ | ⬜ |
+| **Prioridad** | Foresight > AMT / contratos > Argos / Argos Clone | ✅ | — |
+| **Sin asignar** | API CAT, Cat Inspect (no están en el lake) | ⬜ | ⬜ |
 
 ## 10. Validaciones pendientes con el responsable del proyecto
 
@@ -133,7 +138,8 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 6. ~~**Persistencia:**~~ ✅ los resultados van a Databricks / Data Lake. Falta confirmar: esquema/catálogo de destino y si Power BI se conecta directo a Databricks.
 7. **Equipos del piloto:** el maestro AMT tiene 13 equipos activos (MH340–MH352 sin MH343, más MH353) y MH343 está de baja. ¿Cuáles son los 12? ¿Se usa la historia de MH343 para entrenar?
 8. **SOS:** ¿la fecha codificada en el "Id Lab." es el ingreso al laboratorio? ¿Cuántos días pasan hasta el informe?
-9. **Motores por equipo:** el diccionario SOS tiene ENG_FR/ENG_RR (dos motores). ¿Aplica al 798AC o solo a otros modelos? La planilla registra el motor en posición "PU".
+9. ~~**Motores por equipo:**~~ ✅ en SOS el motor del 798AC viene como `ENG`; ENG_FR/ENG_RR son de otros modelos.
+11. **Particulado:** ¿Foresight captura las inspecciones de particulado o hay que buscarlas en el sistema que reemplaza a Argos?
 10. **Unidades:** el diccionario de tendencias no trae unidades ni frecuencia de muestreo.
 
 ## 11. Riesgos específicos del caso

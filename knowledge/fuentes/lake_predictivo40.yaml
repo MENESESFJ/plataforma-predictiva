@@ -15,6 +15,11 @@ pipeline:
   formato: "CSV en silver/gold; parquet en bronze/foresight (events, payload, trends)"   # CONFIRMADO
   sufijo_InUse: "variante filtrada de cada dataset"   # POR_CONFIRMAR: ¿componentes actualmente instalados?
 
+# DISCLAIMER (CONFIRMADO, 2026-10-14): Foresight tiene prioridad sobre Argos y Argos Clone.
+# Argos se está congelando por el traspaso a otros sistemas y Foresight ya captura la mayor parte.
+# Los archivos mezclan componentes, contratos y modelos: filtrar siempre (ver data_contract.filtro_alcance).
+prioridad: [foresight, amt, contratos, argos, argos_clone]
+
 # Familias de fuente -> fuentes del contrato de datos (components/motor_diesel/data_contract.yaml)
 familias:
   foresight:
@@ -25,6 +30,7 @@ familias:
     contenido: "inspección de particulado y diccionarios de eventos, tendencias, SOS y particulado"
     fuentes_contrato: [particulado]
     estado: SUPUESTO
+    vigencia: congelándose por traspaso de sistemas   # CONFIRMADO; usar solo si Foresight no tiene equivalente
   amt:
     contenido: "mantenimiento planificado y no planificado; maestro de equipos"
     fuentes_contrato: [ot]

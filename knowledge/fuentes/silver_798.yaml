@@ -14,8 +14,17 @@ hallazgos_generales:
     tema: alcance
     detalle: >-
       Los datasets "_798" incluyen ~135 equipos (prefijos TKD, RT, MH, AN, TTC). Parecen cubrir
-      todos los 798AC de varias faenas, no solo los 12 de DMH.
-    estado: POR_CONFIRMAR   # cómo se identifican los 12 equipos DMH
+      todos los 798AC de varias faenas, no solo los 12 de DMH. Además mezclan componentes.
+    decision: >-
+      Filtrar por la lista de series de la flota DMH (bronze_798.yaml), todas con prefijo SKH, y por
+      Componente = 1000.00.CC.0 MOTOR. El código DMH es MH340 o MH-340 según el sistema.
+    estado: CONFIRMADO   # regla de filtro; la lista de los 12 equipos sigue POR_CONFIRMAR
+  - id: H-05
+    tema: prioridad_fuentes
+    detalle: >-
+      Foresight tiene prioridad sobre Argos y Argos Clone, que se están congelando por el traspaso
+      de sistemas. ds_Particulado_798 (Argos) queda en riesgo; buscar su equivalente en Foresight.
+    estado: CONFIRMADO
   - id: H-02
     tema: clave_equipo
     detalle: >-
@@ -113,7 +122,7 @@ homologacion:
   pqi:                     {dataset: ds_pqi_798, campo: POR_CONFIRMAR}
   hollin:                  {dataset: ds_st_798, campo: POR_CONFIRMAR}          # st = soot (hollín) SUPUESTO
   viscosidad:              {dataset: ds_v100_798, campo: POR_CONFIRMAR}        # v100 = viscosidad a 100 °C SUPUESTO
-  # --- Particulado (Argos)
+  # --- Particulado (Argos, congelándose: buscar equivalente en Foresight)
   particulado_inspeccion:  {dataset: ds_Particulado_798, campo: POR_CONFIRMAR}
   # --- contexto
   horas_desde_cambio_aceite: {dataset: ds_changed_798, campo: Changed, derivada: "fecha del último Changed = Y"}

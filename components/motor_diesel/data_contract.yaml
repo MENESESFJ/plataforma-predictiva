@@ -36,6 +36,27 @@ homologacion:
   registro_campos_fisicos: knowledge/fuentes/silver_798.yaml   # perfil y mapeo de los datasets Silver "_798"
   clave_equipo: SerialNumber   # SUPUESTO: estable entre datasets; el código de equipo varía de formato
   componente_motor: "1000.00.CC.0 MOTOR"   # código SMCS del motor en los datasets Silver
+  componente_motor_sos_bronze: ENG         # CONFIRMADO: en SOS el motor viene como "ENG"
+
+# Prioridad entre familias cuando una variable existe en más de una (CONFIRMADO, 2026-10-14).
+# Argos y Argos Clone se están congelando por el traspaso a otros sistemas; la mayor parte de
+# lo que capturaban ya lo captura Foresight.
+prioridad_fuentes:
+  orden: [Foresight, AMT, contratos, Argos, Argos Clone]   # Foresight primero; Argos solo si no hay equivalente
+  regla: "Si una variable existe en Foresight y en Argos/Argos Clone, se usa Foresight."
+  argos_congelado: >-
+    Toda variable que hoy dependa solo de Argos/Argos Clone queda en riesgo de quedarse sin
+    datos nuevos; se registra como riesgo y se busca su equivalente en Foresight.
+  diccionarios_argos: "Se usan solo como referencia de nombres y homologación, no como datos."
+
+# Los archivos del lake mezclan componentes, contratos y modelos. Todo dataset se filtra antes de usarse.
+filtro_alcance:
+  modelo: "SerialNumber / Numero Serie / Serie empieza con 'SKH' (798AC)"     # CONFIRMADO
+  contrato: >-
+    Equipo de DMH: código 'MH' + número, con o sin guion según el sistema ('MH340' o 'MH-340').
+    Se filtra por la lista de series de la flota (knowledge/fuentes/bronze_798.yaml), no por el código.   # CONFIRMADO
+  componente: "Silver: Componente = '1000.00.CC.0 MOTOR' · SOS bronze: Componente = 'ENG'"   # CONFIRMADO
+  filas_sin_componente: excluir   # no se pueden asignar a motor
 
 claves:
   contrato: "Contrato / faena (p. ej. DMH)"
@@ -58,6 +79,7 @@ fuentes:
     responsable_acceso: POR_CONFIRMAR
   particulado:
     descripcion: Inspección de filtros, rejillas y patch test
+    riesgo: "Hoy sale de Argos, que se está congelando; buscar equivalente en Foresight"   # CONFIRMADO
     familias_candidatas: [inspecciones de particulado, Cat Inspect]   # por_validar
     tablas: POR_CONFIRMAR
     granularidad: por inspección
@@ -143,6 +165,7 @@ fuentes:
 # Familias de fuente: asignación según el inventario del lake (knowledge/fuentes/lake_predictivo40.yaml).
 # Foresight -> vims, sos, rellenos, operacionales · Argos -> particulado · AMT -> ot ·
 # contratos -> ciclo_vida_componente (todas SUPUESTO, deducidas de nombres de archivo).
+# Prioridad: Foresight sobre Argos/Argos Clone (ver prioridad_fuentes).
 familias_sin_asignar:
   - API CAT      # no aparece en el lake
   - Cat Inspect  # no aparece en el lake

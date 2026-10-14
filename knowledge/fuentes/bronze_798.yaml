@@ -6,6 +6,10 @@
 version: "0.1.0"
 fecha_revision: "2026-10-14"
 
+# DISCLAIMER (CONFIRMADO): los archivos pueden traer otros componentes, contratos y modelos.
+# Filtros: serie con prefijo SKH (798AC), equipo DMH 'MH340' o 'MH-340' según el sistema,
+# motor = 'ENG' en SOS. Foresight tiene prioridad sobre Argos/Argos Clone (congelándose).
+
 flota_dmh_798ac:
   fuente: bronze/amt/Equipment_amt.csv (Branch = "Ministro Hales", Fleet = "798AC Ministro Hales")
   equipos:   # equipo: serie
@@ -95,7 +99,8 @@ diccionarios:
       restriccion_filtro_aceite: "High Oil Filter Differential Pressure"
   sos_diccionario:
     compartimientos_motor: {ENG: "1000.00.CC.0 MOTOR", ENG_FR: "1000.FF.CC.0 MOTOR", ENG_RR: "1000.RR.CC.0 MOTOR", ENG_CP: "acoplamiento entre motores"}
-    nota: "Diccionario compartido entre modelos; POR_CONFIRMAR si FR/RR aplica al 798AC (la planilla DMH registra el motor en posición 'PU')"
+    nota: "Diccionario compartido entre modelos. En el 798AC el motor viene como 'ENG' (CONFIRMADO); FR/RR/CP son de otros modelos."
+  ubicacion: "Los diccionarios están bajo argos/; se usan como referencia de nombres aunque Argos se congele"
   particulado_mantenimiento_diccionario:
     uso: "homologa componentes AMT (SMCS) con nombres de Argos (Motor, Motor Del, Motor Trasero, BBA Alta Comb…)"
 
