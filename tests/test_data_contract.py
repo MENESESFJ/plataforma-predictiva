@@ -26,3 +26,23 @@ def test_variables_apuntan_a_fuentes_definidas():
 def test_cada_fuente_declara_regla_de_corte():
     for nombre, f in CONTRATO["fuentes"].items():
         assert f.get("fecha_disponible") and f.get("regla_corte"), f"{nombre}: sin regla point-in-time"
+
+
+def test_fuentes_prohibidas_no_alimentan_variables():
+    prohibidas = {n for n, f in CONTRATO["fuentes"].items() if f.get("prohibido_como_predictor")}
+    assert "afa_rca" in prohibidas
+    for grupo in ("variables", "contexto"):
+        for nombre, v in CONTRATO[grupo].items():
+            assert v["fuente"] not in prohibidas, f"{nombre} usa una fuente posterior al evento"
+
+
+def test_fmea_no_declara_validado_sin_decision():
+    fmea = json.loads((BASE / "fmea.json").read_text(encoding="utf-8"))
+    decisiones = json.loads(Path("knowledge/fmea/revision/decisiones.json").read_text(encoding="utf-8"))
+    niveles = set(decisiones["niveles_validacion"])
+    ids = {d["id"] for d in decisiones["decisiones"]}
+    for m in fmea["modos_falla"]:
+        for e in m["estado_validacion"]:
+            assert e["nivel"] in niveles and e["decision"] in ids
+        assert any(e["contrato"] == "DMH" and e["modelo"] == "798 AC" and e["nivel"] == "aplicable"
+                   for e in m["estado_validacion"]), m["id"]

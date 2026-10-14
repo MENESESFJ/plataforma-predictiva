@@ -14,6 +14,7 @@ Los modos se tomaron del bloque editado por Confiabilidad (encabezado `ID:`).
 ## Decisiones aplicadas
 
 - **DEC-001** (2026-10-14): Los modos y síntomas documentados para 793F/797F aplican exactamente igual al 798 AC. Confirmado por: Responsable del proyecto (sesión de trabajo).
+- **DEC-002** (2026-10-14): La equivalencia de DEC-001 hace a los modos APLICABLES al 798AC por similitud técnica de motores. Ningún modo queda VALIDADO para DMH 798AC hasta contrastarlo con los cambios de motor y sus AFA/RCA. Confirmado por: Responsable del proyecto (sesión de trabajo).
 
 ## Observaciones por modo
 

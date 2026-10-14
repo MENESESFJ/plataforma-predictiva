@@ -35,7 +35,9 @@ Se guardan tal como llegan, versionadas (`revision_fmea_confiabilidad_v1.xlsx`, 
 
 ## `revision/decisiones.json` – decisiones fuera de la planilla
 
-Registro versionado de decisiones de conocimiento: quién, cuándo y con qué alcance. `aplicar_revision.py` las aplica automáticamente. Ejemplo: DEC-001, equivalencia 798AC ↔ 793F/797F.
+Registro versionado de decisiones de conocimiento: quién, cuándo y con qué alcance. `aplicar_revision.py` las aplica automáticamente. Ejemplos: DEC-001, equivalencia 798AC ↔ 793F/797F; DEC-002, nivel de validación para DMH 798AC.
+
+Niveles de validación por contrato y modelo, en el campo `estado_validacion` de cada modo: **propuesto → aplicable → validado**. Un modo pasa a validado solo cuando se contrasta con eventos propios (cambios de motor, AFA/RCA) y lo confirman los especialistas.
 
 ## `aprobado/` – FMEA aprobado
 
@@ -56,7 +58,7 @@ Reglas: solo entran los modos con `Aprobado = S`. Los síntomas en `N` se elimin
 Ver `aprobado/REPORTE_REVISION_v1.md`. En resumen:
 
 - Seis síntomas en revisión: dirección de `particulado_inspeccion`, temperatura de escape ≤ 700 °C, posible duplicado de temperatura de combustible, sílice en patch test y descripción de FMI-05.
-- ~~El 798AC figura como modelo aplicable sin síntomas documentados~~ → resuelto por **DEC-001**: los síntomas de 793F/797F aplican igual al 798AC (`modelos_por_equivalencia`). Siguen como observación 794AC (MFP-01, 05, 07) y 793F Tier 4 (MFP-08).
+- ~~El 798AC figura como modelo aplicable sin síntomas documentados~~ → resuelto por **DEC-001/002**: los 8 modos quedan **aplicables** a DMH 798AC por similitud con 793F/797F; ninguno está validado todavía. Siguen como observación 794AC (MFP-01, 05, 07) y 793F Tier 4 (MFP-08).
 - Los códigos SMCS 1000, 1215 y 1217 no están en la matriz SMCS, y el código 1050 está descrito de forma distinta en la memoria RCM y en la matriz.
 - La hoja de Modos RCM no se revisó, así que la regla de severidad H/S/E/O sigue sin validar.
 - Los ID cambiaron de MF-00x a MFP-0x. La homologación SMCS se migró y conserva el ID anterior en `id_fmea_anterior`.

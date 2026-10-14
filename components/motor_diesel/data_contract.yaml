@@ -4,67 +4,142 @@
 # aplica la fecha de corte (point-in-time). Las variables son las que usa el FMEA aprobado
 # (components/motor_diesel/fmea.json); un test verifica que ambos estén alineados.
 #
-# Los campos marcados "por_confirmar" se resuelven con el inventario de fuentes de la
-# Ficha de Caso de Uso (docs/fase0/ficha_caso_uso_motor.md).
-version: "0.1.0"
+# Marcas: CONFIRMADO · SUPUESTO_DISENO · POR_CONFIRMAR / por_validar.
+# Las familias de fuente vienen de la descripción del proyecto y deben validarse con el
+# responsable antes de construir consultas.
+version: "0.2.0"
 estado: borrador
 componente: motor_diesel
-modelos_objetivo: ["798 AC", "797F", "797F Tier 4"]   # flota piloto por definir
+
+# Unidad de despliegue (multitenancy): baseline, parámetros, features, modelos, reglas
+# calibradas, validación y FMEA aplicable existen por contrato + modelo_equipo + componente.
+tenant:
+  contrato: DMH                 # CONFIRMADO
+  modelo_equipo: "798 AC"       # CONFIRMADO
+  componente: motor_diesel      # CONFIRMADO
+  universo_equipos: 12          # CONFIRMADO
+
+# Reglas de acceso a datos corporativos
+acceso:
+  modo: solo_lectura            # CONFIRMADO: no se modifican pipelines ni el orquestador corporativo
+  capas_origen: [bronze, silver]  # CONFIRMADO (Databricks)
+  datasets_derivados: propios del proyecto, versionados por dataset_id   # SUPUESTO_DISENO
+  ubicacion_datasets_derivados: POR_CONFIRMAR   # Delta en Data Lake o SQL Server
+
+# Cadena de homologación. Cada variable canónica debe poder rastrearse hasta su campo físico.
+# Los nombres físicos (tabla, campo) no se asumen: se completan al validar las fuentes.
+homologacion:
+  cadena: [fuente, campo_fisico, variable_canonica, feature, modo_fmea]
+  registro_campos_fisicos: POR_CONFIRMAR   # archivo/tabla de mapeo a crear cuando se conozcan las tablas
 
 claves:
-  equipo_id: "Identificador único del camión (flota interna)"
+  contrato: "Contrato / faena (p. ej. DMH)"
+  equipo_id: "Identificador único del camión"
   componente_serie: "Número de serie del motor instalado (para ciclo de vida y censura)"
   fecha: "Marca temporal del dato en UTC"
 
 fuentes:
   sos:
     descripcion: Análisis de aceite de laboratorio
-    sistema: por_confirmar
+    familias_candidatas: [SOS / APD]          # por_validar
+    tablas: POR_CONFIRMAR
     granularidad: por muestra
     fecha_evento: fecha_muestra
     fecha_disponible: fecha_informe     # el resultado solo existe desde que llega el informe
     regla_corte: "usar solo muestras con fecha_informe <= fecha_corte"
-    responsable_acceso: por_confirmar
+    responsable_acceso: POR_CONFIRMAR
   particulado:
     descripcion: Inspección de filtros, rejillas y patch test
-    sistema: por_confirmar
+    familias_candidatas: [inspecciones de particulado, Cat Inspect]   # por_validar
+    tablas: POR_CONFIRMAR
     granularidad: por inspección
     fecha_evento: fecha_inspeccion
     fecha_disponible: fecha_registro
     regla_corte: "usar solo registros con fecha_registro <= fecha_corte"
-    responsable_acceso: por_confirmar
+    responsable_acceso: POR_CONFIRMAR
   vims:
-    descripcion: Parámetros y eventos del sistema de monitoreo del camión
-    sistema: por_confirmar            # VIMS / VisionLink / historiador
-    granularidad: por_confirmar       # tendencias resumidas o eventos; se agregará a diario
+    descripcion: Parámetros (tendencias) y eventos del sistema de monitoreo del camión
+    familias_candidatas: [VIMS eventos, VIMS tendencias]   # por_validar
+    tablas: POR_CONFIRMAR
+    granularidad: POR_CONFIRMAR       # tendencias resumidas o eventos; se agregará a diario
     fecha_evento: timestamp
     fecha_disponible: fecha_descarga
     regla_corte: "usar solo datos con fecha_descarga <= fecha_corte"
-    responsable_acceso: por_confirmar
+    responsable_acceso: POR_CONFIRMAR
   ot:
-    descripcion: Órdenes de trabajo de mantenimiento (eventos objetivo y censura)
-    sistema: por_confirmar            # SAP PM / Maximo
+    descripcion: Mantenimiento, fallas de componentes y códigos SMCS
+    familias_candidatas: [mantenimiento, fallas de componentes, SMCS]   # por_validar
+    tablas: POR_CONFIRMAR
     granularidad: por orden
     fecha_evento: fecha_inicio_falla
     fecha_disponible: fecha_cierre_ot
-    regla_corte: "para etiquetar se usa la fecha del evento; como variable, solo OT cerradas antes de fecha_corte"
-    responsable_acceso: por_confirmar
+    regla_corte: "como variable, solo OT cerradas antes de fecha_corte"
+    responsable_acceso: POR_CONFIRMAR
   horometro:
     descripcion: Horas de operación acumuladas por equipo y por motor
-    sistema: por_confirmar
+    familias_candidatas: [horas del equipo]   # por_validar
+    tablas: POR_CONFIRMAR
     granularidad: diaria
     fecha_evento: fecha
     fecha_disponible: fecha
     regla_corte: "usar solo lecturas con fecha <= fecha_corte; debe ser monótono creciente"
-    responsable_acceso: por_confirmar
+    responsable_acceso: POR_CONFIRMAR
   ciclo_vida_componente:
-    descripcion: Instalación y retiro de motores por equipo (con o sin falla)
-    sistema: por_confirmar
+    descripcion: Instalación y retiro de motores por equipo (con causa del cambio)
+    familias_candidatas: [fecha de instalación de componentes, cambios de motor]   # por_validar
+    tablas: POR_CONFIRMAR
     granularidad: por movimiento
     fecha_evento: fecha_movimiento
     fecha_disponible: fecha_registro
     regla_corte: "define la ventana de vida de cada motor; los retirados sin falla son censurados"
-    responsable_acceso: por_confirmar
+    responsable_acceso: POR_CONFIRMAR
+  rellenos:
+    descripcion: Rellenos de aceite y refrigerante (consumo)
+    familias_candidatas: [rellenos]   # por_validar
+    tablas: POR_CONFIRMAR
+    granularidad: por relleno
+    fecha_evento: fecha_relleno
+    fecha_disponible: fecha_registro
+    regla_corte: "usar solo registros con fecha_registro <= fecha_corte"
+    responsable_acceso: POR_CONFIRMAR
+  detenciones:
+    descripcion: Detenciones del equipo
+    familias_candidatas: [detenciones]   # por_validar
+    tablas: POR_CONFIRMAR
+    granularidad: por detención
+    fecha_evento: fecha_inicio
+    fecha_disponible: fecha_registro
+    regla_corte: "usar solo registros con fecha_registro <= fecha_corte"
+    responsable_acceso: POR_CONFIRMAR
+  operacionales:
+    descripcion: Variables operacionales (carga, ciclos, condiciones de operación)
+    familias_candidatas: [variables operacionales]   # por_validar
+    tablas: POR_CONFIRMAR
+    granularidad: POR_CONFIRMAR
+    fecha_evento: timestamp
+    fecha_disponible: fecha_registro
+    regla_corte: "usar solo datos con fecha_registro <= fecha_corte"
+    responsable_acceso: POR_CONFIRMAR
+  afa_rca:
+    descripcion: Análisis de falla (AFA) y de causa raíz (RCA) de los cambios de motor
+    familias_candidatas: [AFA, RCA]   # por_validar
+    tablas: POR_CONFIRMAR
+    granularidad: por evento
+    fecha_evento: fecha_evento
+    fecha_disponible: fecha_emision
+    uso_permitido: [etiquetado, validacion, contraste_fmea]
+    prohibido_como_predictor: true    # CONFIRMADO: se generan después del evento
+    regla_corte: "nunca como variable; solo para etiquetar y validar resultados"
+    responsable_acceso: POR_CONFIRMAR
+
+# Familias mencionadas en la descripción del proyecto que aún no se asignan a una fuente:
+# no se asume qué contienen ni cómo se relacionan con las anteriores.
+familias_sin_asignar:
+  - Foresight
+  - "Argos / Argos Clone (histórico)"
+  - AMT
+  - API CAT
+  - Data Lake   # contenedor de varias de las anteriores, no una fuente en sí
 
 # Variables de condición que consume el FMEA. unidad = unidad canónica del dataset; si la
 # fuente entrega otra (p. ej. psi o °F), el Agente Datos convierte.
@@ -103,7 +178,9 @@ contexto:
 
 # Etiqueta del evento objetivo (ver definition.json)
 etiqueta:
-  evento: falla_mayor_motor
-  fuente: ot
-  criterio: "OT con códigos de falla mayor de motor (codigos_ot en definition.json, pendientes de confirmar)"
-  censura: "motor retirado sin falla o aún en operación a la fecha de corte"
+  evento: cambio_motor
+  tipos: [imprevisto, programado]
+  fuentes: [ciclo_vida_componente, ot, afa_rca]
+  criterio: "Cambios de motor del listado histórico validado (docs/fase0/plantilla_eventos_motor.csv); AFA/RCA confirman la causa"
+  censura: "motor aún en operación a la fecha de corte"
+  ventanas_analisis: [T-90, T-60, T-30, T-15, T-7, T0]   # T0 = cambio de motor

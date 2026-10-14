@@ -95,6 +95,14 @@
           "decision": "DEC-001"
         }
       ],
+      "estado_validacion": [
+        {
+          "contrato": "DMH",
+          "modelo": "798 AC",
+          "nivel": "aplicable",
+          "decision": "DEC-002"
+        }
+      ],
       "evidencia": "Plan Cat: “Elevated lead alone is often related to sleeve bearings”.",
       "observaciones": [
         "Síntomas de soporte declarados que no están aprobados: SIN-013, SIN-016",
@@ -200,6 +208,14 @@
           "decision": "DEC-001"
         }
       ],
+      "estado_validacion": [
+        {
+          "contrato": "DMH",
+          "modelo": "798 AC",
+          "nivel": "aplicable",
+          "decision": "DEC-002"
+        }
+      ],
       "evidencia": "Plan Cat: el hierro puede originarse en camisas, cigüeñal o árbol de levas. La presión de cárter elevada es un indicador indirecto de blowby y pérdida de sellado, pero debe descartarse una restricción del respiradero del cárter.",
       "observaciones": [
         "Síntomas de soporte declarados que no están aprobados: SIN-013, SIN-018",
@@ -291,6 +307,14 @@
           "decision": "DEC-001"
         }
       ],
+      "estado_validacion": [
+        {
+          "contrato": "DMH",
+          "modelo": "798 AC",
+          "nivel": "aplicable",
+          "decision": "DEC-002"
+        }
+      ],
       "evidencia": "Plan Cat: “Elevated sodium is often related to coolant contamination”. Na y K son señales principales; la disminución de refrigerante aporta soporte. Cu es contextual y puede orientar a un enfriador, pero no confirma por sí solo la contaminación.",
       "observaciones": [
         "Síntomas de soporte declarados que no están aprobados: SIN-008, SIN-016",
@@ -374,6 +398,14 @@
           "decision": "DEC-001"
         }
       ],
+      "estado_validacion": [
+        {
+          "contrato": "DMH",
+          "modelo": "798 AC",
+          "nivel": "aplicable",
+          "decision": "DEC-002"
+        }
+      ],
       "evidencia": "Silicon High, Dust Contamination, restricción de admisión y aumento de Fe compatible con desgaste abrasivo originado en el sistema de admisión de aire.",
       "observaciones": [
         "Síntomas de soporte declarados que no están aprobados: SIN-010, SIN-014, SIN-017, SIN-018, SIN-112"
@@ -429,6 +461,14 @@
         {
           "modelo": "798 AC",
           "decision": "DEC-001"
+        }
+      ],
+      "estado_validacion": [
+        {
+          "contrato": "DMH",
+          "modelo": "798 AC",
+          "nivel": "aplicable",
+          "decision": "DEC-002"
         }
       ],
       "evidencia": "Plan Cat: “Fuel contamination can cause lower viscosity”. La disminución de viscosidad es compatible con dilución por combustible. SMCS 1251 identifica la bomba de inyección; 1254, la válvula o boquilla de inyección; y 1290, el inyector unitario.",
@@ -522,6 +562,14 @@
           "decision": "DEC-001"
         }
       ],
+      "estado_validacion": [
+        {
+          "contrato": "DMH",
+          "modelo": "798 AC",
+          "nivel": "aplicable",
+          "decision": "DEC-002"
+        }
+      ],
       "evidencia": "Síntomas VIMS de alta temperatura de refrigerante y aceite, bajo nivel de refrigerante y pérdida de desempeño del sistema de enfriamiento. SMCS 1350 identifica el sistema; 1353, radiador; 1355, termostato; 1361, bomba de agua; y 1378, enfriador de aceite.",
       "observaciones": []
     },
@@ -599,6 +647,14 @@
         {
           "modelo": "798 AC",
           "decision": "DEC-001"
+        }
+      ],
+      "estado_validacion": [
+        {
+          "contrato": "DMH",
+          "modelo": "798 AC",
+          "nivel": "aplicable",
+          "decision": "DEC-002"
         }
       ],
       "evidencia": "Síntomas “Engine Oil Pressure Low” y “Low Oil Pressure”. Debe utilizar presión de aceite, no presión de cárter. SMCS 1300 identifica el sistema de lubricación; 1304, bomba de aceite; 1308, filtro; 1315, válvula de alivio; y 1319, bomba de prelubricación.",
@@ -704,6 +760,14 @@
         {
           "modelo": "798 AC",
           "decision": "DEC-001"
+        }
+      ],
+      "estado_validacion": [
+        {
+          "contrato": "DMH",
+          "modelo": "798 AC",
+          "nivel": "aplicable",
+          "decision": "DEC-002"
         }
       ],
       "evidencia": "Síntomas de temperatura de escape, diferencial entre cilindros, temperatura y presión de admisión, boost y hollín. SMCS 1052 identifica turboalimentador; 1054, filtro secundario de aire; 1064, núcleo del aftercooler; y 1290, inyector unitario.",
@@ -3453,6 +3517,18 @@
       ],
       "alcance": "todos los modos predictivos",
       "decision": "Los modos y síntomas documentados para 793F/797F aplican exactamente igual al 798 AC.",
+      "confirmado_por": "Responsable del proyecto (sesión de trabajo)"
+    },
+    {
+      "id": "DEC-002",
+      "fecha": "2026-10-14",
+      "tema": "nivel_validacion",
+      "enmienda": "DEC-001",
+      "contrato": "DMH",
+      "modelo": "798 AC",
+      "nivel": "aplicable",
+      "alcance": "todos los modos predictivos",
+      "decision": "La equivalencia de DEC-001 hace a los modos APLICABLES al 798AC por similitud técnica de motores. Ningún modo queda VALIDADO para DMH 798AC hasta contrastarlo con los cambios de motor y sus AFA/RCA.",
       "confirmado_por": "Responsable del proyecto (sesión de trabajo)"
     }
   ],
