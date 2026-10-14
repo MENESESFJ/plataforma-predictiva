@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Versión | 0.2 (borrador) |
+| Versión | 0.3 (borrador) |
 | Estado | En construcción – requiere firma de Confiabilidad y Data Analytics (gate Fase 0) |
 | Tenant | Contrato **DMH** · modelo **798 AC** · componente `motor_diesel` |
 | Roadmap | Etapa 1, Fase 0 |
@@ -92,7 +92,10 @@ Ventanas de análisis por evento: T-90, T-60, T-30, T-15, T-7 y T0, donde T0 es 
 | Procesamiento | Databricks con Python | ✅ |
 | Acceso a datos | Solo lectura sobre Bronze/Silver; datasets derivados propios | ✅ |
 | Pipelines y orquestador corporativo | No se modifican | ✅ |
-| Persistencia de resultados | SQL Server y/o Data Lake | ⬜ cuál y dónde |
+| Persistencia de resultados y datasets derivados | Data Lake vía Databricks | ✅ |
+| Formato y esquema/catálogo de las tablas | Delta (estándar de Databricks); esquema por definir | 🟡 / ⬜ |
+| Lectura desde Power BI | Desde las tablas de resultados en Databricks / Data Lake | 🟡 por confirmar |
+| SQL Server | No requerido para los resultados del MVP | 🟡 |
 | Registro de modelos | MLflow (el que ya trae Databricks) | 🟡 |
 | Visualización | Power BI; no es la fuente de verdad | ✅ |
 | LLM | Ninguna dependencia obligatoria; posible Azure AI Foundry/OpenAI desde ene-2027, detrás de una interfaz desacoplada | ✅ |
@@ -123,7 +126,7 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 3. **SOS / APD:** ¿son la misma fuente o dos? ¿En la tabla queda registrada la fecha de informe además de la de muestra? Es la regla que evita leakage.
 4. **VIMS:** ¿hay tendencias resumidas, eventos, o ambos? ¿Con qué frecuencia y desde cuándo hay datos para los 12 equipos?
 5. **Cambios de motor:** ¿dónde está el listado de los 14 cambios? ¿Los AFA/RCA están digitalizados y con fecha de emisión?
-6. **Persistencia:** ¿los resultados del MVP van a SQL Server, al Data Lake, o a ambos? ¿Qué lee Power BI hoy?
+6. ~~**Persistencia:**~~ ✅ los resultados van a Databricks / Data Lake. Falta confirmar: esquema/catálogo de destino y si Power BI se conecta directo a Databricks.
 
 ## 11. Riesgos específicos del caso
 

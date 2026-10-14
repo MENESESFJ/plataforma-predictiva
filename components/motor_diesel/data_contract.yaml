@@ -24,7 +24,10 @@ acceso:
   modo: solo_lectura            # CONFIRMADO: no se modifican pipelines ni el orquestador corporativo
   capas_origen: [bronze, silver]  # CONFIRMADO (Databricks)
   datasets_derivados: propios del proyecto, versionados por dataset_id   # SUPUESTO_DISENO
-  ubicacion_datasets_derivados: POR_CONFIRMAR   # Delta en Data Lake o SQL Server
+  ubicacion_datasets_derivados: Data Lake vía Databricks   # CONFIRMADO
+  ubicacion_resultados: Data Lake vía Databricks           # CONFIRMADO (fuente de verdad para Power BI)
+  formato_tablas: POR_CONFIRMAR                            # SUPUESTO_DISENO: Delta, estándar de Databricks
+  esquema_o_catalogo: POR_CONFIRMAR
 
 # Cadena de homologación. Cada variable canónica debe poder rastrearse hasta su campo físico.
 # Los nombres físicos (tabla, campo) no se asumen: se completan al validar las fuentes.
