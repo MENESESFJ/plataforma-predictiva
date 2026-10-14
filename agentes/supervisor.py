@@ -18,6 +18,7 @@ from contratos.agentes import (
 )
 from contratos.base import Estado, FaseFlujo, TipoFlujo
 from contratos.supervisor import SupervisorInput
+from core.registro_modelos import RegistroModelos
 from estado import RepositorioEstado
 from inferencia.servicio import ServicioInferencia
 from trazabilidad import RegistroTrazas
@@ -46,7 +47,8 @@ FLUJOS = {
 class Supervisor:
     def __init__(self, agentes: Dict[Paso, BaseAgente] = None,
                  repositorio: Optional[RepositorioEstado] = None,
-                 trazas: Optional[RegistroTrazas] = None) -> None:
+                 trazas: Optional[RegistroTrazas] = None,
+                 registro: Optional[RegistroModelos] = None) -> None:
         self.agentes = agentes or {
             Paso.INGESTA: AgenteIngesta(), Paso.CALIDAD: AgenteCalidad(),
             Paso.VARIABLES: AgenteVariables(), Paso.MODELAMIENTO: AgenteModelamiento(),
@@ -56,6 +58,7 @@ class Supervisor:
         }
         self.repositorio = repositorio
         self.trazas = trazas
+        self.registro = registro
 
     def _entrada(self, paso: Paso, ctx: Contexto, s: dict):
         if paso == Paso.INGESTA:
@@ -87,7 +90,11 @@ class Supervisor:
                                 acciones=s["recomendacion"].acciones)
 
     def _modelo_vigente(self, ctx: Contexto) -> ModeladoSalida:
-        # stub del registro MLflow: variables del catálogo del componente
+        if self.registro:
+            modelo = self.registro.cargar(ctx.componente)
+            if modelo:
+                return modelo
+        # sin registro o sin modelo vigente: baseline con las variables del catálogo
         nombres = sorted(f["nombre"] for f in cargar_bundle(
             ctx.ruta_componentes, ctx.componente)["feature_catalog"]["features"])
         return ModeladoSalida(modelo_id=f"{ctx.componente}-baseline", version_modelo="0.1.0",
@@ -138,6 +145,13 @@ class Supervisor:
                     raise ValueError("calidad rechazada: " + "; ".join(s[paso.value].violaciones))
                 if paso == Paso.VALIDACION and not s[paso.value].aprobado:
                     raise ValueError("modelo rechazado: " + "; ".join(s[paso.value].motivos))
+                if paso == Paso.VALIDACION and self.registro:
+                    mlflow_run = self.registro.registrar_entrenamiento(ctx, s["modelamiento"])
+                    version = self.registro.registrar_candidato(
+                        ctx.componente, mlflow_run, s["modelamiento"])
+                    est.salidas["registro_modelo"] = {"mlflow_run_id": mlflow_run,
+                                                      "version": version, "alias": "candidato"}
+                    self._persistir(est)
             t = ahora()
             est.pasos_completados.append("human_in_the_loop")
             est.fase = FaseFlujo.PENDIENTE_HUMANO
