@@ -1,0 +1,109 @@
+# Contrato del dataset – motor diésel CAEX (Fase 2)
+#
+# Define qué datos debe entregar el Agente Datos, de qué fuente sale cada uno y cómo se
+# aplica la fecha de corte (point-in-time). Las variables son las que usa el FMEA aprobado
+# (components/motor_diesel/fmea.json); un test verifica que ambos estén alineados.
+#
+# Los campos marcados "por_confirmar" se resuelven con el inventario de fuentes de la
+# Ficha de Caso de Uso (docs/fase0/ficha_caso_uso_motor.md).
+version: "0.1.0"
+estado: borrador
+componente: motor_diesel
+modelos_objetivo: ["798 AC", "797F", "797F Tier 4"]   # flota piloto por definir
+
+claves:
+  equipo_id: "Identificador único del camión (flota interna)"
+  componente_serie: "Número de serie del motor instalado (para ciclo de vida y censura)"
+  fecha: "Marca temporal del dato en UTC"
+
+fuentes:
+  sos:
+    descripcion: Análisis de aceite de laboratorio
+    sistema: por_confirmar
+    granularidad: por muestra
+    fecha_evento: fecha_muestra
+    fecha_disponible: fecha_informe     # el resultado solo existe desde que llega el informe
+    regla_corte: "usar solo muestras con fecha_informe <= fecha_corte"
+    responsable_acceso: por_confirmar
+  particulado:
+    descripcion: Inspección de filtros, rejillas y patch test
+    sistema: por_confirmar
+    granularidad: por inspección
+    fecha_evento: fecha_inspeccion
+    fecha_disponible: fecha_registro
+    regla_corte: "usar solo registros con fecha_registro <= fecha_corte"
+    responsable_acceso: por_confirmar
+  vims:
+    descripcion: Parámetros y eventos del sistema de monitoreo del camión
+    sistema: por_confirmar            # VIMS / VisionLink / historiador
+    granularidad: por_confirmar       # tendencias resumidas o eventos; se agregará a diario
+    fecha_evento: timestamp
+    fecha_disponible: fecha_descarga
+    regla_corte: "usar solo datos con fecha_descarga <= fecha_corte"
+    responsable_acceso: por_confirmar
+  ot:
+    descripcion: Órdenes de trabajo de mantenimiento (eventos objetivo y censura)
+    sistema: por_confirmar            # SAP PM / Maximo
+    granularidad: por orden
+    fecha_evento: fecha_inicio_falla
+    fecha_disponible: fecha_cierre_ot
+    regla_corte: "para etiquetar se usa la fecha del evento; como variable, solo OT cerradas antes de fecha_corte"
+    responsable_acceso: por_confirmar
+  horometro:
+    descripcion: Horas de operación acumuladas por equipo y por motor
+    sistema: por_confirmar
+    granularidad: diaria
+    fecha_evento: fecha
+    fecha_disponible: fecha
+    regla_corte: "usar solo lecturas con fecha <= fecha_corte; debe ser monótono creciente"
+    responsable_acceso: por_confirmar
+  ciclo_vida_componente:
+    descripcion: Instalación y retiro de motores por equipo (con o sin falla)
+    sistema: por_confirmar
+    granularidad: por movimiento
+    fecha_evento: fecha_movimiento
+    fecha_disponible: fecha_registro
+    regla_corte: "define la ventana de vida de cada motor; los retirados sin falla son censurados"
+    responsable_acceso: por_confirmar
+
+# Variables de condición que consume el FMEA. unidad = unidad canónica del dataset; si la
+# fuente entrega otra (p. ej. psi o °F), el Agente Datos convierte.
+variables:
+  # --- Análisis de aceite (SOS)
+  fe_ppm:      {fuente: sos, unidad: ppm, descripcion: Hierro en aceite}
+  cu_ppm:      {fuente: sos, unidad: ppm, descripcion: Cobre en aceite}
+  pb_ppm:      {fuente: sos, unidad: ppm, descripcion: Plomo en aceite}
+  na_ppm:      {fuente: sos, unidad: ppm, descripcion: Sodio en aceite}
+  k_ppm:       {fuente: sos, unidad: ppm, descripcion: Potasio en aceite}
+  si_ppm:      {fuente: sos, unidad: ppm, descripcion: Silicio en aceite}
+  pqi:         {fuente: sos, unidad: indice, descripcion: Particle Quantifier Index}
+  hollin:      {fuente: sos, unidad: "%", descripcion: Hollín en aceite}
+  viscosidad:  {fuente: sos, unidad: cSt, descripcion: "Viscosidad cinemática a 100 °C (temperatura de referencia por confirmar)"}
+  # --- Inspección de particulado
+  particulado_inspeccion: {fuente: particulado, unidad: nivel, descripcion: "Nivel o presencia de partículas metálicas (escala pendiente: síntoma SIN-013)"}
+  # --- VIMS
+  presion_aceite:            {fuente: vims, unidad: kPa, descripcion: Presión de aceite del motor}
+  presion_carter:            {fuente: vims, unidad: kPa, descripcion: Presión de cárter (blowby)}
+  temp_refrigerante:         {fuente: vims, unidad: "°C", descripcion: Temperatura del refrigerante}
+  temp_aceite:               {fuente: vims, unidad: "°C", descripcion: Temperatura del aceite del motor}
+  presion_refrigerante:      {fuente: vims, unidad: kPa, descripcion: Presión del sistema de refrigeración}
+  nivel_refrigerante:        {fuente: vims, unidad: nivel, descripcion: Nivel de refrigerante (alarma o lectura)}
+  nivel_aceite:              {fuente: vims, unidad: nivel, descripcion: Nivel de aceite del motor (alarma o lectura)}
+  temp_admision:             {fuente: vims, unidad: "°C", descripcion: Temperatura del múltiple de admisión (IMAT)}
+  presion_admision:          {fuente: vims, unidad: kPa, descripcion: Presión de admisión / boost (IMAP)}
+  temp_escape:               {fuente: vims, unidad: "°C", descripcion: Temperatura de escape}
+  temp_escape_diferencial:   {fuente: vims, unidad: "°C", descripcion: Diferencial de temperatura de escape entre bancadas o cilindros}
+  restriccion_filtro_aire:   {fuente: vims, unidad: kPa, descripcion: Restricción del filtro de aire}
+
+# Datos de contexto (no son señales del FMEA, pero el modelo los necesita)
+contexto:
+  horas_motor:        {fuente: horometro, unidad: h, descripcion: Horas acumuladas del motor instalado}
+  horas_desde_cambio_aceite: {fuente: ot, unidad: h, descripcion: Horas desde el último cambio de aceite}
+  modelo_equipo:      {fuente: ciclo_vida_componente, unidad: categoria, descripcion: "Modelo del camión (798 AC, 797F…)"}
+
+# Etiqueta del evento objetivo (ver definition.json)
+etiqueta:
+  evento: falla_mayor_motor
+  fuente: ot
+  criterio: "OT con códigos de falla mayor de motor (codigos_ot en definition.json, pendientes de confirmar)"
+  censura: "motor retirado sin falla o aún en operación a la fecha de corte"
