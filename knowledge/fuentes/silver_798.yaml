@@ -69,7 +69,7 @@ datasets:
       EventDuration: duración   # unidad POR_CONFIRMAR (¿segundos?)
     nota: "La mayoría de los eventos de la muestra son de chasis (Frame Bias/Rack/Pitch); solo ~6% son de motor."
   ds_fe_798:
-    tipo: análisis de aceite (SOS), elemento Fe
+    tipo: análisis de aceite (SOS), elemento Fe (Foresight)
     granularidad: equipo · fecha · componente (muestra de aceite)
     columnas:
       Date: fecha de la muestra o del informe   # POR_CONFIRMAR: define la regla anti-leakage
@@ -77,7 +77,8 @@ datasets:
       equipment: código de equipo (formato variable)
       Componente: SMCS + nombre (vacío en ~8%)
       Fe: hierro en ppm   # unidad SUPUESTA (estándar SOS)
-    supuesto: "Existe un dataset por elemento (ds_cu_798, ds_pb_798…)"   # POR_CONFIRMAR
+    confirmado: "Existe un dataset por elemento en silver/foresight/798 (ver lake_predictivo40.yaml)"
+    supuesto: "Todos tienen la misma estructura que ds_fe_798, con la columna del elemento"
     calidad:
       - "Filas repetidas para la misma fecha, serie y componente, a veces con valores distintos (35 y 36)"
   ds_changed_798:
@@ -100,10 +101,21 @@ homologacion:
   # --- ds_EventDuration_798 (Componente = 1000.00.CC.0 MOTOR)
   nivel_aceite:            {dataset: ds_EventDuration_798, filtro: {EventName: ["Low Engine Oil Level", "Oil Level Add Mark"]}, tipo: evento}
   nivel_refrigerante:      {dataset: ds_EventDuration_798, filtro: {EventName: "Low Engine Coolant Level"}, tipo: evento}
-  # --- ds_fe_798 (Componente = 1000.00.CC.0 MOTOR)
+  # --- SOS: ds_<elemento>_798 (Componente = 1000.00.CC.0 MOTOR); estructura SUPUESTA igual a ds_fe_798
   fe_ppm:                  {dataset: ds_fe_798, campo: Fe}
+  cu_ppm:                  {dataset: ds_cu_798, campo: POR_CONFIRMAR}
+  pb_ppm:                  {dataset: ds_pb_798, campo: POR_CONFIRMAR}
+  na_ppm:                  {dataset: ds_na_798, campo: POR_CONFIRMAR}
+  k_ppm:                   {dataset: ds_k_798, campo: POR_CONFIRMAR}
+  si_ppm:                  {dataset: ds_si_798, campo: POR_CONFIRMAR}
+  pqi:                     {dataset: ds_pqi_798, campo: POR_CONFIRMAR}
+  hollin:                  {dataset: ds_st_798, campo: POR_CONFIRMAR}          # st = soot (hollín) SUPUESTO
+  viscosidad:              {dataset: ds_v100_798, campo: POR_CONFIRMAR}        # v100 = viscosidad a 100 °C SUPUESTO
+  # --- Particulado (Argos)
+  particulado_inspeccion:  {dataset: ds_Particulado_798, campo: POR_CONFIRMAR}
   # --- contexto
   horas_desde_cambio_aceite: {dataset: ds_changed_798, campo: Changed, derivada: "fecha del último Changed = Y"}
+  rellenos_aceite:         {dataset: ds_OilRefill_798, campo: POR_CONFIRMAR}
 
 # Parámetros vistos que no son variables del FMEA pero sirven como contexto o para otros modos
 parametros_adicionales:
@@ -122,8 +134,10 @@ parametros_adicionales:
     - {nombre: "Low Engine Pre-Lube Pressure", uso: "lubricación (MFP-07)"}
     - {nombre: "High Engine Cooling Fan Speed", uso: "enfriamiento (MFP-06)"}
 
-# Variables del FMEA que NO aparecen en la muestra
+# Variables del FMEA sin fuente identificada (pueden estar en la lista completa de tendencias:
+# revisar bronze/argos/trend_diccionario_798.csv)
 sin_fuente_en_muestra:
   vims: [presion_carter, temp_aceite, presion_refrigerante]
-  sos: [cu_ppm, pb_ppm, na_ppm, k_ppm, si_ppm, pqi, hollin, viscosidad]
-  particulado: [particulado_inspeccion]
+
+# Indicadores SOS disponibles que no usa el FMEA actual (candidatos para Confiabilidad)
+sos_no_usados_por_fmea: [ag, al, cr, ni, sn, oxi, v]

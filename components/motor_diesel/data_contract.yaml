@@ -137,14 +137,12 @@ fuentes:
     regla_corte: "nunca como variable; solo para etiquetar y validar resultados"
     responsable_acceso: POR_CONFIRMAR
 
-# Familias mencionadas en la descripción del proyecto que aún no se asignan a una fuente:
-# no se asume qué contienen ni cómo se relacionan con las anteriores.
+# Familias de fuente: asignación según el inventario del lake (knowledge/fuentes/lake_predictivo40.yaml).
+# Foresight -> vims, sos, rellenos, operacionales · Argos -> particulado · AMT -> ot ·
+# contratos -> ciclo_vida_componente (todas SUPUESTO, deducidas de nombres de archivo).
 familias_sin_asignar:
-  - Foresight
-  - "Argos / Argos Clone (histórico)"
-  - AMT
-  - API CAT
-  - Data Lake   # contenedor de varias de las anteriores, no una fuente en sí
+  - API CAT      # no aparece en el lake
+  - Cat Inspect  # no aparece en el lake
 
 # Variables de condición que consume el FMEA. unidad = unidad canónica del dataset; si la
 # fuente entrega otra (p. ej. psi o °F), el Agente Datos convierte.
@@ -180,6 +178,7 @@ contexto:
   horas_motor:        {fuente: horometro, unidad: h, descripcion: Horas acumuladas del motor instalado}
   horas_desde_cambio_aceite: {fuente: ot, unidad: h, descripcion: Horas desde el último cambio de aceite}
   modelo_equipo:      {fuente: ciclo_vida_componente, unidad: categoria, descripcion: "Modelo del camión (798 AC, 797F…)"}
+  rellenos_aceite:    {fuente: rellenos, unidad: "volumen (POR_CONFIRMAR)", descripcion: Rellenos de aceite del motor (consumo)}
 
 # Etiqueta del evento objetivo (ver definition.json)
 etiqueta:

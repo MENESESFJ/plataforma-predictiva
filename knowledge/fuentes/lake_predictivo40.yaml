@@ -1,0 +1,82 @@
+# Inventario del Data Lake "Predictivo 4.0" relevante para DMH 798AC (motor)
+#
+# Origen: listado de directorios entregado por el responsable del proyecto (2026-10-14).
+# Rutas relativas a la raíz data/Predictivo4.0/ (no se versionan nombres de cuentas de
+# almacenamiento). Tamaños aproximados en MB. Solo lectura: el pipeline es corporativo.
+#
+# Marcas: CONFIRMADO (visto en el listado) · SUPUESTO · POR_CONFIRMAR.
+version: "0.1.0"
+fecha_listado: "2026-10-14"
+
+pipeline:
+  capas: [bronze, silver, gold]               # CONFIRMADO
+  modelos: ["793", "797", "798"]              # CONFIRMADO: una carpeta por modelo de camión
+  actualizacion: "diaria, ~08:00 (control/actualizacion_pipeline_YYYYMMDD_HHMMSS.csv desde 2026-08-18)"   # CONFIRMADO
+  formato: "CSV en silver/gold; parquet en bronze/foresight (events, payload, trends)"   # CONFIRMADO
+  sufijo_InUse: "variante filtrada de cada dataset"   # POR_CONFIRMAR: ¿componentes actualmente instalados?
+
+# Familias de fuente -> fuentes del contrato de datos (components/motor_diesel/data_contract.yaml)
+familias:
+  foresight:
+    contenido: "monitoreo del equipo (tendencias, eventos, payload, ciclos), SOS y rellenos de aceite"
+    fuentes_contrato: [vims, sos, rellenos, operacionales]
+    estado: SUPUESTO   # deducido de los nombres de archivo
+  argos:
+    contenido: "inspección de particulado y diccionarios de eventos, tendencias, SOS y particulado"
+    fuentes_contrato: [particulado]
+    estado: SUPUESTO
+  amt:
+    contenido: "mantenimiento planificado y no planificado; maestro de equipos"
+    fuentes_contrato: [ot]
+    estado: SUPUESTO
+  contratos:
+    contenido: "planillas de cambio de componentes por contrato (DMH, RT, MEL, Candelaria) y bases consolidadas"
+    fuentes_contrato: [ciclo_vida_componente]
+    estado: SUPUESTO
+  no_encontradas_en_lake: ["API CAT", "Cat Inspect"]   # POR_CONFIRMAR: ¿alimentan a Foresight/Argos o están fuera del lake?
+
+datasets_798:
+  bronze:
+    foresight/798/datasetSOS798.csv:            {mb: 2.8,  uso: "SOS crudo"}
+    foresight/798/datasetOilrefill798.csv:      {mb: 0.4,  uso: "rellenos de aceite crudo"}
+    foresight/798/events/:                      {mb: 55,   formato: parquet, uso: "eventos crudos"}
+    foresight/798/payload/:                     {mb: 43,   formato: parquet, uso: "payload/ciclos crudos"}
+    foresight/798/trends/:                      {mb: 230,  formato: parquet, uso: "tendencias crudas"}
+    argos/798/datasetParticulado798.csv:        {mb: 2.6,  uso: "particulado crudo"}
+    argos/trend_diccionario_798.csv:            {mb: 0.002, uso: "diccionario de tendencias (probable fuente de unidades y nombres)"}
+    argos/event_diccionario_798.csv:            {mb: 0.004, uso: "diccionario de eventos"}
+    argos/sos_diccionario.csv:                  {mb: 0.001, uso: "diccionario SOS"}
+    argos/particulado_mantenimiento_diccionario.csv: {mb: 0.001, uso: "diccionario particulado/mantenimiento"}
+    amt/798/datasetPlannedMaintenance798.csv:   {mb: 1.8,  uso: "mantenimiento planificado"}
+    amt/798/datasetUnplannedMaintenance798.csv: {mb: 8.6,  uso: "mantenimiento no planificado"}
+    amt/798/ds_AMT_798.csv:                     {mb: 0.03, uso: POR_CONFIRMAR}
+    amt/Equipment_amt.csv:                      {mb: 0.03, uso: "maestro de equipos (probable: equipo, modelo, faena/contrato)"}
+    contratos/dmh/798/planilla_raw/PlanillaCC798DMH.xlsx: {mb: 0.08, uso: "planilla de cambios de componentes DMH 798 (probable fuente de los 14 cambios de motor)"}
+    contratos/BasesCC/798/BaseCambiosComponentes798.csv: {mb: 0.1, uso: "base consolidada de cambios de componentes"}
+    contratos/BasesCC/798/BaseCCWithAMT798.csv: {mb: 0.1, uso: "cambios de componentes cruzados con AMT"}
+    contratos/planilla_fallas/planilla_raw/Base reporte componentes.xlsx: {mb: 21, uso: "reporte de fallas de componentes (POR_CONFIRMAR si incluye AFA/RCA)"}
+  silver:
+    foresight/798/ds_Trends_798.csv:        {mb: 294, perfilado: true}
+    foresight/798/ds_EventDuration_798.csv: {mb: 135, perfilado: true}
+    foresight/798/ds_EventFr_798.csv:       {mb: 130, uso: "eventos de chasis (frame)", relevante_motor: false}
+    foresight/798/ds_Cycle_798.csv:         {mb: 254, uso: "ciclos/payload: contexto operacional (carga)"}
+    foresight/798/ds_OilRefill_798.csv:     {mb: 0.3, uso: "rellenos de aceite"}
+    foresight/798/ds_<elemento>_798.csv:
+      elementos: [ag, al, changed, cr, cu, fe, k, na, ni, oxi, pb, pqi, si, sn, st, v, v100]
+      mb_cada_uno: 0.5
+      uso: "SOS: un archivo por elemento o indicador"
+    argos/798/ds_Particulado_798.csv:       {mb: 1.0, uso: "particulado"}
+    amt/798/dsPlannedMaintenanse798.csv:    {mb: 0.04, uso: "mantenimiento planificado"}
+    amt/798/dsUnplannedMaintenanse798.csv:  {mb: 0.6, uso: "mantenimiento no planificado"}
+    contratos/798/DMaster798.csv:           {mb: 0.1, uso: "maestro de componentes/vidas (POR_CONFIRMAR)"}
+    contratos/798/DS_798.csv:               {mb: 1.3, uso: POR_CONFIRMAR}
+  gold:
+    Resultados/798/DMasterIntervals798.csv:     {mb: 1.9, uso: "intervalos por vida de componente (trabajo analítico previo)"}
+    Resultados/798/DMasterIntervalsAcum798.csv: {mb: 2.4, uso: "intervalos acumulados"}
+    foresight/798/ds_Sum{Trend,Sos,EventEngine,Cycle,…}_798.csv: {uso: "agregados por intervalo del trabajo previo"}
+    amt/798/ds_SumMaintenance_798.csv:          {uso: "agregados de mantenimiento"}
+    argos/798/ds_SumParticulado_798.csv:        {uso: "agregados de particulado"}
+    nota: >-
+      Gold contiene la ingeniería de variables del trabajo previo (Predictivo 4.0). Se puede usar como
+      referencia o fuente de datos, pero no sus importancias de variables, y solo después de verificar
+      que sus agregados respetan la fecha de corte.
