@@ -8,7 +8,7 @@ contratos/      # contratos Pydantic versionados (VERSION_CONTRATOS) y Estado gl
 agentes/        # BaseAgente, Supervisor y agentes (<agente>.py; README de diseño en <agente>/)
   tracer.py     # stubs de los agentes aún no productivos (Ingesta, Variables, Modelamiento, Validación, Monitoreo)
 inferencia/     # Servicio de Inferencia (placeholder hasta Fase 3)
-core/           # servicios de dominio compartidos (ConsultorSMCS)
+core/           # servicios compartidos: ConsultorSMCS y RegistroModelos (MLflow)
 estado/         # persistencia del Estado global por request_id
 trazabilidad/   # registro append-only de trazas por paso de agente
 components/     # conocimiento por componente que lee el runtime: definición, reglas de calidad, FMEA aprobado, acciones y features
@@ -51,12 +51,26 @@ estado = sup.ejecutar_solicitud(solicitud, registros)
 RepositorioEstado("plataforma.db").cargar(solicitud.request_id)  # reconstrucción
 ```
 
+Para registrar experimentos y modelos en MLflow (SQLite local por defecto, o `MLFLOW_TRACKING_URI`):
+
+```python
+from core.registro_modelos import RegistroModelos
+
+registro = RegistroModelos("sqlite:///mlflow.db")
+sup = Supervisor(registro=registro)
+est = sup.ejecutar_solicitud(solicitud_entrenamiento, registros)   # registra la versión como "candidato"
+registro.promover("motor_diesel", est.salidas["registro_modelo"]["version"])  # tras la aprobación humana
+sup.ejecutar_solicitud(solicitud_inferencia, registros)            # usa el modelo "vigente"
+```
+
+Interfaz web: `mlflow ui --backend-store-uri sqlite:///mlflow.db`.
+
 ## Avance respecto del roadmap (Etapa 1)
 
 | Fase | Estado |
 |---|---|
 | 0 Caso de uso | FMEA del motor v1.0 aprobado por Confiabilidad (8 modos predictivos) y en uso; 798AC cubierto por equivalencia con 793F/797F (DEC-001). Pendiente: flota piloto, Ficha aprobada, eventos etiquetados, códigos OT (`definition.json` en `POR_CONFIRMAR`) y los puntos abiertos de `knowledge/fmea/README.md` |
-| 1 Fundaciones | Contratos, Estado y trazas persistidos (SQLite), flujo reconstruible por `request_id`, CI. Pendiente: MLflow, entornos y secretos |
+| 1 Fundaciones | Contratos, Estado y trazas persistidos (SQLite), flujo reconstruible por `request_id`, CI, y MLflow para experimentos y registro de modelos (candidato → vigente con aprobación humana). Pendiente: entornos y secretos |
 | 2 Datos y Calidad | Ingesta stub con hash determinístico; Calidad con score y veredicto (solo reglas de rango). Pendiente: fuentes, point-in-time, reglas temporales y las ~20 variables que usa el FMEA (hoy el catálogo tiene 5) |
 | 3 Features/Modelo/Validación | Stubs |
 | 4 Inferencia/Interpretación/Recomendación | Interpretación (con el FMEA aprobado y SMCS) y Recomendación por catálogo implementadas sobre una inferencia placeholder. Prompt LLM de Interpretación prototipado fuera del repo. En pausa hasta cerrar Fase 3 |
