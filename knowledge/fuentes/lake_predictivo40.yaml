@@ -87,4 +87,4 @@ datasets_798:
     nota: >-
       Gold contiene la ingeniería de variables del trabajo previo (Predictivo 4.0). Se puede usar como
       referencia o fuente de datos, pero no sus importancias de variables, y solo después de verificar
-      que sus agregados respetan la fecha de corte.
+      que sus agregados respetan la fecha de corte. Lógica de esas variables: features_predictivo40.yaml.

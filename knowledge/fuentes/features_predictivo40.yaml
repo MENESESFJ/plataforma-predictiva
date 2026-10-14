@@ -1,0 +1,47 @@
+# Lógica de variables del modelo productivo actual (Predictivo 4.0)
+#
+# Origen: descripción del responsable del proyecto (2026-10-14). El modelo actual no usa el dato
+# directo de cada fuente: usa agregados de anomalías (veces, severidad, permanencia) calculados
+# durante el período y guardados en Databricks. Probable ubicación: gold/*/ds_Sum*_798.csv
+# (ver lake_predictivo40.yaml). Dónde y cómo se guardan: POR_CONFIRMAR.
+#
+# Uso en este proyecto: referencia de diseño y posible fuente de datos (solo lectura).
+# No se heredan sus importancias de variables ni su selección de elementos SOS.
+# Marcas: CONFIRMADO (descrito por el responsable) · SUPUESTO · POR_CONFIRMAR.
+version: "0.1.0"
+fecha: "2026-10-14"
+
+familias:
+  tendencias:
+    dato_directo_usado: false   # CONFIRMADO
+    logica: "cada tendencia se evalúa en el período; si escapa de su límite se registra como anomalía"
+    features: [veces_anomalia, severidad_anomalia, permanencia_anomalia]   # CONFIRMADO
+    probable_gold: foresight/798/ds_SumTrend_798.csv                      # SUPUESTO
+  eventos:
+    descripcion: alarmas del equipo
+    features: [veces, severidad, permanencia]                             # CONFIRMADO
+    probable_gold: foresight/798/ds_SumEventEngine_798.csv                # SUPUESTO
+  rellenos:
+    features: [litros_acumulados, veces, severidad]                       # CONFIRMADO
+    severidad: "relleno > 90 L = severo"                                  # CONFIRMADO; POR_CONFIRMAR si es por relleno o acumulado
+  sos:
+    features: [nivel_actual, acumulado_elemento, veces_sobre_limite_condenatorio]   # CONFIRMADO
+    elementos: "los que aparecieron en el feature importance del modelo actual"     # CONFIRMADO
+    probable_gold: foresight/798/ds_SumSos_798.csv                        # SUPUESTO
+  particulado:
+    features: [severidad, veces]                                          # CONFIRMADO
+    probable_gold: argos/798/ds_SumParticulado_798.csv                    # SUPUESTO (histórico; hoy Cat Inspect)
+
+decisiones_para_este_proyecto:
+  - "Se adopta el mismo patrón (veces, severidad, permanencia) como base de las features: es explicable y ya conocido por los especialistas."
+  - "Los elementos SOS se eligen desde las señales del FMEA, no desde el feature importance del modelo actual."
+  - "Cada anomalía conserva la variable y la dirección (p. ej. presion_aceite baja) para contrastarla con las señales del FMEA."
+
+por_confirmar:
+  - "Tabla y columnas donde se guardan las anomalías; si traen fecha de detección o de carga (regla de corte)"
+  - "Origen y versión de los límites de cada tendencia; si dependen de la condición de operación (Condition)"
+  - "Si los límites se recalibraron con datos posteriores (riesgo de leakage al reentrenar con historia)"
+  - "Ventana de agregación de los ds_Sum* (por intervalo de vida, por día, móvil)"
+  - "Escala de severidad de tendencias, eventos y particulado"
+  - "Límites SOS: solo condenatorios o también precautorios; fuente y versión"
+  - "Umbral de 90 L: por relleno o acumulado en la ventana"
