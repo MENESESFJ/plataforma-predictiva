@@ -11,11 +11,13 @@ fecha_revision: "2026-10-14"
 # motor = 'ENG' en SOS. Foresight tiene prioridad sobre Argos/Argos Clone (congelándose).
 
 flota_dmh_798ac:
-  fuente: bronze/amt/Equipment_amt.csv (Branch = "Ministro Hales", Fleet = "798AC Ministro Hales")
-  equipos:   # equipo: serie
+  fuente: bronze/amt/Equipment_amt.csv (Branch = "Ministro Hales", Fleet = "798AC Ministro Hales") + planilla DMH
+  motores_por_equipo: 1   # CONFIRMADO (el 797B tiene 2: delantero y trasero)
+  equipos_piloto:   # 13 equipos, CONFIRMADO 2026-10-14 · equipo: serie
     MH340: SKH00615
     MH341: SKH00614
     MH342: SKH00623
+    MH343: SKH00624   # salió del contrato por causas ajenas al motor; se usa su historia
     MH344: SKH00607
     MH345: SKH00626
     MH346: SKH00625
@@ -25,12 +27,8 @@ flota_dmh_798ac:
     MH350: SKH00630
     MH351: SKH00631
     MH352: SKH00632
-    MH353: SKH00793
-  fuera_del_maestro:
-    MH343: {serie: SKH00624, nota: "Aparece como 'DE BAJA' en rellenos y en la planilla de horas; tiene historia SOS desde 2022"}
-  observacion: >-
-    El maestro tiene 13 equipos (incluye MH353, serie más reciente) y MH343 está dado de baja.
-    POR_CONFIRMAR cuáles son los "12 equipos" del piloto y si la historia de MH343 se usa (recomendado: sí, para entrenamiento).
+  fuera_del_piloto:
+    MH353: {serie: SKH00793, nota: "Está en el maestro AMT pero casi no tiene datos en las muestras (1 fila de tendencias); POR_CONFIRMAR si entra cuando acumule historia"}
 
 sos:
   archivo: bronze/foresight/798/datasetSOS798.csv
@@ -46,20 +44,19 @@ sos:
     "Horas Maquina": horómetro del equipo al muestrear
     SampleComment: interpretación del laboratorio en texto libre
     "Cambio Filtro": Y/N/U
-    "Cambio Aceite": Y/N/U
+    "Cambio Aceite": "Y/N/U · Y = muestra tomada antes de un cambio de aceite (CONFIRMADO para Changed en silver)"
     OilType: marca o tipo de aceite (texto libre, inconsistente)
     "Horas Aceite": horas de uso del aceite
     OilGrade: grado (15W-40)
     elementos_ppm: [Fe, Cu, Pb, Sn, Cr, Al, Si, Na, K, Ni, Ag, Mo, B, Mg, Ca, P, Zn, Ba, Co]
     indicadores: [PQI, V40, V100, St, Oxi, Sul, Nit, H2O, ISO, Fuel, AntFreeze, T]
-    TrueOilChanged: Y/N
+    TrueOilChanged: Y/N   # POR_CONFIRMAR si coincide con Changed de silver
   fecha_disponibilidad:
-    hallazgo: >-
-      El "Id Lab." codifica una fecha (5 + último dígito del año + día del año) entre 0 y 10 días
-      posterior a "Fecha Muestra" (mediana 3 días, n=78).
-    interpretacion: fecha de ingreso al laboratorio   # SUPUESTO
-    regla_corte_propuesta: "usar la muestra solo desde la fecha codificada en Id Lab. + margen de informe"
-    margen_informe_dias: POR_CONFIRMAR
+    id_lab: >-
+      Número interno del laboratorio, fuera de nuestro control (CONFIRMADO). Aunque parece contener
+      una fecha, no se usa para la regla de corte.
+    regla_corte_propuesta: "usar la muestra solo desde Fecha Muestra + desfase_informe_dias"
+    desfase_informe_dias: POR_CONFIRMAR   # tiempo típico muestra -> informe; usar un valor conservador
   calidad:
     - "Horómetro con retrocesos y valores 0 (3 retrocesos y 2 ceros en 78 filas)"
     - "Muestras repetidas en la misma fecha (contramuestras con distinto Id Lab.)"
@@ -99,7 +96,7 @@ diccionarios:
       restriccion_filtro_aceite: "High Oil Filter Differential Pressure"
   sos_diccionario:
     compartimientos_motor: {ENG: "1000.00.CC.0 MOTOR", ENG_FR: "1000.FF.CC.0 MOTOR", ENG_RR: "1000.RR.CC.0 MOTOR", ENG_CP: "acoplamiento entre motores"}
-    nota: "Diccionario compartido entre modelos. En el 798AC el motor viene como 'ENG' (CONFIRMADO); FR/RR/CP son de otros modelos."
+    nota: "Diccionario compartido entre modelos. El 798AC tiene 1 motor y en SOS viene como 'ENG' (CONFIRMADO); FR/RR/CP son del 797B (2 motores)."
   ubicacion: "Los diccionarios están bajo argos/; se usan como referencia de nombres aunque Argos se congele"
   particulado_mantenimiento_diccionario:
     uso: "homologa componentes AMT (SMCS) con nombres de Argos (Motor, Motor Del, Motor Trasero, BBA Alta Comb…)"

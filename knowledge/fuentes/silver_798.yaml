@@ -14,16 +14,16 @@ hallazgos_generales:
     tema: alcance
     detalle: >-
       Los datasets "_798" incluyen ~135 equipos (prefijos TKD, RT, MH, AN, TTC). Parecen cubrir
-      todos los 798AC de varias faenas, no solo los 12 de DMH. Además mezclan componentes.
+      todos los 798AC de varias faenas, no solo los 13 de DMH. Además mezclan componentes.
     decision: >-
       Filtrar por la lista de series de la flota DMH (bronze_798.yaml), todas con prefijo SKH, y por
       Componente = 1000.00.CC.0 MOTOR. El código DMH es MH340 o MH-340 según el sistema.
-    estado: CONFIRMADO   # regla de filtro; la lista de los 12 equipos sigue POR_CONFIRMAR
+    estado: CONFIRMADO   # 13 equipos: MH340–MH352 (incluye MH343)
   - id: H-05
     tema: prioridad_fuentes
     detalle: >-
       Foresight tiene prioridad sobre Argos y Argos Clone, que se están congelando por el traspaso
-      de sistemas. ds_Particulado_798 (Argos) queda en riesgo; buscar su equivalente en Foresight.
+      de sistemas. ds_Particulado_798 (Argos) queda como histórico; el particulado actual lo captura Cat Inspect (SQL Server, fuera del lake).
     estado: CONFIRMADO
   - id: H-02
     tema: clave_equipo
@@ -94,8 +94,10 @@ datasets:
     tipo: análisis de aceite (SOS), indicador de cambio de aceite
     granularidad: igual que ds_fe_798 (mismas claves)
     columnas:
-      Changed: "Y / N / U"   # SUPUESTO: aceite cambiado en el muestreo (Y=sí, N=no, U=desconocido)
-    uso: "Contexto: horas o días desde el último cambio de aceite; reinicia la tendencia de desgaste"
+      Changed: "Y / N / U"   # CONFIRMADO: Y = muestra tomada antes de un cambio de aceite (el cambio se hizo después)
+    uso: >-
+      Contexto: horas o días desde el último cambio de aceite. Una muestra con Y es la última del aceite
+      viejo; la tendencia de desgaste se reinicia en la muestra siguiente.
 
 # Mapeo a variables canónicas del contrato de datos (components/motor_diesel/data_contract.yaml)
 homologacion:
@@ -122,10 +124,10 @@ homologacion:
   pqi:                     {dataset: ds_pqi_798, campo: POR_CONFIRMAR}
   hollin:                  {dataset: ds_st_798, campo: POR_CONFIRMAR}          # st = soot (hollín) SUPUESTO
   viscosidad:              {dataset: ds_v100_798, campo: POR_CONFIRMAR}        # v100 = viscosidad a 100 °C SUPUESTO
-  # --- Particulado (Argos, congelándose: buscar equivalente en Foresight)
+  # --- Particulado: histórico en Argos (congelándose); hoy lo captura Cat Inspect en SQL Server (fuera del lake)
   particulado_inspeccion:  {dataset: ds_Particulado_798, campo: POR_CONFIRMAR}
   # --- contexto
-  horas_desde_cambio_aceite: {dataset: ds_changed_798, campo: Changed, derivada: "fecha del último Changed = Y"}
+  horas_desde_cambio_aceite: {dataset: ds_changed_798, campo: Changed, derivada: "horas desde la última muestra con Changed = Y (el cambio ocurre después de esa muestra)"}
   rellenos_aceite:         {dataset: ds_OilRefill_798, campo: POR_CONFIRMAR}
 
 # Parámetros vistos que no son variables del FMEA pero sirven como contexto o para otros modos

@@ -19,7 +19,8 @@ Principio: **el modelo detecta, el FMEA contextualiza, el especialista confirma.
 |---|---|---|
 | Contrato | DMH | ✅ |
 | Modelo de equipo | CAEX 798AC (accionamiento eléctrico) | ✅ |
-| Universo | 12 equipos | ✅ |
+| Universo | 13 equipos: MH340–MH352. Incluye MH343, que salió del contrato por otras causas pero tiene historia. MH353 queda fuera por ahora (casi sin datos) | ✅ |
+| Motores por equipo | 1 (el 797B tiene 2) | ✅ |
 | Componente | Motor | ✅ |
 | Unidad de análisis | Motor instalado en un equipo durante su ciclo de vida (instalación → retiro) | 🟡 |
 | Historia disponible | ~3 años, desde el inicio de operación de DMH 798AC | ✅ aproximado |
@@ -48,7 +49,7 @@ Flujo conceptual: datos → calidad → features → detección de anomalía →
 | Datos por cambio | Fecha de instalación y de retiro, causa, equipo e historia del período | ✅ informado |
 | Listado evento por evento | `docs/fase0/eventos_motor_dmh_798_borrador.csv` (desde PlanillaCC798DMH, hoja "CC histórico") | 🟡 borrador, falta validar y asignar modo FMEA |
 | Validación por Confiabilidad | Caso a caso | ⬜ |
-| AFA / RCA | Solo 2 de los 14 cambios tienen número de AFA en la planilla | 🟡 ⬜ ubicar el resto |
+| AFA / RCA | Solo 2 de los 14 cambios tienen número de AFA en la planilla; la plantilla de falla de componentes (SharePoint) resume modo y causa raíz de los demás cuando existe | 🟡 por adjuntar |
 
 **Implicancia para el FMEA:** la causa dominante apunta a MFP-07 (baja presión de lubricación) y MFP-01; son los primeros modos a validar contra los eventos. Hay datos directos: tendencia "Engine Oil Pressure" y evento "Low Engine Oil Pressure".
 
@@ -110,13 +111,13 @@ Ventanas de análisis por evento: T-90, T-60, T-30, T-15, T-7 y T0, donde T0 es 
 Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias vienen de la descripción del proyecto y se consideran **posiblemente válidas hasta confirmarlas**.
 
 > **Disclaimer de fuentes (confirmado):**
-> - **Foresight tiene prioridad sobre Argos y Argos Clone.** Argos se está congelando por el traspaso a otros sistemas y Foresight ya captura la mayor parte de sus datos. Una variable que hoy salga solo de Argos (particulado) es un riesgo: hay que buscar su equivalente en Foresight.
+> - **Foresight tiene prioridad sobre Argos y Argos Clone.** Argos se está congelando por el traspaso a otros sistemas y Foresight ya captura la mayor parte de sus datos. Argos queda solo como histórico; el particulado actual viene de Cat Inspect (SQL Server).
 > - **Los archivos del lake mezclan componentes, contratos y modelos.** Antes de usar un dataset se filtra: serie con prefijo `SKH` (798AC), equipos DMH según la lista de series de la flota (el código es `MH340` o `MH-340` según el sistema) y motor (`1000.00.CC.0 MOTOR` en Silver, `ENG` en SOS).
 
 | Fuente en el contrato | Familias candidatas | Validado | Responsable de acceso |
 |---|---|---|---|
 | Análisis de aceite | SOS / APD | ⬜ | ⬜ |
-| Particulado | Inspecciones de particulado (Argos, congelándose), Cat Inspect | ⬜ ¿equivalente en Foresight? | ⬜ |
+| Particulado | Cat Inspect (actual, SQL Server); Argos (histórico, congelándose) | ✅ origen · ⬜ acceso | ⬜ |
 | Monitoreo del equipo | VIMS eventos y tendencias | ⬜ | ⬜ |
 | Mantenimiento | Mantenimiento, fallas de componentes, SMCS | ⬜ | ⬜ |
 | Horas | Horas del equipo | ⬜ | ⬜ |
@@ -124,22 +125,23 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 | Rellenos | Rellenos | ⬜ | ⬜ |
 | Detenciones | Detenciones | ⬜ | ⬜ |
 | Operación | Variables operacionales | ⬜ | ⬜ |
-| AFA / RCA (solo etiqueta) | AFA, RCA | ⬜ | ⬜ |
+| AFA / RCA (solo etiqueta) | AFA, RCA, plantilla de falla de componentes (SharePoint) | 🟡 por adjuntar | ⬜ |
 | **Prioridad** | Foresight > AMT / contratos > Argos / Argos Clone | ✅ | — |
-| **Sin asignar** | API CAT, Cat Inspect (no están en el lake) | ⬜ | ⬜ |
+| **Sin asignar** | API CAT (no está en el lake) | ⬜ | ⬜ |
 
 ## 10. Validaciones pendientes con el responsable del proyecto
 
 1. **Familias sin asignar:** qué contiene cada una de Foresight, Argos/Argos Clone, AMT y API CAT, y si duplican o complementan a VIMS, SOS o mantenimiento.
 2. **Cat Inspect:** ¿corresponde a inspecciones de particulado, a inspecciones visuales, o a ambas?
 3. **SOS / APD:** ¿son la misma fuente o dos? ¿En la tabla queda registrada la fecha de informe además de la de muestra? Es la regla que evita leakage.
-4. **VIMS:** ¿hay tendencias resumidas, eventos, o ambos? ¿Con qué frecuencia y desde cuándo hay datos para los 12 equipos?
+4. **VIMS:** ¿hay tendencias resumidas, eventos, o ambos? ¿Con qué frecuencia y desde cuándo hay datos para los 13 equipos?
 5. ~~**Cambios de motor:**~~ ✅ listado en la planilla DMH. Falta: conciliar 9/5 con 10/4 (MH340 2025-07-05) y ubicar los AFA/RCA.
 6. ~~**Persistencia:**~~ ✅ los resultados van a Databricks / Data Lake. Falta confirmar: esquema/catálogo de destino y si Power BI se conecta directo a Databricks.
-7. **Equipos del piloto:** el maestro AMT tiene 13 equipos activos (MH340–MH352 sin MH343, más MH353) y MH343 está de baja. ¿Cuáles son los 12? ¿Se usa la historia de MH343 para entrenar?
-8. **SOS:** ¿la fecha codificada en el "Id Lab." es el ingreso al laboratorio? ¿Cuántos días pasan hasta el informe?
+7. ~~**Equipos del piloto:**~~ ✅ 13 equipos, MH340–MH352 con MH343. Falta: ¿MH353 entra cuando tenga historia?
+8. **SOS:** el "Id Lab." es interno del laboratorio y no sirve como fecha. ¿Cuántos días pasan normalmente entre la muestra y el informe? Se usará un desfase conservador.
 9. ~~**Motores por equipo:**~~ ✅ en SOS el motor del 798AC viene como `ENG`; ENG_FR/ENG_RR son de otros modelos.
-11. **Particulado:** ¿Foresight captura las inspecciones de particulado o hay que buscarlas en el sistema que reemplaza a Argos?
+11. ~~**Particulado:**~~ ✅ hoy lo captura Cat Inspect, en SQL Server (fuera del lake). Falta: acceso de solo lectura y estructura de la tabla.
+12. **Plantilla de falla de componentes (SharePoint):** resume modo de falla y causa raíz cuando existe. Pendiente de adjuntar; se usará solo como etiqueta.
 10. **Unidades:** el diccionario de tendencias no trae unidades ni frecuencia de muestreo.
 
 ## 11. Riesgos específicos del caso

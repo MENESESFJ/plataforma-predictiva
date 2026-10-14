@@ -17,7 +17,7 @@ tenant:
   contrato: DMH                 # CONFIRMADO
   modelo_equipo: "798 AC"       # CONFIRMADO
   componente: motor_diesel      # CONFIRMADO
-  universo_equipos: 12          # CONFIRMADO
+  universo_equipos: 13          # CONFIRMADO: MH340–MH352, incluye MH343 (fuera del contrato, con historia)
 
 # Reglas de acceso a datos corporativos
 acceso:
@@ -55,7 +55,7 @@ filtro_alcance:
   contrato: >-
     Equipo de DMH: código 'MH' + número, con o sin guion según el sistema ('MH340' o 'MH-340').
     Se filtra por la lista de series de la flota (knowledge/fuentes/bronze_798.yaml), no por el código.   # CONFIRMADO
-  componente: "Silver: Componente = '1000.00.CC.0 MOTOR' · SOS bronze: Componente = 'ENG'"   # CONFIRMADO
+  componente: "Silver: Componente = '1000.00.CC.0 MOTOR' · SOS bronze: Componente = 'ENG'"   # CONFIRMADO (798AC: 1 motor)
   filas_sin_componente: excluir   # no se pueden asignar a motor
 
 claves:
@@ -71,16 +71,18 @@ fuentes:
     tablas: [bronze/foresight/798/datasetSOS798.csv, "silver ds_<elemento>_798"]   # ver knowledge/fuentes/bronze_798.yaml
     granularidad: por muestra
     fecha_evento: fecha_muestra
-    # La tabla no trae fecha de informe. El "Id Lab." codifica una fecha 0-10 días posterior a la
-    # muestra (mediana 3): SUPUESTO = ingreso al laboratorio. Margen hasta el informe POR_CONFIRMAR.
-    fecha_disponible: fecha_id_lab + margen_informe_dias
-    margen_informe_dias: POR_CONFIRMAR
-    regla_corte: "usar solo muestras con fecha_id_lab + margen_informe_dias <= fecha_corte"
+    # La tabla no trae fecha de informe y el "Id Lab." es un número interno del laboratorio
+    # (CONFIRMADO), así que la disponibilidad se aproxima con un desfase fijo y conservador.
+    fecha_disponible: fecha_muestra + desfase_informe_dias
+    desfase_informe_dias: POR_CONFIRMAR
+    regla_corte: "usar solo muestras con fecha_muestra + desfase_informe_dias <= fecha_corte"
     responsable_acceso: POR_CONFIRMAR
   particulado:
     descripcion: Inspección de filtros, rejillas y patch test
-    riesgo: "Hoy sale de Argos, que se está congelando; buscar equivalente en Foresight"   # CONFIRMADO
-    familias_candidatas: [inspecciones de particulado, Cat Inspect]   # por_validar
+    familias_candidatas: [Cat Inspect, Argos]
+    origen_actual: Cat Inspect, en SQL Server (fuera del lake)   # CONFIRMADO
+    historico: Argos (congelándose)                              # CONFIRMADO
+    acceso_sql_server: POR_CONFIRMAR   # nuevo origen fuera de Databricks; solo lectura
     tablas: POR_CONFIRMAR
     granularidad: por inspección
     fecha_evento: fecha_inspeccion
@@ -152,7 +154,9 @@ fuentes:
     responsable_acceso: POR_CONFIRMAR
   afa_rca:
     descripcion: Análisis de falla (AFA) y de causa raíz (RCA) de los cambios de motor
-    familias_candidatas: [AFA, RCA]   # por_validar
+    familias_candidatas: [AFA, RCA, plantilla de falla de componentes (SharePoint)]
+    # La plantilla de SharePoint resume modo de falla y causa raíz cuando existe (CONFIRMADO);
+    # cubre casos sin AFA/RCA formal. Estructura POR_CONFIRMAR (el responsable la adjuntará).
     tablas: POR_CONFIRMAR
     granularidad: por evento
     fecha_evento: fecha_evento
@@ -168,7 +172,7 @@ fuentes:
 # Prioridad: Foresight sobre Argos/Argos Clone (ver prioridad_fuentes).
 familias_sin_asignar:
   - API CAT      # no aparece en el lake
-  - Cat Inspect  # no aparece en el lake
+  - Cat Inspect  # no está en el lake: viene en SQL Server; hoy captura el particulado
 
 # Variables de condición que consume el FMEA. unidad = unidad canónica del dataset; si la
 # fuente entrega otra (p. ej. psi o °F), el Agente Datos convierte.

@@ -61,7 +61,8 @@ def test_flota_dmh_es_798ac():
     """Toda serie de la flota del piloto debe tener el prefijo del modelo (filtro de alcance)."""
     bronze = yaml.safe_load(Path("knowledge/fuentes/bronze_798.yaml").read_text(encoding="utf-8"))
     flota = bronze["flota_dmh_798ac"]
-    series = list(flota["equipos"].values()) + [e["serie"] for e in flota["fuera_del_maestro"].values()]
+    series = list(flota["equipos_piloto"].values())
     assert series and all(s.startswith("SKH") for s in series)
+    assert len(series) == CONTRATO["tenant"]["universo_equipos"]
     assert "SKH" in CONTRATO["filtro_alcance"]["modelo"]
     assert CONTRATO["prioridad_fuentes"]["orden"][0] == "Foresight"

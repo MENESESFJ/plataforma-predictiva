@@ -39,7 +39,9 @@ familias:
     contenido: "planillas de cambio de componentes por contrato (DMH, RT, MEL, Candelaria) y bases consolidadas"
     fuentes_contrato: [ciclo_vida_componente]
     estado: SUPUESTO
-  no_encontradas_en_lake: ["API CAT", "Cat Inspect"]   # POR_CONFIRMAR: ¿alimentan a Foresight/Argos o están fuera del lake?
+  no_encontradas_en_lake: ["API CAT", "Cat Inspect"]
+  cat_inspect: "SQL Server, fuera del lake; hoy captura el particulado"   # CONFIRMADO
+  api_cat: POR_CONFIRMAR
 
 datasets_798:
   bronze:

@@ -71,7 +71,7 @@ Interfaz web: `mlflow ui --backend-store-uri sqlite:///mlflow.db`.
 
 | Fase | Estado |
 |---|---|
-| 0 Caso de uso | Piloto: DMH 798AC, 12 equipos, motor; 14 cambios de motor desde sep-2023 (9 imprevistos). Objetivo: detección de anomalías y degradación, horizonte de 15 días por validar. FMEA v1.0 aprobado, **aplicable** a DMH 798AC (DEC-001/002), aún no validado. Pendiente: listado validado de los 14 eventos, inventario de fuentes, métrica y firmas. Seguimiento en `docs/fase0/ficha_caso_uso_motor.md` |
+| 0 Caso de uso | Piloto: DMH 798AC, 13 equipos (MH340–MH352), motor; 14 cambios de motor desde sep-2023 (9 imprevistos). Objetivo: detección de anomalías y degradación, horizonte de 15 días por validar. FMEA v1.0 aprobado, **aplicable** a DMH 798AC (DEC-001/002), aún no validado. Pendiente: listado validado de los 14 eventos, inventario de fuentes, métrica y firmas. Seguimiento en `docs/fase0/ficha_caso_uso_motor.md` |
 | 1 Fundaciones | Contratos, Estado y trazas persistidos (SQLite), flujo reconstruible por `request_id`, CI, y MLflow para experimentos y registro de modelos (candidato → vigente con aprobación humana). Pendiente: entornos y secretos |
 | 2 Datos y Calidad | Ingesta stub con hash determinístico; Calidad con score y veredicto (solo reglas de rango). Pendiente: fuentes, point-in-time, reglas temporales y las 22 variables que usa el FMEA, ya especificadas en `components/motor_diesel/data_contract.yaml` (hoy el catálogo de features tiene 5) |
 | 3 Features/Modelo/Validación | Stubs |
