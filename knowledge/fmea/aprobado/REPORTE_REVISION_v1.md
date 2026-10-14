@@ -1,6 +1,6 @@
 # FMEA motor – revisión aplicada (v1.0.0)
 
-Revisión: `revision_fmea_confiabilidad_v1.xlsx`, aplicada el 2026-10-09.
+Revisión: `revision_fmea_confiabilidad_v1.xlsx`, aplicada el 2026-10-14.
 
 ## Resultado
 
@@ -11,40 +11,41 @@ Revisión: `revision_fmea_confiabilidad_v1.xlsx`, aplicada el 2026-10-09.
 
 Los modos se tomaron del bloque editado por Confiabilidad (encabezado `ID:`).
 
+## Decisiones aplicadas
+
+- **DEC-001** (2026-10-14): Los modos y síntomas documentados para 793F/797F aplican exactamente igual al 798 AC. Confirmado por: Responsable del proyecto (sesión de trabajo).
+
 ## Observaciones por modo
 
 ### MFP-01 desgaste_cojinetes (critica)
 - Síntomas de soporte declarados que no están aprobados: SIN-013, SIN-016
-- Modelos aplicables por criterio experto, sin síntoma documental: 794 AC, 798 AC
+- Modelos aplicables por criterio experto, sin síntoma documental: 794 AC
 - Códigos SMCS no presentes en la matriz: 1000
 
 ### MFP-02 desgaste_camisas_anillos (alta)
 - Síntomas de soporte declarados que no están aprobados: SIN-013, SIN-018
-- Modelos aplicables por criterio experto, sin síntoma documental: 798 AC
 - Códigos SMCS no presentes en la matriz: 1000, 1215
 
 ### MFP-03 contaminacion_refrigerante_en_aceite (alta)
 - Síntomas de soporte declarados que no están aprobados: SIN-008, SIN-016
-- Modelos aplicables por criterio experto, sin síntoma documental: 798 AC
 - Códigos SMCS no presentes en la matriz: 1217
 - Modos RCM padre pendientes de validar.
 
 ### MFP-04 ingreso_abrasivo_polvo (media)
 - Síntomas de soporte declarados que no están aprobados: SIN-010, SIN-014, SIN-017, SIN-018, SIN-112
-- Modelos aplicables por criterio experto, sin síntoma documental: 798 AC
 
 ### MFP-05 dilucion_combustible (alta)
-- Modelos aplicables por criterio experto, sin síntoma documental: 794 AC, 798 AC
+- Modelos aplicables por criterio experto, sin síntoma documental: 794 AC
 
 ### MFP-06 sobrecalentamiento (alta)
-- Modelos aplicables por criterio experto, sin síntoma documental: 798 AC
+- Sin observaciones.
 
 ### MFP-07 baja_presion_lubricacion (critica)
-- Modelos aplicables por criterio experto, sin síntoma documental: 794 AC, 798 AC
+- Modelos aplicables por criterio experto, sin síntoma documental: 794 AC
 
 ### MFP-08 combustion_deficiente (alta)
 - Síntomas de soporte declarados que no están aprobados: SIN-074
-- Modelos aplicables por criterio experto, sin síntoma documental: 793F Tier 4, 798 AC
+- Modelos aplicables por criterio experto, sin síntoma documental: 793F Tier 4
 
 ## Síntomas pendientes
 

@@ -10,7 +10,8 @@ Reglas:
 - Síntomas: S = aprobado, N = eliminado, otro valor (p. ej. P) = pendiente. El soporte de
   cada modo se recalcula solo con síntomas aprobados.
 - Lo que la revisión afirma sin respaldo documental (modelos aplicables, códigos SMCS fuera
-  de la matriz) se conserva, pero se marca como observación.
+  de la matriz) se conserva, pero se marca como observación, salvo que una decisión de
+  knowledge/fmea/revision/decisiones.json lo respalde (p. ej. equivalencia entre modelos).
 """
 import argparse
 import csv
@@ -23,6 +24,7 @@ import openpyxl
 
 RAIZ = Path(__file__).resolve().parents[2]
 MATRIZ_SMCS = RAIZ / "knowledge/smcs/Matriz_MF_SMCS_MAESTRO_CONSOLIDADO_v2.csv"
+DECISIONES = RAIZ / "knowledge/fmea/revision/decisiones.json"
 
 
 def _lista(v):
@@ -66,8 +68,13 @@ def codigos_matriz():
         return {fila["Codigo_SMCS"].strip() for fila in csv.DictReader(f)}
 
 
-def construir(modos, sintomas, revision):
+def cargar_decisiones(ruta=DECISIONES):
+    return json.loads(Path(ruta).read_text("utf-8"))["decisiones"] if Path(ruta).exists() else []
+
+
+def construir(modos, sintomas, revision, decisiones=()):
     en_matriz = codigos_matriz()
+    equivalencias = [d for d in decisiones if d["tema"] == "aplicabilidad_modelo"]
     aprobados = {k: s for k, s in sintomas.items() if s["estado"] == "aprobado"}
     salida, observaciones = [], []
     for m in modos:
@@ -86,6 +93,9 @@ def construir(modos, sintomas, revision):
         if quitados:
             obs.append("Síntomas de soporte declarados que no están aprobados: " + ", ".join(quitados))
         sin_evidencia = sorted(set(aplicables) - set(con_evidencia))
+        por_equivalencia = [{"modelo": d["modelo"], "decision": d["id"]} for d in equivalencias
+                            if d["modelo"] in sin_evidencia and set(d["equivalente_a"]) & set(con_evidencia)]
+        sin_evidencia = [x for x in sin_evidencia if x not in {e["modelo"] for e in por_equivalencia}]
         if sin_evidencia:
             obs.append("Modelos aplicables por criterio experto, sin síntoma documental: "
                        + ", ".join(sin_evidencia))
@@ -104,6 +114,7 @@ def construir(modos, sintomas, revision):
             "sintomas_soporte": sorted(s["id"] for s in soporte),
             "modelos_aplicables": aplicables,
             "modelos_con_evidencia_documental": con_evidencia,
+            "modelos_por_equivalencia": por_equivalencia,
             "evidencia": m["Evidencia"],
             "observaciones": obs,
         })
@@ -119,6 +130,7 @@ def construir(modos, sintomas, revision):
         "sintomas_aprobados": sorted(aprobados.values(), key=lambda s: s["id"]),
         "sintomas_pendientes": sorted(pendientes, key=lambda s: s["id"]),
         "sintomas_eliminados": sorted(eliminados, key=lambda s: s["id"]),
+        "decisiones_aplicadas": list(decisiones),
         "observaciones": observaciones,
     }
 
@@ -134,6 +146,11 @@ def reporte(aprobado, revision_rcm_vacia, bloque_revisor):
               f"- Síntomas pendientes: {len(aprobado['sintomas_pendientes'])}", ""]
     if bloque_revisor:
         lineas += ["Los modos se tomaron del bloque editado por Confiabilidad (encabezado `ID:`).", ""]
+    if aprobado["decisiones_aplicadas"]:
+        lineas += ["## Decisiones aplicadas", ""]
+        lineas += [f"- **{d['id']}** ({d['fecha']}): {d['decision']} Confirmado por: {d['confirmado_por']}."
+                   for d in aprobado["decisiones_aplicadas"]]
+        lineas.append("")
     lineas += ["## Observaciones por modo", ""]
     for m in aprobado["modos_falla"]:
         lineas.append(f"### {m['id']} {m['nombre']} ({m['severidad']})")
@@ -164,7 +181,7 @@ def main():
     modos, bloque = leer_modos(wb["Modos predictivos"])
     sintomas = leer_sintomas(wb["Síntomas"])
     rcm_vacia = not any(f.get("Aprobado") for f in _filas(wb["Modos RCM"]))
-    aprobado = construir(modos, sintomas, a.revision)
+    aprobado = construir(modos, sintomas, a.revision, cargar_decisiones())
 
     out = Path(a.salida)
     out.mkdir(parents=True, exist_ok=True)

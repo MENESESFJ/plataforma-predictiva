@@ -4,7 +4,7 @@
   "estado": "aprobado",
   "aprobacion": {
     "revision": "revision_fmea_confiabilidad_v1.xlsx",
-    "fecha_aplicacion": "2026-10-09",
+    "fecha_aplicacion": "2026-10-14",
     "aprobado_por": "Confiabilidad"
   },
   "modos_falla": [
@@ -89,10 +89,16 @@
         "797F",
         "797F Tier 4"
       ],
+      "modelos_por_equivalencia": [
+        {
+          "modelo": "798 AC",
+          "decision": "DEC-001"
+        }
+      ],
       "evidencia": "Plan Cat: “Elevated lead alone is often related to sleeve bearings”.",
       "observaciones": [
         "Síntomas de soporte declarados que no están aprobados: SIN-013, SIN-016",
-        "Modelos aplicables por criterio experto, sin síntoma documental: 794 AC, 798 AC",
+        "Modelos aplicables por criterio experto, sin síntoma documental: 794 AC",
         "Códigos SMCS no presentes en la matriz: 1000"
       ]
     },
@@ -188,10 +194,15 @@
         "797F",
         "797F Tier 4"
       ],
+      "modelos_por_equivalencia": [
+        {
+          "modelo": "798 AC",
+          "decision": "DEC-001"
+        }
+      ],
       "evidencia": "Plan Cat: el hierro puede originarse en camisas, cigüeñal o árbol de levas. La presión de cárter elevada es un indicador indirecto de blowby y pérdida de sellado, pero debe descartarse una restricción del respiradero del cárter.",
       "observaciones": [
         "Síntomas de soporte declarados que no están aprobados: SIN-013, SIN-018",
-        "Modelos aplicables por criterio experto, sin síntoma documental: 798 AC",
         "Códigos SMCS no presentes en la matriz: 1000, 1215"
       ]
     },
@@ -274,10 +285,15 @@
         "797F",
         "797F Tier 4"
       ],
+      "modelos_por_equivalencia": [
+        {
+          "modelo": "798 AC",
+          "decision": "DEC-001"
+        }
+      ],
       "evidencia": "Plan Cat: “Elevated sodium is often related to coolant contamination”. Na y K son señales principales; la disminución de refrigerante aporta soporte. Cu es contextual y puede orientar a un enfriador, pero no confirma por sí solo la contaminación.",
       "observaciones": [
         "Síntomas de soporte declarados que no están aprobados: SIN-008, SIN-016",
-        "Modelos aplicables por criterio experto, sin síntoma documental: 798 AC",
         "Códigos SMCS no presentes en la matriz: 1217",
         "Modos RCM padre pendientes de validar."
       ]
@@ -352,10 +368,15 @@
         "797F",
         "797F Tier 4"
       ],
+      "modelos_por_equivalencia": [
+        {
+          "modelo": "798 AC",
+          "decision": "DEC-001"
+        }
+      ],
       "evidencia": "Silicon High, Dust Contamination, restricción de admisión y aumento de Fe compatible con desgaste abrasivo originado en el sistema de admisión de aire.",
       "observaciones": [
-        "Síntomas de soporte declarados que no están aprobados: SIN-010, SIN-014, SIN-017, SIN-018, SIN-112",
-        "Modelos aplicables por criterio experto, sin síntoma documental: 798 AC"
+        "Síntomas de soporte declarados que no están aprobados: SIN-010, SIN-014, SIN-017, SIN-018, SIN-112"
       ]
     },
     {
@@ -404,9 +425,15 @@
         "797F",
         "797F Tier 4"
       ],
+      "modelos_por_equivalencia": [
+        {
+          "modelo": "798 AC",
+          "decision": "DEC-001"
+        }
+      ],
       "evidencia": "Plan Cat: “Fuel contamination can cause lower viscosity”. La disminución de viscosidad es compatible con dilución por combustible. SMCS 1251 identifica la bomba de inyección; 1254, la válvula o boquilla de inyección; y 1290, el inyector unitario.",
       "observaciones": [
-        "Modelos aplicables por criterio experto, sin síntoma documental: 794 AC, 798 AC"
+        "Modelos aplicables por criterio experto, sin síntoma documental: 794 AC"
       ]
     },
     {
@@ -489,10 +516,14 @@
         "797F",
         "797F Tier 4"
       ],
+      "modelos_por_equivalencia": [
+        {
+          "modelo": "798 AC",
+          "decision": "DEC-001"
+        }
+      ],
       "evidencia": "Síntomas VIMS de alta temperatura de refrigerante y aceite, bajo nivel de refrigerante y pérdida de desempeño del sistema de enfriamiento. SMCS 1350 identifica el sistema; 1353, radiador; 1355, termostato; 1361, bomba de agua; y 1378, enfriador de aceite.",
-      "observaciones": [
-        "Modelos aplicables por criterio experto, sin síntoma documental: 798 AC"
-      ]
+      "observaciones": []
     },
     {
       "id": "MFP-07",
@@ -564,9 +595,15 @@
         "797F",
         "797F Tier 4"
       ],
+      "modelos_por_equivalencia": [
+        {
+          "modelo": "798 AC",
+          "decision": "DEC-001"
+        }
+      ],
       "evidencia": "Síntomas “Engine Oil Pressure Low” y “Low Oil Pressure”. Debe utilizar presión de aceite, no presión de cárter. SMCS 1300 identifica el sistema de lubricación; 1304, bomba de aceite; 1308, filtro; 1315, válvula de alivio; y 1319, bomba de prelubricación.",
       "observaciones": [
-        "Modelos aplicables por criterio experto, sin síntoma documental: 794 AC, 798 AC"
+        "Modelos aplicables por criterio experto, sin síntoma documental: 794 AC"
       ]
     },
     {
@@ -663,10 +700,16 @@
         "797F",
         "797F Tier 4"
       ],
+      "modelos_por_equivalencia": [
+        {
+          "modelo": "798 AC",
+          "decision": "DEC-001"
+        }
+      ],
       "evidencia": "Síntomas de temperatura de escape, diferencial entre cilindros, temperatura y presión de admisión, boost y hollín. SMCS 1052 identifica turboalimentador; 1054, filtro secundario de aire; 1064, núcleo del aftercooler; y 1290, inyector unitario.",
       "observaciones": [
         "Síntomas de soporte declarados que no están aprobados: SIN-074",
-        "Modelos aplicables por criterio experto, sin síntoma documental: 793F Tier 4, 798 AC"
+        "Modelos aplicables por criterio experto, sin síntoma documental: 793F Tier 4"
       ]
     }
   ],
@@ -3394,6 +3437,23 @@
       ],
       "correccion": "ELIMINAR",
       "comentario": "Duplica hierro elevado sin aportar mayor especificidad."
+    }
+  ],
+  "decisiones_aplicadas": [
+    {
+      "id": "DEC-001",
+      "fecha": "2026-10-14",
+      "tema": "aplicabilidad_modelo",
+      "modelo": "798 AC",
+      "equivalente_a": [
+        "793F",
+        "793F Tier 4",
+        "797F",
+        "797F Tier 4"
+      ],
+      "alcance": "todos los modos predictivos",
+      "decision": "Los modos y síntomas documentados para 793F/797F aplican exactamente igual al 798 AC.",
+      "confirmado_por": "Responsable del proyecto (sesión de trabajo)"
     }
   ],
   "observaciones": []
