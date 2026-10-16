@@ -75,13 +75,12 @@ respuestas:
       Conviven dos escalas en las respuestas: una numerada (1.- BAJO, 3.- CRITICO, 4.- MUY CRITICO; la
       pauta pide avisar al supervisor con severidad 2-3-4) y otra textual (Bueno, Medio, Medio/Alto).
       El color es consistente en ambas: Green, Yellow, Red.   # CONFIRMADO
-    propuesta_unificada:    # POR_CONFIRMAR con el responsable del proyecto
-      1: ["1.- BAJO", "Bueno"]          # Green
-      2: ["2.- MEDIO (no visto)", "Medio"]   # Yellow
-      2.5: ["Medio/Alto"]               # Yellow; ¿equivale a 2 o a 3?
-      3: ["3.- CRITICO"]                # Red
-      4: ["4.- MUY CRITICO"]            # Red
-    respaldo: "Si una respuesta no calza en la escala, usar el color: Green=1, Yellow=2, Red=3"
+    criterio: "La severidad la da el color (CONFIRMADO 2026-10-16), no el texto de la respuesta"
+    escala_color: {Green: 1, Yellow: 2, Red: 3}   # Grey = informativa; Unselected = dato faltante
+    umbral_severo: POR_CONFIRMAR   # ¿desde Yellow o solo Red?
+    uso_mientras_tanto: >-
+      Se guardan ambas features (veces en Yellow o más, veces en Red) para no depender del umbral;
+      la definición de "severo" se fija cuando se confirme.
 
 preguntas_motor:   # CONFIRMADO en la inspección de muestra; QuestionID a confirmar entre revisiones del formulario
   - {seccion: "Test parche motor", componente: "1000 ENGINE", variable: particulado_inspeccion, tipo: categorica}
@@ -104,7 +103,7 @@ limitacion_principal: >-
   Ejemplo: en la inspección revisada el resultado global "Monitor" se explica por el test de parche del motor.
 
 pendiente:
-  - "Confirmar la escala unificada (sobre todo Medio/Alto) y en qué revisión del formulario se cambió de escala"
+  - "Confirmar si Yellow ya es severo o solo Red"
   - "Corte de filtro de aceite de motor: ¿en otro formulario?"
   - "Equivalencia entre la escala de Argos (histórico) y la de Cat Inspect, para unir ambas series"
   - "Acceso de solo lectura desde Databricks o extracto periódico"
