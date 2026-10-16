@@ -21,9 +21,9 @@
     "historico": {
       "desde": "2023-09",
       "total": 14,
-      "imprevistos": 9,
-      "programados": 5,
-      "nota_programados": "Por condición detectada y/o cumplimiento de PCR/TBO",
+      "imprevistos": 10,
+      "programados": 4,
+      "nota_programados": "Todos por PCR; los programados se tratan como censura. MH340 2025-07 tenía PCR cumplido pero falló antes de su cambio programado: cuenta como imprevisto",
       "estado": "informado; listado evento por evento POR_CONFIRMAR (docs/fase0/plantilla_eventos_motor.csv)"
     },
     "ground_truth": "AFA y RCA: solo para etiquetar y validar; prohibidos como variables predictoras"
