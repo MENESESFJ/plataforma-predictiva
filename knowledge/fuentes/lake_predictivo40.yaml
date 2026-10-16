@@ -40,7 +40,7 @@ familias:
     fuentes_contrato: [ciclo_vida_componente]
     estado: SUPUESTO
   no_encontradas_en_lake: ["API CAT", "Cat Inspect"]
-  cat_inspect: "SQL Server, fuera del lake; hoy captura el particulado"   # CONFIRMADO
+  cat_inspect: "SQL Server, fuera del lake; hoy captura el particulado (ver cat_inspect.yaml)"   # CONFIRMADO
   api_cat: POR_CONFIRMAR
 
 datasets_798:

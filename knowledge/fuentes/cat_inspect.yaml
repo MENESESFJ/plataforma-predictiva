@@ -1,0 +1,59 @@
+# Cat Inspect: inspecciones de particulado (SQL Server, fuera del lake)
+#
+# Origen: consulta de muestra entregada por el responsable del proyecto (2026-10-16) sobre la
+# tabla de cabecera de inspecciones. Solo estructura, reglas y hallazgos; no se versionan filas,
+# correos, nombres ni identificadores de inspectores.
+# Marcas: CONFIRMADO (visto en la muestra) · SUPUESTO · POR_CONFIRMAR.
+version: "0.1.0"
+fecha_revision: "2026-10-16"
+
+origen:
+  motor: SQL Server            # CONFIRMADO
+  tabla: dbo.Inspection        # CONFIRMADO: una fila por inspección (cabecera)
+  filtro_formulario: "InspectionFormName = 'Pauta de rutinas de particulados 798AC - DMH'"   # CONFIRMADO
+  acceso: solo_lectura         # DP-001
+  acceso_desde_databricks: POR_CONFIRMAR
+
+columnas_utiles:
+  InspectionNumber: identificador de la inspección (clave para unir con las respuestas)
+  InspectionStatus: "Completed / Cancelled"
+  SerialNumber: serie del equipo (clave; filtrar por la flota de bronze_798.yaml)
+  ModelNumber: modelo (798AC)
+  OwnerEquipmentNumber: "código de equipo, formato variable: MH-346, CaexDMH-346, mh352"
+  SMU: horómetro del equipo al inspeccionar (decimal con coma)
+  DateOpened: inicio de la inspección
+  DateClosed: cierre de la inspección
+  DateFinished: término registrado (≈ DateClosed)
+  DateUpdated: carga o actualización en la base (6 a 78 h después del cierre en la muestra)
+  OverallResponse: "resultado global: Normal / Monitor / Action (None en canceladas)"
+  InspectionFormRevision: revisión del formulario (cambia en el tiempo)
+columnas_excluidas:
+  datos_personales: [OwnerEmail, OwnerPhone, InspectorNames]   # no se versionan ni se usan
+  sin_uso: [GeoLocation_Altitude, GeoLocation_Latitude, GeoLocation_Longitude, LocationDescription,
+            InspectionFormShortDescription, InspectionFormLongDescription, AssetID, CustomerName]
+
+reglas:
+  filtro: "InspectionStatus = 'Completed' y SerialNumber en la flota DMH 798AC"
+  fecha_evento: DateOpened
+  fecha_disponible: DateClosed            # una inspección puede cerrarse hasta 63 días después de abrirse
+  regla_corte: "usar solo inspecciones con DateClosed <= fecha_corte"
+  severidad: {Normal: 0, Monitor: 1, Action: 2}   # escala ordinal propuesta
+
+hallazgos_muestra:   # 48 filas del formulario, 28 inspecciones reales DMH completadas
+  - "Cobertura: desde 2026-01-30 (una) y en forma regular desde 2026-06; antes el particulado está en Argos"
+  - "Resultados reales DMH: Monitor 13, Normal 9, Action 6"
+  - "Frecuencia: 1 a 4 inspecciones por equipo en ~4 meses (cada 2 a 6 semanas)"
+  - "Registros de prueba en el mismo formulario: serie CAT12345, modelos 797F, equipos de otros contratos (RT, TKD)"
+  - "16 de 48 inspecciones canceladas"
+  - "Inspecciones duplicadas (mismo equipo y horómetro en días consecutivos) y horómetro repetido de una inspección anterior"
+  - "MH344 tuvo resultado Monitor el 2026-06-20, 37 días antes de su cambio de motor del 2026-07-27 (falla de distribución con particulado)"
+
+limitacion_principal: >-
+  OverallResponse es el resultado global de la pauta. POR_CONFIRMAR si la pauta inspecciona solo el
+  motor o varios compartimientos; si son varios, el resultado del motor está en la tabla de respuestas
+  por pregunta (no revisada), que también tendría el nivel de particulado y el tipo de partícula.
+
+pendiente:
+  - "Estructura de la tabla de respuestas por pregunta (unida por InspectionNumber)"
+  - "Preguntas de la pauta que corresponden al motor"
+  - "Equivalencia entre la escala de Argos (histórico) y Normal/Monitor/Action, para unir ambas series"

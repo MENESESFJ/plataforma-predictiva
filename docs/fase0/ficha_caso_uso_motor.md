@@ -132,7 +132,7 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 | Fuente en el contrato | Familias candidatas | Validado | Responsable de acceso |
 |---|---|---|---|
 | Análisis de aceite | SOS / APD | ⬜ | ⬜ |
-| Particulado | Cat Inspect (actual, SQL Server); Argos (histórico, congelándose) | ✅ origen · ⬜ acceso | ⬜ |
+| Particulado | Cat Inspect (SQL Server, regular desde jun-2026; ver `knowledge/fuentes/cat_inspect.yaml`); Argos (histórico, congelándose) | ✅ cabecera · ⬜ respuestas por pregunta y acceso desde Databricks | ⬜ |
 | Monitoreo del equipo | VIMS eventos y tendencias | ⬜ | ⬜ |
 | Mantenimiento | Mantenimiento, fallas de componentes, SMCS | ⬜ | ⬜ |
 | Horas | Horas del equipo | ⬜ | ⬜ |
@@ -155,7 +155,7 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 7. ~~**Equipos del piloto:**~~ ✅ MH340–MH352 con MH343, más MH353 si tiene datos.
 8. ~~**SOS:**~~ ✅ el "Id Lab." es interno del laboratorio. La muestra se usa desde su fecha + 3 días (promedio hasta la carga).
 9. ~~**Motores por equipo:**~~ ✅ en SOS el motor del 798AC viene como `ENG`; ENG_FR/ENG_RR son de otros modelos.
-11. ~~**Particulado:**~~ ✅ hoy lo captura Cat Inspect, en SQL Server (fuera del lake). Falta: acceso de solo lectura y estructura de la tabla.
+11. **Particulado:** ✅ Cat Inspect (dbo.Inspection) revisado. Falta: tabla de respuestas por pregunta (resultado del motor y nivel de particulado), acceso desde Databricks y equivalencia con la escala de Argos para el histórico 2023–2026.
 12. **Plantilla de falla de componentes (SharePoint):** resume modo de falla y causa raíz cuando existe. Pendiente de adjuntar; se usará solo como etiqueta.
 10. **Unidades:** el diccionario de tendencias no trae unidades (la frecuencia ya está confirmada).
 
