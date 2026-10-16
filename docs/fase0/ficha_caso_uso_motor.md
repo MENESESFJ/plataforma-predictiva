@@ -44,14 +44,27 @@ Flujo conceptual: datos → calidad → features → detección de anomalía →
 | Cambios de motor desde sep-2023 | 14 | ✅ informado |
 | Imprevistos | 9 informados; la planilla marca 10 (MH340 2025-07-05 dice "Imprevisto" con descripción "PCR") | 🟡 conciliar |
 | Programados | 5 informados; la planilla marca 4, todos por PCR (2 con overhaul) | 🟡 conciliar |
-| Causa dominante | 8 de los imprevistos: "BAJA PRESIÓN ACEITE MOTOR"; 1 "FALLA PREMATURA" (MH344, 8.575 h) | ✅ planilla |
+| Síntoma de detención | 8 de los imprevistos se detuvieron por "baja presión aceite motor". Es el síntoma con que se detectó la falla, no su causa | ✅ planilla y base |
 | Equipos con dos cambios | MH341 y MH344 | ✅ planilla |
-| Datos por cambio | Fecha de instalación y de retiro, causa, equipo e historia del período | ✅ informado |
-| Listado evento por evento | `docs/fase0/eventos_motor_dmh_798_borrador.csv` (desde PlanillaCC798DMH, hoja "CC histórico") | 🟡 borrador, falta validar y asignar modo FMEA |
-| Validación por Confiabilidad | Caso a caso | ⬜ |
-| AFA / RCA | Solo 2 de los 14 cambios tienen número de AFA en la planilla; la plantilla de falla de componentes (SharePoint) resume modo y causa raíz de los demás cuando existe | 🟡 por adjuntar |
+| Datos por cambio | Fecha, horas, tipo, modo de falla estandarizado, causa raíz y pieza fallada | ✅ `BaseCambiosComponentes798` |
+| Listado evento por evento | `docs/fase0/eventos_motor_dmh_798_borrador.csv` (planilla DMH + base de cambios de componentes) | 🟡 borrador con propuesta de modo FMEA, falta validar |
+| Validación por Confiabilidad | Caso a caso, columna `modo_fmea_confirmado` | ⬜ |
+| AFA / RCA | 5 cambios con AFA; causa raíz en texto para 6 | ✅ base |
 
-**Implicancia para el FMEA:** la causa dominante apunta a MFP-07 (baja presión de lubricación) y MFP-01; son los primeros modos a validar contra los eventos. Hay datos directos: tendencia "Engine Oil Pressure" y evento "Low Engine Oil Pressure".
+### Modos de falla reales (propuesta, a validar por Confiabilidad)
+
+| Grupo de falla | Casos | Modo FMEA actual | Observación |
+|---|---|---|---|
+| Distribución delantera (engranajes, tren de válvulas) | MH341 2023-09, MH352 2024-10, MH344 2026-07 | **Ninguno** | Fatiga de engranaje loco; válvulas fracturadas tras una intervención; "particulado + falla engranaje distribución" |
+| Bloqueo hidráulico por ingreso de fluido al cilindro | MH350 2024-10, MH345 2024-11, MH348 2024-12 | MFP-03 solo parcial | Anillo cortafuego / sello integral (en investigación por el fabricante) o fisura de camisa con ingreso de refrigerante |
+| Lubricación y cojinetes | MH344 2024-12 | MFP-01 + MFP-07 | Gripaje de metales de biela por contaminación a través del filtro |
+| Baja presión de aceite sin causa registrada | MH349 2025-04, MH341 2026-05 | MFP-07 (solo síntoma) | Sin AFA ni causa raíz |
+| PCR (fin de vida) | MH342, MH347, MH351, MH346 (programados) y MH340 2025-07 | No aplica | Se proponen como censura, no como falla |
+
+**Implicancias:**
+1. **De las 7 fallas con causa conocida, solo 1 calza con el FMEA** (MH344 2024: MFP-01 + MFP-07), 1 calza en parte (MH350: MFP-03) y 5 no tienen modo. Faltan los modos de distribución delantera y de bloqueo hidráulico por ingreso de fluido. Se propone a Confiabilidad agregarlos (la decisión es suya; no se modifica `fmea.json` sin su aprobación).
+2. **La baja presión de aceite es un síntoma tardío común.** Sirve para detectar, pero no distingue el modo; los precursores de cada grupo deben buscarse en otras señales (particulado y Fe para distribución; Na/K, nivel de refrigerante, presión de cárter y temperaturas de escape por cilindro para ingreso de fluido).
+3. **Los PCR no son fallas.** Para el modelo, un cambio por PCR cierra la vida del motor sin evento (censura). Con eso quedan 9 fallas imprevistas, coincidente con lo informado. Falta confirmar si MH340 2025-07 fue PCR (censura) o falla.
 
 **Regla:** AFA y RCA se generan después del evento. Sirven para etiquetar, validar resultados y contrastar con el FMEA. **Nunca son variables predictoras** (regla en el contrato de datos, con test).
 

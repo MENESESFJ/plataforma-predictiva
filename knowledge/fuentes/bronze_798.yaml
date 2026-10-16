@@ -114,3 +114,23 @@ planilla_cambios_dmh:
                                  "Solicitud de AFA", "Numero AFA", "Descripción de la Falla", "Observación"]
   datos_personales: "Contiene nombres (jefe de turno, ingeniero): no se versionan"
   derivado: docs/fase0/eventos_motor_dmh_798_borrador.csv
+
+base_cambios_componentes:
+  archivo: bronze/contratos/BasesCC/798/BaseCambiosComponentes798.csv
+  formato: "CSV separado por ';', decimales con coma, fechas dd/mm/aaaa"
+  alcance: "798AC de Escondida, Ministro Hales y Radomiro Tomic, todos los componentes (403 filas; 14 de motor en Ministro Hales)"
+  filtro_motor_dmh: "Contrato = 'Ministro Hales' y Componentes = 'motor' (excluir 'motor traccion', que es eléctrico)"
+  columnas: [Contrato, FechaCambio, HorometroEquipo, SerialNumber, Equipo, Flota, Componentes, Posicion,
+             ParteCompRemovido, SerieCompRemovido, HorasCompRemovido, OrigenCompRemovido, AFA,
+             ParteCompInstalado, SerieCompInstalado, HorasCompInstalado, OrigenCompInstalado,
+             DescripcionFalla, TipoDetencion, WOCompInstalado, "Descripcion Falla",
+             "Modo Falla Estandarizado", "Causa Raiz", "Causa Raiz BigData", NombrePiezaFallada, timestamp]
+  aporte: "Agrega a la planilla DMH el modo de falla estandarizado, la causa raíz (texto y resumen) y la pieza fallada"
+  concordancia_con_planilla: "Los 14 cambios de motor coinciden en equipo, fecha, horas y tipo (CONFIRMADO)"
+  calidad:
+    - "Modo y causa vacíos en los cambios más recientes (2026) y en los PCR"
+    - "Serie con error de tipeo en una fila de motor de tracción (SHK en vez de SKH)"
+    - "AFA = si/no/sin informacion (no trae número)"
+  uso: "Etiqueta y validación; nunca predictor (igual que AFA/RCA)"
+  datos_personales: "No trae nombres de personas"
+  derivado: docs/fase0/eventos_motor_dmh_798_borrador.csv
