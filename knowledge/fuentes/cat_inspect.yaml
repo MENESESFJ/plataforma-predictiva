@@ -4,7 +4,7 @@
 # tabla de cabecera de inspecciones. Solo estructura, reglas y hallazgos; no se versionan filas,
 # correos, nombres ni identificadores de inspectores.
 # Marcas: CONFIRMADO (visto en la muestra) · SUPUESTO · POR_CONFIRMAR.
-version: "0.1.0"
+version: "0.2.0"
 fecha_revision: "2026-10-16"
 
 origen:
@@ -48,12 +48,44 @@ hallazgos_muestra:   # 48 filas del formulario, 28 inspecciones reales DMH compl
   - "Inspecciones duplicadas (mismo equipo y horómetro en días consecutivos) y horómetro repetido de una inspección anterior"
   - "MH344 tuvo resultado Monitor el 2026-06-20, 37 días antes de su cambio de motor del 2026-07-27 (falla de distribución con particulado)"
 
+respuestas:
+  tabla: dbo.InspectionQuestion     # CONFIRMADO: una fila por pregunta, unida por InspectionNumber
+  columnas_utiles:
+    InspectionNumber: clave de la inspección
+    CategoryID / ItemText: sección de la pauta (muestras APD, tapones magnéticos, corte de filtros, test de parche, COF, rejillas)
+    QuestionID / QuestionText: pregunta (el texto termina con el número de formulario, 551039)
+    ComponentCode: "SMCS + nombre del compartimiento (p. ej. 1000 ENGINE, 1300 LUBRICATION SYSTEM)"
+    PrimaryLocation: lado (RI – Right / LI – Left) cuando aplica
+    Answer: "respuesta (Bueno, Medio, SI, Normal…; dominio completo POR_CONFIRMAR)"
+    Color: "Green / Yellow / Grey / Unselected (Red POR_CONFIRMAR)"
+    Comments: observación en texto libre (p. ej. "se observa contaminación de sílice")
+    QuestionAttachmentsCnt: fotos adjuntas
+  columnas_excluidas: [Signature_PrintedName, Signature_Image, InstructionText, InstructionPictureReferenceID, InstructionDocumentReferenceID]
+  unselected: "Pregunta no respondida: es dato faltante, no resultado normal"
+  escala_severidad: "La instrucción de la pauta menciona niveles de severidad 2-3-4; relación con Answer/Color POR_CONFIRMAR"
+
+preguntas_motor:   # CONFIRMADO en la inspección de muestra; QuestionID a confirmar entre revisiones del formulario
+  - {seccion: "Test parche motor", componente: "1000 ENGINE", variable: particulado_inspeccion, tipo: categorica}
+  - {seccion: "Rejilla magnética motor diésel", componente: "1300 LUBRICATION SYSTEM", variable: particulado_inspeccion, tipo: categorica}
+  - {seccion: "Filtro de aceite centrífugo (COF): peso", componente: "1328 CENTRIFUGAL OIL FILTER", variable: particulado_inspeccion, tipo: numerica, nota: "sección nueva (2026-08)"}
+  - {seccion: "Filtro de aceite centrífugo (COF): lodo en papel", componente: "1328 CENTRIFUGAL OIL FILTER", variable: particulado_inspeccion, tipo: numerica, limite_pauta: "42 mm"}
+  - {seccion: "Tapones magnéticos de combustible (adapter, bomba de alta)", componente: "1250 FUEL SYSTEM", variable: particulado_inspeccion, tipo: categorica}
+  - {seccion: "Corte de filtro de fan", componente: "1356 FAN", variable: contexto_enfriamiento, tipo: categorica}
+  - {seccion: "Muestra de aceite y refrigerante de motor", componente: "1348 ENGINE OIL / 1350 ENGINE COOLING SYSTEM", variable: no_aplica, nota: "solo indica que se tomó la muestra (SI/NO); el resultado llega por SOS"}
+no_encontrado: "Corte de filtro de aceite de motor: no aparece en la pauta de muestra (POR_CONFIRMAR si está en otro formulario)"
+
+uso_comentarios: >-
+  Los comentarios describen el hallazgo (sílice, desgaste ferroso). Se guardan como evidencia para la
+  revisión humana y para vincular con modos FMEA (p. ej. sílice → MFP-04). Clasificación automática
+  del texto: candidata para LLM en 2027; antes, palabras clave revisadas por el especialista.
+
 limitacion_principal: >-
-  OverallResponse es el resultado global de la pauta. POR_CONFIRMAR si la pauta inspecciona solo el
-  motor o varios compartimientos; si son varios, el resultado del motor está en la tabla de respuestas
-  por pregunta (no revisada), que también tendría el nivel de particulado y el tipo de partícula.
+  OverallResponse es el resultado global de toda la pauta (motor, mandos finales, masas, hidráulico).
+  Para el motor se usa el resultado de las preguntas de motor de dbo.InspectionQuestion, no OverallResponse.
+  Ejemplo: en la inspección revisada el resultado global "Monitor" se explica por el test de parche del motor.
 
 pendiente:
-  - "Estructura de la tabla de respuestas por pregunta (unida por InspectionNumber)"
-  - "Preguntas de la pauta que corresponden al motor"
-  - "Equivalencia entre la escala de Argos (histórico) y Normal/Monitor/Action, para unir ambas series"
+  - "Dominio completo de Answer y Color en las preguntas de motor (todas las inspecciones DMH)"
+  - "Corte de filtro de aceite de motor: ¿en otro formulario?"
+  - "Equivalencia entre la escala de Argos (histórico) y la de Cat Inspect, para unir ambas series"
+  - "Acceso de solo lectura desde Databricks o extracto periódico"

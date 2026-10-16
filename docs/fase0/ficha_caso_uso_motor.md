@@ -155,7 +155,7 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 7. ~~**Equipos del piloto:**~~ ✅ MH340–MH352 con MH343, más MH353 si tiene datos.
 8. ~~**SOS:**~~ ✅ el "Id Lab." es interno del laboratorio. La muestra se usa desde su fecha + 3 días (promedio hasta la carga).
 9. ~~**Motores por equipo:**~~ ✅ en SOS el motor del 798AC viene como `ENG`; ENG_FR/ENG_RR son de otros modelos.
-11. **Particulado:** ✅ Cat Inspect (dbo.Inspection) revisado. Falta: tabla de respuestas por pregunta (resultado del motor y nivel de particulado), acceso desde Databricks y equivalencia con la escala de Argos para el histórico 2023–2026.
+11. **Particulado:** ✅ Cat Inspect revisado (cabecera y preguntas). Para el motor se usan las preguntas de motor, no el resultado global. Falta: dominio de respuestas, corte de filtro de aceite de motor, acceso desde Databricks y equivalencia con Argos para 2023–2026.
 12. **Plantilla de falla de componentes (SharePoint):** resume modo de falla y causa raíz cuando existe. Pendiente de adjuntar; se usará solo como etiqueta.
 10. **Unidades:** el diccionario de tendencias no trae unidades (la frecuencia ya está confirmada).
 

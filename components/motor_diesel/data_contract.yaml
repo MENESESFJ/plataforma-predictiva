@@ -86,7 +86,7 @@ fuentes:
     origen_actual: Cat Inspect, en SQL Server (fuera del lake)   # CONFIRMADO
     historico: Argos (congelándose)                              # CONFIRMADO
     acceso_sql_server: POR_CONFIRMAR   # nuevo origen fuera de Databricks; solo lectura
-    tablas: ["Cat Inspect: dbo.Inspection (cabecera, ver knowledge/fuentes/cat_inspect.yaml)", "Cat Inspect: respuestas por pregunta (POR_CONFIRMAR)", "Argos: ds_Particulado_798 (histórico)"]
+    tablas: ["Cat Inspect: dbo.Inspection (cabecera) + dbo.InspectionQuestion (preguntas de motor), ver knowledge/fuentes/cat_inspect.yaml", "Argos: ds_Particulado_798 (histórico)"]
     cobertura: "Cat Inspect regular desde 2026-06; antes de eso solo Argos"   # CONFIRMADO en la muestra
     granularidad: por inspección
     fecha_evento: DateOpened (Cat Inspect)
