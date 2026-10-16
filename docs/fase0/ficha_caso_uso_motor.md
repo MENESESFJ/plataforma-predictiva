@@ -35,15 +35,15 @@ Principio: **el modelo detecta, el FMEA contextualiza, el especialista confirma.
 
 Flujo conceptual: datos → calidad → features → detección de anomalía → persistencia/degradación → compatibilidad FMEA → interpretación → recomendación → validación humana → retroalimentación.
 
-**Por qué detección de anomalías y no predicción de falla:** con 9 cambios imprevistos en ~3 años, un modelo supervisado de falla tendría muy poca base. Esto está alineado con la mitigación del roadmap para "pocos eventos" (objetivo intermedio).
+**Por qué detección de anomalías y no predicción de falla:** con 10 cambios imprevistos en ~3 años, repartidos en varios modos de falla, un modelo supervisado de falla tendría muy poca base. Esto está alineado con la mitigación del roadmap para "pocos eventos" (objetivo intermedio).
 
 ## 3. Eventos históricos (ground truth)
 
 | Campo | Valor | Estado |
 |---|---|---|
-| Cambios de motor desde sep-2023 | 14 | ✅ informado |
-| Imprevistos | 9 informados; la planilla marca 10 (MH340 2025-07-05 dice "Imprevisto" con descripción "PCR") | 🟡 conciliar |
-| Programados | 5 informados; la planilla marca 4, todos por PCR (2 con overhaul) | 🟡 conciliar |
+| Cambios de motor desde sep-2023 | 14 | ✅ planilla y base |
+| Imprevistos | 10. MH340 2025-07-05 tenía el PCR cumplido pero falló antes de su semana programada de cambio: cuenta como falla imprevista | ✅ |
+| Programados | 4, todos por PCR (2 con overhaul) | ✅ |
 | Síntoma de detención | 8 de los imprevistos se detuvieron por "baja presión aceite motor". Es el síntoma con que se detectó la falla, no su causa | ✅ planilla y base |
 | Equipos con dos cambios | MH341 y MH344 | ✅ planilla |
 | Datos por cambio | Fecha, horas, tipo, modo de falla estandarizado, causa raíz y pieza fallada | ✅ `BaseCambiosComponentes798` |
@@ -59,12 +59,14 @@ Flujo conceptual: datos → calidad → features → detección de anomalía →
 | Bloqueo hidráulico por ingreso de fluido al cilindro | MH350 2024-10, MH345 2024-11, MH348 2024-12 | MFP-03 solo parcial | Anillo cortafuego / sello integral (en investigación por el fabricante) o fisura de camisa con ingreso de refrigerante |
 | Lubricación y cojinetes | MH344 2024-12 | MFP-01 + MFP-07 | Gripaje de metales de biela por contaminación a través del filtro |
 | Baja presión de aceite sin causa registrada | MH349 2025-04, MH341 2026-05 | MFP-07 (solo síntoma) | Sin AFA ni causa raíz |
-| PCR (fin de vida) | MH342, MH347, MH351, MH346 (programados) y MH340 2025-07 | No aplica | Se proponen como censura, no como falla |
+| Falla con PCR cumplido | MH340 2025-07 | Indeterminado | Falló antes de la semana programada de cambio |
+| PCR programado (fin de vida) | MH342, MH347, MH351, MH346 | No aplica | Censura, no falla |
 
 **Implicancias:**
 1. **De las 7 fallas con causa conocida, solo 1 calza con el FMEA** (MH344 2024: MFP-01 + MFP-07), 1 calza en parte (MH350: MFP-03) y 5 no tienen modo. Faltan los modos de distribución delantera y de bloqueo hidráulico por ingreso de fluido. Se propone a Confiabilidad agregarlos (la decisión es suya; no se modifica `fmea.json` sin su aprobación).
 2. **La baja presión de aceite es un síntoma tardío común.** Sirve para detectar, pero no distingue el modo; los precursores de cada grupo deben buscarse en otras señales (particulado y Fe para distribución; Na/K, nivel de refrigerante, presión de cárter y temperaturas de escape por cilindro para ingreso de fluido).
-3. **Los PCR no son fallas.** Para el modelo, un cambio por PCR cierra la vida del motor sin evento (censura). Con eso quedan 9 fallas imprevistas, coincidente con lo informado. Falta confirmar si MH340 2025-07 fue PCR (censura) o falla.
+3. **Los PCR programados no son fallas.** Para el modelo, un cambio programado por PCR cierra la vida del motor sin evento (censura). Quedan 10 fallas imprevistas y 4 censuras.
+4. **Causas faltantes:** MH349 2025-04, MH340 2025-07, MH341 2026-05 y MH344 2026-07 (este solo tiene descripción) no tienen causa raíz en la planilla ni en la base; el responsable del proyecto las buscará en otra fuente.
 
 **Regla:** AFA y RCA se generan después del evento. Sirven para etiquetar, validar resultados y contrastar con el FMEA. **Nunca son variables predictoras** (regla en el contrato de datos, con test).
 
@@ -130,7 +132,7 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 | Fuente en el contrato | Familias candidatas | Validado | Responsable de acceso |
 |---|---|---|---|
 | Análisis de aceite | SOS / APD | ⬜ | ⬜ |
-| Particulado | Cat Inspect (actual, SQL Server); Argos (histórico, congelándose) | ✅ origen · ⬜ acceso | ⬜ |
+| Particulado | Cat Inspect (SQL Server, regular desde jun-2026; ver `knowledge/fuentes/cat_inspect.yaml`); Argos (histórico, congelándose) | ✅ cabecera · ⬜ respuestas por pregunta y acceso desde Databricks | ⬜ |
 | Monitoreo del equipo | VIMS eventos y tendencias | ⬜ | ⬜ |
 | Mantenimiento | Mantenimiento, fallas de componentes, SMCS | ⬜ | ⬜ |
 | Horas | Horas del equipo | ⬜ | ⬜ |
@@ -153,7 +155,7 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 7. ~~**Equipos del piloto:**~~ ✅ MH340–MH352 con MH343, más MH353 si tiene datos.
 8. ~~**SOS:**~~ ✅ el "Id Lab." es interno del laboratorio. La muestra se usa desde su fecha + 3 días (promedio hasta la carga).
 9. ~~**Motores por equipo:**~~ ✅ en SOS el motor del 798AC viene como `ENG`; ENG_FR/ENG_RR son de otros modelos.
-11. ~~**Particulado:**~~ ✅ hoy lo captura Cat Inspect, en SQL Server (fuera del lake). Falta: acceso de solo lectura y estructura de la tabla.
+11. **Particulado:** ✅ Cat Inspect revisado (cabecera y preguntas). Para el motor se usan las preguntas de motor, no el resultado global. Falta: dominio de respuestas, corte de filtro de aceite de motor, acceso desde Databricks y equivalencia con Argos para 2023–2026.
 12. **Plantilla de falla de componentes (SharePoint):** resume modo de falla y causa raíz cuando existe. Pendiente de adjuntar; se usará solo como etiqueta.
 10. **Unidades:** el diccionario de tendencias no trae unidades (la frecuencia ya está confirmada).
 
@@ -161,7 +163,7 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 
 | Riesgo | Mitigación |
 |---|---|
-| Solo 9 cambios imprevistos | Detección de anomalías + degradación; validación caso a caso; intervalos, no porcentajes |
+| Solo 10 cambios imprevistos, repartidos en varios modos | Detección de anomalías + degradación; validación caso a caso; intervalos, no porcentajes |
 | Leakage por AFA/RCA o por fecha de muestra SOS | AFA/RCA prohibidos como predictor; SOS se usa desde fecha de muestra + 3 días (ambos con regla en el contrato) |
 | Conocimiento limitado de procesos existentes | No se modifica nada existente (DP-001); lo que se rearme queda documentado y versionado en el proyecto (DP-002). Ver `docs/fase0/decisiones_proyecto.md` |
 | Anomalías de Gold con lógica desconocida | Se generan de cero en el proyecto y Gold se usa solo como comparación (DP-003, propuesta) |

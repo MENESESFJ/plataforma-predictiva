@@ -22,7 +22,7 @@ Principio: el proyecto no toca nada de lo existente y documenta todo lo que teng
 | Agregados de eventos | Veces, severidad y permanencia de alarmas | Igual que tendencias | `ds_EventDuration_798` (Silver) | ⬜ Por diseñar |
 | Agregados de rellenos | Litros acumulados, veces, severidad (> 90 L) | Igual que tendencias | `datasetOilrefill798` (Bronze) | ⬜ Por diseñar |
 | Agregados SOS | Nivel actual, acumulado y veces sobre límite condenatorio | Elementos elegidos por el FMEA, no por el feature importance anterior; límites por confirmar | SOS Bronze / Silver | ⬜ Por diseñar |
-| Agregados de particulado | Severidad y veces | Origen actual en Cat Inspect (SQL Server) | Cat Inspect | ⬜ Pendiente de acceso |
+| Agregados de particulado | Severidad y veces | Origen actual en Cat Inspect (SQL Server); unir con el histórico de Argos | Cat Inspect `dbo.Inspection` + `dbo.InspectionQuestion` (preguntas de motor); Argos | ⬜ Falta dominio de respuestas |
 
 Cada proceso rearmado debe quedar con: definición escrita, código en el repositorio, pruebas,
 regla de corte explícita y comparación contra el resultado de Gold cuando exista.

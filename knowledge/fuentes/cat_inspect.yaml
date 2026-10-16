@@ -1,0 +1,109 @@
+# Cat Inspect: inspecciones de particulado (SQL Server, fuera del lake)
+#
+# Origen: consulta de muestra entregada por el responsable del proyecto (2026-10-16) sobre la
+# tabla de cabecera de inspecciones. Solo estructura, reglas y hallazgos; no se versionan filas,
+# correos, nombres ni identificadores de inspectores.
+# Marcas: CONFIRMADO (visto en la muestra) · SUPUESTO · POR_CONFIRMAR.
+version: "0.3.0"
+fecha_revision: "2026-10-16"
+
+origen:
+  motor: SQL Server            # CONFIRMADO
+  tabla: dbo.Inspection        # CONFIRMADO: una fila por inspección (cabecera)
+  filtro_formulario: "InspectionFormName = 'Pauta de rutinas de particulados 798AC - DMH'"   # CONFIRMADO
+  acceso: solo_lectura         # DP-001
+  acceso_desde_databricks: POR_CONFIRMAR
+
+columnas_utiles:
+  InspectionNumber: identificador de la inspección (clave para unir con las respuestas)
+  InspectionStatus: "Completed / Cancelled"
+  SerialNumber: serie del equipo (clave; filtrar por la flota de bronze_798.yaml)
+  ModelNumber: modelo (798AC)
+  OwnerEquipmentNumber: "código de equipo, formato variable: MH-346, CaexDMH-346, mh352"
+  SMU: horómetro del equipo al inspeccionar (decimal con coma)
+  DateOpened: inicio de la inspección
+  DateClosed: cierre de la inspección
+  DateFinished: término registrado (≈ DateClosed)
+  DateUpdated: carga o actualización en la base (6 a 78 h después del cierre en la muestra)
+  OverallResponse: "resultado global: Normal / Monitor / Action (None en canceladas)"
+  InspectionFormRevision: revisión del formulario (cambia en el tiempo)
+columnas_excluidas:
+  datos_personales: [OwnerEmail, OwnerPhone, InspectorNames]   # no se versionan ni se usan
+  sin_uso: [GeoLocation_Altitude, GeoLocation_Latitude, GeoLocation_Longitude, LocationDescription,
+            InspectionFormShortDescription, InspectionFormLongDescription, AssetID, CustomerName]
+
+reglas:
+  filtro: "InspectionStatus = 'Completed' y SerialNumber en la flota DMH 798AC"
+  fecha_evento: DateOpened
+  fecha_disponible: DateClosed            # una inspección puede cerrarse hasta 63 días después de abrirse
+  regla_corte: "usar solo inspecciones con DateClosed <= fecha_corte"
+  severidad: {Normal: 0, Monitor: 1, Action: 2}   # escala ordinal propuesta
+
+conteo_respuestas_motor:   # inspecciones DMH completadas, todas las revisiones del formulario (2026-10-16)
+  "1000 ENGINE · test de parche": {Bueno: 16, Medio: 5, Medio/Alto: 2, "3.- CRITICO": 1, sin_responder: 5}
+  "1300 LUBRICATION SYSTEM · rejilla magnética": {Bueno: 19, "1.- BAJO": 1, sin_responder: 9}
+  "1250 FUEL SYSTEM · tapones magnéticos": {Bueno: 31, "1.- BAJO": 2, Medio: 1, sin_responder: 24}
+  "1356 FAN · corte de filtro": {Bueno: 14, Medio: 1, "4.- MUY CRITICO": 1, sin_responder: 13}
+  "1328 CENTRIFUGAL OIL FILTER · COF": {sin_responder: 10}   # sección nueva, aún sin datos
+  lectura: "El test de parche es la pregunta de motor más informativa: 8 de 24 respuestas fuera de Bueno"
+
+hallazgos_muestra:   # 48 filas del formulario, 28 inspecciones reales DMH completadas
+  - "Cobertura: desde 2026-01-30 (una) y en forma regular desde 2026-06; antes el particulado está en Argos"
+  - "Resultados reales DMH: Monitor 13, Normal 9, Action 6"
+  - "Frecuencia: 1 a 4 inspecciones por equipo en ~4 meses (cada 2 a 6 semanas)"
+  - "Registros de prueba en el mismo formulario: serie CAT12345, modelos 797F, equipos de otros contratos (RT, TKD)"
+  - "16 de 48 inspecciones canceladas"
+  - "Inspecciones duplicadas (mismo equipo y horómetro en días consecutivos) y horómetro repetido de una inspección anterior"
+  - "MH344 tuvo resultado Monitor el 2026-06-20, 37 días antes de su cambio de motor del 2026-07-27 (falla de distribución con particulado)"
+
+respuestas:
+  tabla: dbo.InspectionQuestion     # CONFIRMADO: una fila por pregunta, unida por InspectionNumber
+  columnas_utiles:
+    InspectionNumber: clave de la inspección
+    CategoryID / ItemText: sección de la pauta (muestras APD, tapones magnéticos, corte de filtros, test de parche, COF, rejillas)
+    QuestionID / QuestionText: pregunta (el texto termina con el número de formulario, 551039)
+    ComponentCode: "SMCS + nombre del compartimiento (p. ej. 1000 ENGINE, 1300 LUBRICATION SYSTEM)"
+    PrimaryLocation: lado (RI – Right / LI – Left) cuando aplica
+    Answer: "respuesta; en preguntas de motor: Bueno, Medio, Medio/Alto, 1.- BAJO, 3.- CRITICO, 4.- MUY CRITICO"   # CONFIRMADO
+    Color: "Green / Yellow / Red / Grey / Unselected"   # CONFIRMADO
+    Comments: observación en texto libre (p. ej. "se observa contaminación de sílice")
+    QuestionAttachmentsCnt: fotos adjuntas
+  columnas_excluidas: [Signature_PrintedName, Signature_Image, InstructionText, InstructionPictureReferenceID, InstructionDocumentReferenceID]
+  unselected: "Pregunta no respondida: es dato faltante, no resultado normal"
+  escala_severidad:
+    hallazgo: >-
+      Conviven dos escalas en las respuestas: una numerada (1.- BAJO, 3.- CRITICO, 4.- MUY CRITICO; la
+      pauta pide avisar al supervisor con severidad 2-3-4) y otra textual (Bueno, Medio, Medio/Alto).
+      El color es consistente en ambas: Green, Yellow, Red.   # CONFIRMADO
+    criterio: "La severidad la da el color (CONFIRMADO 2026-10-16), no el texto de la respuesta"
+    escala_color: {Green: 1, Yellow: 2, Red: 3}   # Grey = informativa; Unselected = dato faltante
+    umbral_severo: POR_CONFIRMAR   # ¿desde Yellow o solo Red?
+    uso_mientras_tanto: >-
+      Se guardan ambas features (veces en Yellow o más, veces en Red) para no depender del umbral;
+      la definición de "severo" se fija cuando se confirme.
+
+preguntas_motor:   # CONFIRMADO en la inspección de muestra; QuestionID a confirmar entre revisiones del formulario
+  - {seccion: "Test parche motor", componente: "1000 ENGINE", variable: particulado_inspeccion, tipo: categorica}
+  - {seccion: "Rejilla magnética motor diésel", componente: "1300 LUBRICATION SYSTEM", variable: particulado_inspeccion, tipo: categorica}
+  - {seccion: "Filtro de aceite centrífugo (COF): peso", componente: "1328 CENTRIFUGAL OIL FILTER", variable: particulado_inspeccion, tipo: numerica, nota: "sección nueva (2026-08)"}
+  - {seccion: "Filtro de aceite centrífugo (COF): lodo en papel", componente: "1328 CENTRIFUGAL OIL FILTER", variable: particulado_inspeccion, tipo: numerica, limite_pauta: "42 mm"}
+  - {seccion: "Tapones magnéticos de combustible (adapter, bomba de alta)", componente: "1250 FUEL SYSTEM", variable: particulado_inspeccion, tipo: categorica}
+  - {seccion: "Corte de filtro de fan", componente: "1356 FAN", variable: contexto_enfriamiento, tipo: categorica}
+  - {seccion: "Muestra de aceite y refrigerante de motor", componente: "1348 ENGINE OIL / 1350 ENGINE COOLING SYSTEM", variable: no_aplica, nota: "solo indica que se tomó la muestra (SI/NO); el resultado llega por SOS"}
+no_encontrado: "Corte de filtro de aceite de motor: no aparece en la pauta de muestra (POR_CONFIRMAR si está en otro formulario)"
+
+uso_comentarios: >-
+  Los comentarios describen el hallazgo (sílice, desgaste ferroso). Se guardan como evidencia para la
+  revisión humana y para vincular con modos FMEA (p. ej. sílice → MFP-04). Clasificación automática
+  del texto: candidata para LLM en 2027; antes, palabras clave revisadas por el especialista.
+
+limitacion_principal: >-
+  OverallResponse es el resultado global de toda la pauta (motor, mandos finales, masas, hidráulico).
+  Para el motor se usa el resultado de las preguntas de motor de dbo.InspectionQuestion, no OverallResponse.
+  Ejemplo: en la inspección revisada el resultado global "Monitor" se explica por el test de parche del motor.
+
+pendiente:
+  - "Confirmar si Yellow ya es severo o solo Red"
+  - "Corte de filtro de aceite de motor: ¿en otro formulario?"
+  - "Equivalencia entre la escala de Argos (histórico) y la de Cat Inspect, para unir ambas series"
+  - "Acceso de solo lectura desde Databricks o extracto periódico"
