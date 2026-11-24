@@ -40,6 +40,24 @@ CAMPOS_TECNICOS = ["tipo_cambio", "horas_motor_removido_h", "descripcion_falla",
                    "pieza_fallada", "causa_raiz"]
 
 
+def es_limite_de_tasa(e: Exception) -> bool:
+    """429 del despliegue: se superó el límite de tokens o solicitudes por minuto."""
+    texto = repr(e)
+    return "429" in texto or "rate_limit" in texto
+
+
+async def con_reintentos(llamada, intentos: int = 4, espera_s: int = 65):
+    """Ejecuta la llamada asíncrona; ante un 429 espera a que se reinicie la cuota por minuto."""
+    for i in range(1, intentos + 1):
+        try:
+            return await llamada()
+        except Exception as e:  # noqa: BLE001 - solo se reintenta el 429
+            if not es_limite_de_tasa(e) or i == intentos:
+                raise
+            print(f"  límite de tokens por minuto alcanzado; espero {espera_s} s (intento {i}/{intentos})")
+            await asyncio.sleep(espera_s)
+
+
 class Clasificacion(BaseModel):
     grupo_falla: GRUPOS
     modos_fmea: List[str] = Field(description="IDs MFP-xx compatibles; vacío si ninguno aplica")
@@ -81,11 +99,12 @@ def agente_foundry(modelo: str):
 
 
 async def clasificar(agente, fila: dict) -> Clasificacion:
-    resp = await agente.run(registro_tecnico(fila), options={"response_format": Clasificacion})
+    resp = await con_reintentos(lambda: agente.run(registro_tecnico(fila),
+                                                   options={"response_format": Clasificacion}))
     return resp.value if isinstance(resp.value, Clasificacion) else Clasificacion.model_validate_json(resp.text)
 
 
-async def evaluar(agente, repeticiones: int) -> List[dict]:
+async def evaluar(agente, repeticiones: int, pausa_s: float = 0) -> List[dict]:
     with EVENTOS.open(encoding="utf-8") as f:
         filas = list(csv.DictReader(f))
     salida = []
@@ -94,6 +113,7 @@ async def evaluar(agente, repeticiones: int) -> List[dict]:
         for _ in range(repeticiones):
             try:
                 corridas.append(await clasificar(agente, fila))
+                await asyncio.sleep(pausa_s)
             except Exception as e:  # noqa: BLE001 - se registra y se sigue con el resto
                 print(f"error en {fila['equipo_id']} {fila['fecha_retiro']}: {e!r}")
         grupos = Counter(c.grupo_falla for c in corridas)
@@ -135,9 +155,10 @@ def resumen(filas: List[dict], modelo: str, repeticiones: int) -> str:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--repeticiones", type=int, default=3)
+    ap.add_argument("--pausa", type=float, default=5, help="segundos entre llamadas (cuotas bajas)")
     ap.add_argument("--modelo", default=os.environ.get("AZURE_AI_MODEL_DEPLOYMENT_NAME", "gpt-5"))
     args = ap.parse_args(argv)
-    filas = asyncio.run(evaluar(agente_foundry(args.modelo), args.repeticiones))
+    filas = asyncio.run(evaluar(agente_foundry(args.modelo), args.repeticiones, args.pausa))
     RESULTADOS.mkdir(exist_ok=True)
     with (RESULTADOS / f"p2_clasificacion_{args.modelo}.csv").open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(filas[0]))

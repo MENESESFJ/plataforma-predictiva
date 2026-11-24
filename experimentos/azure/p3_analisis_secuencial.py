@@ -20,7 +20,8 @@ import os
 import sys
 from typing import cast
 
-from experimentos.azure.p2_clasificar_causas import EVENTOS, FMEA, RESULTADOS, registro_tecnico
+from experimentos.azure.p2_clasificar_causas import (EVENTOS, FMEA, RESULTADOS, con_reintentos,
+                                                    registro_tecnico)
 
 INSTRUCCIONES = {
     "evidencia": (
@@ -60,7 +61,7 @@ async def analizar(texto_caso: str, modelo: str) -> list:
                                 project_endpoint=os.environ["AZURE_AI_PROJECT_ENDPOINT"], model=modelo)
     agentes = [cliente.as_agent(name=n, instructions=t) for n, t in instrucciones().items()]
     flujo = SequentialBuilder(participants=agentes, output_from="all").build()
-    resultado = await flujo.run(f"Registro del cambio de motor:\n{texto_caso}")
+    resultado = await con_reintentos(lambda: flujo.run(f"Registro del cambio de motor:\n{texto_caso}"))
     salida = []
     for respuesta in resultado.get_outputs():
         for msg in cast(list[Message], respuesta.messages):
