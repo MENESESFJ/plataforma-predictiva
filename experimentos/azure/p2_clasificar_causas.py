@@ -88,14 +88,23 @@ def registro_tecnico(fila: dict) -> str:
     return "\n".join(f"{c}: {fila.get(c, '')}" for c in CAMPOS_TECNICOS if fila.get(c, "").strip())
 
 
-def agente_foundry(modelo: str):
-    """Agente de Agent Framework sobre el proyecto de Foundry, igual que en el laboratorio."""
+def opciones_modelo(esfuerzo: str = "low", max_tokens: int = 4000) -> dict:
+    """Razonamiento bajo y respuesta acotada: Azure descuenta max_tokens del límite por minuto."""
+    return {"max_tokens": max_tokens, "reasoning": {"effort": esfuerzo}}
+
+
+def cliente_foundry(modelo: str):
     from agent_framework.foundry import FoundryChatClient  # import diferido: solo en la VM
     from azure.identity import AzureCliCredential
 
-    cliente = FoundryChatClient(credential=AzureCliCredential(),
-                                project_endpoint=os.environ["AZURE_AI_PROJECT_ENDPOINT"], model=modelo)
-    return cliente.as_agent(name="clasificador_fallas", instructions=prompt_sistema())
+    return FoundryChatClient(credential=AzureCliCredential(),
+                             project_endpoint=os.environ["AZURE_AI_PROJECT_ENDPOINT"], model=modelo)
+
+
+def agente_foundry(modelo: str, opciones: dict):
+    """Agente de Agent Framework sobre el proyecto de Foundry, igual que en el laboratorio."""
+    return cliente_foundry(modelo).as_agent(name="clasificador_fallas", instructions=prompt_sistema(),
+                                            default_options=opciones)
 
 
 async def clasificar(agente, fila: dict) -> Clasificacion:
@@ -156,9 +165,13 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--repeticiones", type=int, default=3)
     ap.add_argument("--pausa", type=float, default=5, help="segundos entre llamadas (cuotas bajas)")
+    ap.add_argument("--esfuerzo", default="low", choices=["minimal", "low", "medium", "high"],
+                    help="esfuerzo de razonamiento (gpt-5); más bajo = menos tokens")
+    ap.add_argument("--max-tokens", type=int, default=4000)
     ap.add_argument("--modelo", default=os.environ.get("AZURE_AI_MODEL_DEPLOYMENT_NAME", "gpt-5"))
     args = ap.parse_args(argv)
-    filas = asyncio.run(evaluar(agente_foundry(args.modelo), args.repeticiones, args.pausa))
+    filas = asyncio.run(evaluar(agente_foundry(args.modelo, opciones_modelo(args.esfuerzo, args.max_tokens)),
+                               args.repeticiones, args.pausa))
     RESULTADOS.mkdir(exist_ok=True)
     with (RESULTADOS / f"p2_clasificacion_{args.modelo}.csv").open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(filas[0]))

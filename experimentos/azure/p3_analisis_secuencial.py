@@ -20,8 +20,8 @@ import os
 import sys
 from typing import cast
 
-from experimentos.azure.p2_clasificar_causas import (EVENTOS, FMEA, RESULTADOS, con_reintentos,
-                                                    registro_tecnico)
+from experimentos.azure.p2_clasificar_causas import (EVENTOS, FMEA, RESULTADOS, cliente_foundry,
+                                                    con_reintentos, opciones_modelo, registro_tecnico)
 
 INSTRUCCIONES = {
     "evidencia": (
@@ -51,15 +51,13 @@ def leer_caso(indice: int) -> dict:
         return list(csv.DictReader(f))[indice]
 
 
-async def analizar(texto_caso: str, modelo: str) -> list:
+async def analizar(texto_caso: str, modelo: str, opciones: dict) -> list:
     from agent_framework import Message  # imports diferidos: solo en la VM
-    from agent_framework.foundry import FoundryChatClient
     from agent_framework.orchestrations import SequentialBuilder
-    from azure.identity import AzureCliCredential
 
-    cliente = FoundryChatClient(credential=AzureCliCredential(),
-                                project_endpoint=os.environ["AZURE_AI_PROJECT_ENDPOINT"], model=modelo)
-    agentes = [cliente.as_agent(name=n, instructions=t) for n, t in instrucciones().items()]
+    cliente = cliente_foundry(modelo)
+    agentes = [cliente.as_agent(name=n, instructions=t, default_options=opciones)
+               for n, t in instrucciones().items()]
     flujo = SequentialBuilder(participants=agentes, output_from="all").build()
     resultado = await con_reintentos(lambda: flujo.run(f"Registro del cambio de motor:\n{texto_caso}"))
     salida = []
@@ -72,11 +70,14 @@ async def analizar(texto_caso: str, modelo: str) -> list:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--caso", type=int, default=4, help="fila del listado de eventos (0 a 13)")
+    ap.add_argument("--esfuerzo", default="low", choices=["minimal", "low", "medium", "high"],
+                    help="esfuerzo de razonamiento (gpt-5); más bajo = menos tokens")
+    ap.add_argument("--max-tokens", type=int, default=3000)
     ap.add_argument("--modelo", default=os.environ.get("AZURE_AI_MODEL_DEPLOYMENT_NAME", "gpt-5"))
     args = ap.parse_args(argv)
     fila = leer_caso(args.caso)
     texto = registro_tecnico(fila)
-    mensajes = asyncio.run(analizar(texto, args.modelo))
+    mensajes = asyncio.run(analizar(texto, args.modelo, opciones_modelo(args.esfuerzo, args.max_tokens)))
     md = [f"# Prueba 3: análisis secuencial del caso {args.caso} ({args.modelo})", "",
           "## Registro enviado", "", "```", texto, "```", ""]
     for autor, contenido in mensajes:

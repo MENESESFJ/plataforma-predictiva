@@ -85,7 +85,7 @@ El mismo `SequentialBuilder` del laboratorio, con tres agentes del dominio:
 
 | Mensaje | Causa | Qué hacer |
 |---|---|---|
-| `429 rate_limit_exceeded` | Se superó el límite de tokens por minuto del despliegue (bajo en suscripciones de capacitación) | Los scripts esperan y reintentan solos (hasta 4 veces). Si persiste: subir **Tokens per Minute** del despliegue en Foundry, usar `--pausa 20` en la prueba 2, o desplegar `gpt-5-mini` y usar `--modelo gpt-5-mini` |
+| `429 rate_limit_exceeded` | Se superó el límite de tokens por minuto del despliegue (bajo en suscripciones de capacitación) | Los scripts ya usan razonamiento bajo y respuestas acotadas (`--esfuerzo low`, `--max-tokens`: Azure descuenta ese máximo del límite por minuto), y esperan y reintentan solos (hasta 4 veces). Si persiste: `--max-tokens 2000`, subir **Tokens per Minute** del despliegue en Foundry, `--pausa 20` en la prueba 2, o desplegar `gpt-5-mini` y usar `--modelo gpt-5-mini` |
 | `... was disallowed by policy` al crear recursos | La suscripción del curso solo permite los recursos entregados | Usar el grupo de recursos y el proyecto del curso |
 | `KeyError: 'AZURE_AI_PROJECT_ENDPOINT'` | No se encontró el `.env` | Crearlo en la raíz del repo y correr desde esa carpeta |
 
