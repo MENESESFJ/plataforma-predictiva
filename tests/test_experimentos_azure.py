@@ -74,22 +74,27 @@ def _secciones(ruta):
     return [(p.split("\n", 1)[0].strip(), p.split("\n", 1)[1].strip()) for p in partes]
 
 
-def test_p3_detecta_eco_en_corrida_real():
-    """Segunda corrida (2026-11-24): en el caso 4 fmea y revisor copiaron la evidencia; en el 3 el
-    revisor parafraseó al fmea (similitud 0,84); el caso 0 fue normal (similitud < 0,2)."""
+ESPERADO_ECO = {  # corridas reales del 2026-11-24, copiadas en tests/fixtures/p3_eco
+    "corrida2_caso0": [], "corrida2_caso3": ["revisor"], "corrida2_caso4": ["fmea", "revisor"],
+    "corrida3_caso0": [], "corrida3_caso3": ["fmea"], "corrida3_caso4": [],
+}
+
+
+@pytest.mark.parametrize("nombre,esperado", sorted(ESPERADO_ECO.items()))
+def test_p3_detecta_eco_en_corridas_reales(nombre, esperado):
+    """Copias reales: corrida 2 caso 4 (fmea y revisor textuales), caso 3 (revisor parafrasea, 0,84);
+    corrida 3 caso 3 (fmea copia la evidencia). Las respuestas normales están bajo 0,25."""
     from pathlib import Path
 
     from experimentos.azure import p3_analisis_secuencial as p3
 
-    caso4 = Path("experimentos/azure/resultados/p3_caso_4_gpt-5.md")
-    if not caso4.exists() or "Razonamiento:" in caso4.read_text(encoding="utf-8"):
-        pytest.skip("el resultado de esa corrida fue reemplazado")
-    assert p3.detectar_eco(_secciones(caso4)) == ["fmea", "revisor"]
-    caso3, caso0 = (Path(f"experimentos/azure/resultados/p3_caso_{c}_gpt-5.md") for c in (3, 0))
-    if caso3.exists() and "Razonamiento:" not in caso3.read_text(encoding="utf-8"):
-        assert p3.detectar_eco(_secciones(caso3)) == ["revisor"]
-    if caso0.exists() and "Razonamiento:" not in caso0.read_text(encoding="utf-8"):
-        assert p3.detectar_eco(_secciones(caso0)) == []
+    ruta = Path(__file__).parent / "fixtures" / "p3_eco" / f"{nombre}.md"
+    assert p3.detectar_eco(_secciones(ruta)) == esperado
+
+
+def test_p3_sin_eco_e_instruccion_de_no_repetir():
+    from experimentos.azure import p3_analisis_secuencial as p3
+
     assert p3.detectar_eco([("evidencia", "hechos A"), ("fmea", "modos B y modo nuevo C"),
                             ("revisor", "lo sustentado y lo supuesto")]) == []
     assert "no copies" in p3.instrucciones()["revisor"]
