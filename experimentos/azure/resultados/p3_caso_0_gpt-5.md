@@ -15,23 +15,20 @@ causa_raiz: fatiga de material
 
 ## evidencia
 
-- síntoma de detención: "BAJA PRESIÓN ACEITE MOTOR"
-- pieza fallada: "idler gear as"
-- causa raíz declarada: "fatiga de material"
-- condición del componente: no informado
+- Síntoma de detención: "BAJA PRESIÓN ACEITE MOTOR"
+- Pieza fallada: "idler gear as"
+- Causa raíz declarada: "fatiga de material"
+- Condición del componente: no informado
 
 ## fmea
 
-Compatibles con la evidencia:
-- MFP-07 (baja_presion_lubricacion): compatible porque la “descripcion_falla” reporta “BAJA PRESIÓN ACEITE MOTOR”.
-
-No cubierto / requiere modo nuevo:
-- Fallo del tren de distribución delantero (engranaje loco/idler gear) por fatiga: la evidencia indica “modo_falla_estandarizado: falla en distribucion delantera”, “pieza_fallada: idler gear as” y “causa_raiz: fatiga de material”, lo cual no está representado por los modos vigentes. Se sugiere crear un modo específico para “fallo_tren_engranajes_distribucion” (impacto potencial en accionamiento y lubricación).
+- Compatible: MFP-07 (baja_presion_lubricacion) — coincide con la “descripcion_falla: BAJA PRESIÓN ACEITE MOTOR”.
+- No cubierto: la evidencia indica “modo_falla_estandarizado: falla en distribucion delantera” y “pieza_fallada: idler gear as” por “causa_raiz: fatiga de material”; no existe un modo específico de tren de distribución en la lista. Sugerir nuevo modo: falla_tren_engranajes_distribucion.
 
 ## revisor
 
-- Sustentado: evento de “BAJA PRESIÓN ACEITE MOTOR” y retiro imprevisto a 7,188 h; corroborar en eventos VIMS (alarmas/aborts) y OT, pero el síntoma está declarado en el registro. Fuente: eventos VIMS.
-- Suposición: causa raíz “fatiga de material” del idler gear; aceptar solo con evidencia de fractografía/metalografía y tendencia de metales ferrosos (Fe/Cr) en SOS, más hallazgo de particulado de engranajes en filtros/cárter. Fuentes: análisis de aceite SOS, inspección de particulado Cat Inspect.
-- Suposición: la baja presión se debió al fallo del tren de distribución (idler) afectando el accionamiento de la bomba de aceite; validar continuidad de tren, daño en dientes, y estado/arrastre de la bomba. Fuentes: inspección de particulado Cat Inspect (desarme/fotos), reporte de desarme.
-- Suposición: descartadas causas de proceso/fluido (nivel bajo, dilución combustible, contaminación refrigerante) que también provocan baja presión; verificar viscosidad, % fuel, glicoles, Si/Na y registros de rellenos/top-ups. Fuentes: análisis de aceite SOS, registros de rellenos de aceite.
-- Suposición: sin daño secundario en cojinetes por operación con baja presión; confirmar Pb/Cu/Sn en SOS y evidencia de material babbitt en filtros/cesped. Fuentes: análisis de aceite SOS, inspección de particulado Cat Inspect.
+- Síntoma “BAJA PRESIÓN ACEITE MOTOR” — hoy es suposición; aceptar solo si se confirma en eventos VIMS (alarmas/derates de presión de aceite y secuencia temporal). Complementar con historial de rellenos de aceite para descartar bajo nivel por consumo/fugas.
+- Modo declarado “falla en distribución delantera” con pieza “idler gear as” — suposición; verificar con inspección de particulado Cat Inspect (corte de filtro, debris ferrosos/engranaje) y con tendencia SOS (Fe, Cr, Ni) previa al evento indicando desgaste/astillamiento del tren de engranes.
+- Causa raíz “fatiga de material” — suposición; aceptar solo si Cat Inspect evidencia características de fractura por fatiga en el engranaje y la tendencia SOS muestre incremento progresivo de Fe sin indicios de contaminación (Na/K, glicoles) ni dilución (FTIR), lo que descartaría causas alternativas.
+- Vínculo causal: “falla en distribución” provocó la baja presión por pérdida del accionamiento de la bomba de aceite — suposición; verificar en Cat Inspect el estado del engrane de arrastre de la bomba/eje y sincronismo, y en VIMS una caída súbita de presión coincidente. Revisar particulado de filtro (Cat Inspect) por chips de engrane.
+- Hecho administrativo “tipo_cambio: imprevisto” y horas 7,188 h — bien sustentado por el registro; complementar con historial de rellenos de aceite y tendencias SOS para identificar precursores (consumo anómalo, contaminación, degradación) antes del evento.
