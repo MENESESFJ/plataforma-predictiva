@@ -1,8 +1,8 @@
 """Prueba 2: ¿un LLM clasifica bien las fallas de motor según el FMEA?
 
-Toma los 14 cambios de motor de docs/fase0/eventos_motor_dmh_798_borrador.csv y le pide al
-modelo (GPT-5 en Azure AI Foundry) el grupo de falla y los modos FMEA compatibles, con salida
-estructurada. Luego compara contra la propuesta manual del proyecto.
+Toma los 14 cambios de motor de docs/fase0/eventos_motor_dmh_798_borrador.csv y le pide a un
+agente de Microsoft Agent Framework (modelo del proyecto de Foundry, p. ej. gpt-5) el grupo de falla
+y los modos FMEA compatibles, con salida estructurada. Luego compara contra la propuesta manual.
 
 - La propuesta manual NO se le muestra al modelo (clasificación a ciegas).
 - Por defecto solo se envía texto técnico: sin equipo, serie ni fechas.
@@ -10,10 +10,11 @@ estructurada. Luego compara contra la propuesta manual del proyecto.
 
 Uso:
     python -m experimentos.azure.p2_clasificar_causas --repeticiones 3
-Variables: AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT (por defecto gpt-5),
-AZURE_OPENAI_API_VERSION, y AZURE_OPENAI_API_KEY o sesión de Entra (az login).
+Configuración: la misma del laboratorio (.env con AZURE_AI_PROJECT_ENDPOINT y
+AZURE_AI_MODEL_DEPLOYMENT_NAME, y `az login`).
 """
 import argparse
+import asyncio
 import csv
 import json
 import os
@@ -69,29 +70,22 @@ def registro_tecnico(fila: dict) -> str:
     return "\n".join(f"{c}: {fila.get(c, '')}" for c in CAMPOS_TECNICOS if fila.get(c, "").strip())
 
 
-def cliente_azure():
-    from openai import AzureOpenAI  # import diferido: solo se necesita en la VM
+def agente_foundry(modelo: str):
+    """Agente de Agent Framework sobre el proyecto de Foundry, igual que en el laboratorio."""
+    from agent_framework.foundry import FoundryChatClient  # import diferido: solo en la VM
+    from azure.identity import AzureCliCredential
 
-    endpoint = os.environ["AZURE_OPENAI_ENDPOINT"]
-    version = os.environ.get("AZURE_OPENAI_API_VERSION", "2025-04-01-preview")
-    if os.environ.get("AZURE_OPENAI_API_KEY"):
-        return AzureOpenAI(azure_endpoint=endpoint, api_version=version,
-                           api_key=os.environ["AZURE_OPENAI_API_KEY"])
-    from azure.identity import DefaultAzureCredential, get_bearer_token_provider
-    token = get_bearer_token_provider(DefaultAzureCredential(),
-                                      "https://cognitiveservices.azure.com/.default")
-    return AzureOpenAI(azure_endpoint=endpoint, api_version=version, azure_ad_token_provider=token)
+    cliente = FoundryChatClient(credential=AzureCliCredential(),
+                                project_endpoint=os.environ["AZURE_AI_PROJECT_ENDPOINT"], model=modelo)
+    return cliente.as_agent(name="clasificador_fallas", instructions=prompt_sistema())
 
 
-def clasificar(cliente, modelo: str, fila: dict) -> Clasificacion:
-    mensajes = [{"role": "system", "content": prompt_sistema()},
-                {"role": "user", "content": registro_tecnico(fila)}]
-    parse = getattr(cliente.chat.completions, "parse", None) or cliente.beta.chat.completions.parse
-    resp = parse(model=modelo, messages=mensajes, response_format=Clasificacion)
-    return resp.choices[0].message.parsed
+async def clasificar(agente, fila: dict) -> Clasificacion:
+    resp = await agente.run(registro_tecnico(fila), options={"response_format": Clasificacion})
+    return resp.value if isinstance(resp.value, Clasificacion) else Clasificacion.model_validate_json(resp.text)
 
 
-def evaluar(cliente, modelo: str, repeticiones: int) -> List[dict]:
+async def evaluar(agente, repeticiones: int) -> List[dict]:
     with EVENTOS.open(encoding="utf-8") as f:
         filas = list(csv.DictReader(f))
     salida = []
@@ -99,7 +93,7 @@ def evaluar(cliente, modelo: str, repeticiones: int) -> List[dict]:
         corridas = []
         for _ in range(repeticiones):
             try:
-                corridas.append(clasificar(cliente, modelo, fila))
+                corridas.append(await clasificar(agente, fila))
             except Exception as e:  # noqa: BLE001 - se registra y se sigue con el resto
                 print(f"error en {fila['equipo_id']} {fila['fecha_retiro']}: {e!r}")
         grupos = Counter(c.grupo_falla for c in corridas)
@@ -141,9 +135,9 @@ def resumen(filas: List[dict], modelo: str, repeticiones: int) -> str:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--repeticiones", type=int, default=3)
-    ap.add_argument("--modelo", default=os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt-5"))
+    ap.add_argument("--modelo", default=os.environ.get("AZURE_AI_MODEL_DEPLOYMENT_NAME", "gpt-5"))
     args = ap.parse_args(argv)
-    filas = evaluar(cliente_azure(), args.modelo, args.repeticiones)
+    filas = asyncio.run(evaluar(agente_foundry(args.modelo), args.repeticiones))
     RESULTADOS.mkdir(exist_ok=True)
     with (RESULTADOS / f"p2_clasificacion_{args.modelo}.csv").open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(filas[0]))
@@ -156,4 +150,9 @@ def main(argv=None) -> int:
 
 
 if __name__ == "__main__":
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        pass
     sys.exit(main())

@@ -1,4 +1,8 @@
-# Dependencias adicionales para correr los experimentos en la VM de Azure (además de requirements.txt)
-openai>=1.92
-azure-identity
+# Dependencias para correr los experimentos en la VM (además de requirements.txt).
+# Versiones del laboratorio 08 de Microsoft Learn (Agent Framework); requiere Python 3.13.
+python-dotenv
+azure-identity==1.25.3
+agent-framework-core==1.12.1
+agent-framework-foundry==1.10.3
+agent-framework-orchestrations==1.0.1
 azureml-mlflow   # solo para la prueba 1 (registro MLflow en Azure ML)

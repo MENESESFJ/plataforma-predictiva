@@ -20,7 +20,7 @@ herramientas/
 docs/
   fase0/        # Ficha de Caso de Uso (gate Fase 0)
 experimentos/
-  azure/        # pruebas en Azure AI Foundry: registro en Azure ML y clasificación de causas con GPT-5
+  azure/        # pruebas en Azure AI Foundry (Agent Framework): registro en Azure ML, clasificación de causas y análisis secuencial
 tests/
 ```
 

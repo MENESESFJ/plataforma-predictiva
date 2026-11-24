@@ -87,4 +87,9 @@ def main(argv=None) -> int:
 
 
 if __name__ == "__main__":
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        pass
     sys.exit(main())
