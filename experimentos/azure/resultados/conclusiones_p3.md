@@ -38,8 +38,67 @@ el agente pidió un modo nuevo por su cuenta. Eso respalda la propuesta a Confia
 | Pide verificar con Cat Inspect como si registrara desarmes, y en fechas en que no tenía datos (antes de jun-2026) | Instrucción del revisor: qué cubre cada fuente y desde cuándo; los hallazgos de desarme vienen del AFA/RCA o del informe de taller |
 | No ve repeticiones en la flota (MH345 y MH348 comparten la causa "anillo cortafuego") | Pendiente: un agente con acceso al listado de eventos (patrón concurrente o de traspaso) |
 
+## Segunda corrida: repetibilidad (mismas instrucciones, 2026-11-24)
+
+Se repitieron los tres casos con las **mismas instrucciones** (el ajuste de arriba aún no estaba en main).
+La primera corrida está en el historial de git (commit f7f91ee); la segunda y la tercera están copiadas en
+`tests/fixtures/p3_eco/`.
+
+| Caso | Agente fmea | Revisor | Similitud con el agente anterior |
+|---|---|---|---|
+| 0 · MH341 2023 | Igual que la primera: MFP-07 por el síntoma + modo nuevo de tren de distribución | Revisó bien; además cuestionó crear un modo nuevo sin revisar un catálogo FMEA más amplio | 0,19 / 0,17 (normal) |
+| 3 · MH345 2024 | Igual que la primera: MFP-07 + modo nuevo de bloqueo hidráulico | **Parafraseó al agente fmea** en vez de revisar | 0,14 / **0,84** |
+| 4 · MH344 2024 | **Copió textual la salida del agente de evidencia**; no asignó modos | **Copió textual la evidencia** | **1,00 / 1,00** |
+
+**Hallazgo:** el flujo secuencial no es estable. En 2 de 3 casos, al menos un agente repitió al anterior en
+vez de cumplir su rol (eco), y el resultado del caso 4 quedó sin análisis. En la primera corrida no pasó. Es
+un riesgo propio de encadenar agentes que comparten la conversación, y debe controlarse antes de cualquier
+uso real.
+
+**Controles agregados en `p3_analisis_secuencial.py`:**
+- Instrucción explícita a fmea y revisor de no repetir al agente anterior.
+- Detección de eco: si la respuesta de un agente se parece en 70 % o más a la del anterior (lo normal es
+  menos de 20 %), el flujo se repite, hasta 3 veces. Si persiste, el resultado queda marcado con una advertencia.
+- Cada resultado registra el razonamiento usado, el máximo de tokens y el número de corridas.
+- Test que reproduce la detección con los resultados reales de esta corrida.
+
+**Lección para la arquitectura:** cada agente debería entregar una **salida estructurada** (contrato
+Pydantic, como en la prueba 2). Con texto libre, una copia pasa como respuesta válida; con un formato fijo, se
+detecta y se rechaza. Es la misma regla de `docs/arquitectura/patrones_orquestacion.md`.
+
+## Tercera corrida (2026-11-24, sin detección de eco)
+
+Corrió antes de que estuviera disponible la detección de eco. Las salidas siguen asignando MFP-07 por el
+síntoma y el revisor no menciona Argos ni el AFA, por lo que probablemente usó las instrucciones anteriores.
+
+| Caso | Agente fmea | Revisor | Similitud con el agente anterior |
+|---|---|---|---|
+| 0 · MH341 2023 | MFP-07 + modo nuevo de tren de distribución (igual que antes) | Revisó bien | 0,10 / 0,07 |
+| 3 · MH345 2024 | **Copió textual la evidencia**; no asignó modos | Revisó bien, pero sobre la evidencia, sin análisis FMEA | **1,00** / 0,08 |
+| 4 · MH344 2024 | MFP-07, MFP-01 + modo nuevo de contaminación por el filtro (igual que la primera) | Revisó bien | 0,23 / 0,16 |
+
+**Balance de tres corridas con las mismas instrucciones:**
+- En 9 corridas de caso hubo eco en 3: corrida 2 casos 3 y 4, corrida 3 caso 3. El caso que falla cambia de una corrida a otra.
+- Cuando no hay eco, la clasificación es estable: el mismo modo nuevo en cada caso y la misma asignación de MFP-01 en el caso 4.
+- La detección de eco de este PR habría marcado y repetido los 3 casos con problema.
+
+## Cuarta corrida (2026-11-24, sin detección de eco)
+
+Tampoco incluye las instrucciones ajustadas: sigue asignando MFP-07 por el síntoma, y el revisor propone
+Cat Inspect para desarmes sin mencionar Argos ni el AFA. Probablemente la VM no tenía el código actualizado
+(`git pull`).
+
+| Caso | Agente fmea | Similitud con el agente anterior |
+|---|---|---|
+| 0 · MH341 2023 | MFP-07 + modo nuevo de tren de distribución | 0,18 / 0,05 |
+| 3 · MH345 2024 | MFP-07 + modo nuevo de bloqueo hidráulico | 0,32 / 0,13 |
+| 4 · MH344 2024 | MFP-07, MFP-01 + modo nuevo de contaminación por falla de filtración | 0,14 / 0,11 |
+
+Sin eco. **Balance de cuatro corridas:** 3 ecos en 12 análisis de caso (25 %). Cuando no hay eco, la
+clasificación se repitió igual en todas las corridas: los mismos modos y los mismos modos nuevos por caso.
+
 ## Próximos pasos
 
-1. Repetir los casos 0, 3 y 4 con las instrucciones ajustadas y comparar.
+1. Con la detección de eco en main: `git pull`, comprobar que el resultado empiece con la línea "Razonamiento: …" y repetir los casos 0, 3 y 4.
 2. Opcional: probar `--esfuerzo low` contra `medium` en el caso 4. Con 200.000 TPM no hace falta ahorrar; solo sirve si la cuota baja.
 3. Correr la prueba 2 (los 14 casos, 3 repeticiones), si está permitido enviar el texto técnico.

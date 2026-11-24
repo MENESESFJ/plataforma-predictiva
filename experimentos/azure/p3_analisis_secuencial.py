@@ -15,6 +15,7 @@ Configuración: .env del laboratorio (AZURE_AI_PROJECT_ENDPOINT, AZURE_AI_MODEL_
 import argparse
 import asyncio
 import csv
+import difflib
 import json
 import os
 import sys
@@ -48,11 +49,24 @@ INSTRUCCIONES = {
 }
 
 
+NO_REPETIR = (" Responde solo con tu propio análisis, en tu rol; no copies ni repitas el mensaje del "
+              "agente anterior.")
+UMBRAL_ECO = 0.7  # similitud de texto sobre la que una respuesta se considera copia de la anterior
+
+
 def instrucciones() -> dict:
     modos = json.loads(FMEA.read_text(encoding="utf-8"))["modos_falla"]
     resumen = [{"id": m["id"], "nombre": m["nombre"]} for m in modos]
-    return {k: v.format(modos=json.dumps(resumen, ensure_ascii=False)) if k == "fmea" else v
+    return {k: (v.format(modos=json.dumps(resumen, ensure_ascii=False)) if k == "fmea" else v)
+            + (NO_REPETIR if k != "evidencia" else "")
             for k, v in INSTRUCCIONES.items()}
+
+
+def detectar_eco(mensajes: list) -> list:
+    """Agentes cuya respuesta es casi igual a la del agente anterior (se copió en vez de analizar)."""
+    agentes = [(a, t) for a, t in mensajes if a in INSTRUCCIONES]
+    return [actual[0] for previo, actual in zip(agentes, agentes[1:])
+            if difflib.SequenceMatcher(None, previo[1].strip(), actual[1].strip()).ratio() >= UMBRAL_ECO]
 
 
 def leer_caso(indice: int) -> dict:
@@ -60,7 +74,18 @@ def leer_caso(indice: int) -> dict:
         return list(csv.DictReader(f))[indice]
 
 
-async def analizar(texto_caso: str, modelo: str, opciones: dict) -> list:
+async def analizar(texto_caso: str, modelo: str, opciones: dict, intentos: int = 3) -> tuple:
+    """Corre el flujo; si un agente copia al anterior, lo repite (hasta `intentos` veces)."""
+    for i in range(1, intentos + 1):
+        mensajes = await _correr_flujo(texto_caso, modelo, opciones)
+        eco = detectar_eco(mensajes)
+        if not eco:
+            return mensajes, [], i
+        print(f"  eco detectado en {eco} (intento {i}/{intentos})")
+    return mensajes, eco, intentos
+
+
+async def _correr_flujo(texto_caso: str, modelo: str, opciones: dict) -> list:
     from agent_framework import Message  # imports diferidos: solo en la VM
     from agent_framework.orchestrations import SequentialBuilder
 
@@ -86,9 +111,13 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
     fila = leer_caso(args.caso)
     texto = registro_tecnico(fila)
-    mensajes = asyncio.run(analizar(texto, args.modelo, opciones_modelo(args.esfuerzo, args.max_tokens)))
+    opciones = opciones_modelo(args.esfuerzo, args.max_tokens)
+    mensajes, eco, intentos = asyncio.run(analizar(texto, args.modelo, opciones))
     md = [f"# Prueba 3: análisis secuencial del caso {args.caso} ({args.modelo})", "",
-          "## Registro enviado", "", "```", texto, "```", ""]
+          f"Razonamiento: {args.esfuerzo} · máximo de tokens: {args.max_tokens} · corridas: {intentos}", ""]
+    if eco:
+        md += [f"> ⚠️ Eco sin resolver: {', '.join(eco)} repitió al agente anterior en todos los intentos.", ""]
+    md += ["## Registro enviado", "", "```", texto, "```", ""]
     for autor, contenido in mensajes:
         md += [f"## {autor}", "", contenido, ""]
     RESULTADOS.mkdir(exist_ok=True)
