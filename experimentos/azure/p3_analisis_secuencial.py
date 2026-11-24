@@ -79,9 +79,9 @@ async def analizar(texto_caso: str, modelo: str, opciones: dict) -> list:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--caso", type=int, default=4, help="fila del listado de eventos (0 a 13)")
-    ap.add_argument("--esfuerzo", default="low", choices=["minimal", "low", "medium", "high"],
-                    help="esfuerzo de razonamiento (gpt-5); más bajo = menos tokens")
-    ap.add_argument("--max-tokens", type=int, default=3000)
+    ap.add_argument("--esfuerzo", default="medium", choices=["minimal", "low", "medium", "high"],
+                    help="esfuerzo de razonamiento (gpt-5); low ahorra tokens si la cuota es baja")
+    ap.add_argument("--max-tokens", type=int, default=8000)
     ap.add_argument("--modelo", default=os.environ.get("AZURE_AI_MODEL_DEPLOYMENT_NAME", "gpt-5"))
     args = ap.parse_args(argv)
     fila = leer_caso(args.caso)

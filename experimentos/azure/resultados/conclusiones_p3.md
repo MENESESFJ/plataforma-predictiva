@@ -41,5 +41,5 @@ el agente pidió un modo nuevo por su cuenta. Eso respalda la propuesta a Confia
 ## Próximos pasos
 
 1. Repetir los casos 0, 3 y 4 con las instrucciones ajustadas y comparar.
-2. Probar `--esfuerzo low` contra `medium` en el caso 4 para medir si se pierde precisión.
+2. Opcional: probar `--esfuerzo low` contra `medium` en el caso 4. Con 200.000 TPM no hace falta ahorrar; solo sirve si la cuota baja.
 3. Correr la prueba 2 (los 14 casos, 3 repeticiones), si está permitido enviar el texto técnico.
