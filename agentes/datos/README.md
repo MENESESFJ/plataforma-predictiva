@@ -9,7 +9,7 @@ Extraer, unificar y generar un snapshot inmutable de datos históricos y operaci
 
 ## Responsabilidades
 1. Cargar las consultas versionadas desde el SET del componente (`data_sources.sql`).
-2. Conectarse a fuentes oficiales (Snowflake, Databricks, Historiadores, SAP PM / Maximo).
+2. Conectarse a fuentes oficiales (Microsoft Fabric / OneLake, SQL Server, Historiadores, SAP PM / Maximo).
 3. Aplicar filtro estricto de fecha de corte (`point-in-time`): prohibido incluir registros posteriores a `fecha_corte`.
 4. Exportar snapshot persistido y calcular su hash SHA-256 (`hash_snapshot`).
 

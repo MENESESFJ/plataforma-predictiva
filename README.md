@@ -67,6 +67,8 @@ sup.ejecutar_solicitud(solicitud_inferencia, registros)            # usa el mode
 
 Interfaz web: `mlflow ui --backend-store-uri sqlite:///mlflow.db`.
 
+En producción el registro será **Azure Machine Learning** (Databricks y Synapse se decomisan; datos y resultados van a Microsoft Fabric, ver DP-005). Basta con apuntar `MLFLOW_TRACKING_URI` al workspace de Azure ML; falta validar ahí los alias `candidato` / `vigente`.
+
 ## Avance respecto del roadmap (Etapa 1)
 
 | Fase | Estado |

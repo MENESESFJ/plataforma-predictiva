@@ -12,7 +12,7 @@ origen:
   tabla: dbo.Inspection        # CONFIRMADO: una fila por inspección (cabecera)
   filtro_formulario: "InspectionFormName = 'Pauta de rutinas de particulados 798AC - DMH'"   # CONFIRMADO
   acceso: solo_lectura         # DP-001
-  acceso_desde_databricks: POR_CONFIRMAR
+  acceso_desde_fabric: POR_CONFIRMAR   # Databricks se decomisa
 
 columnas_utiles:
   InspectionNumber: identificador de la inspección (clave para unir con las respuestas)
@@ -106,4 +106,4 @@ pendiente:
   - "Confirmar si Yellow ya es severo o solo Red"
   - "Corte de filtro de aceite de motor: ¿en otro formulario?"
   - "Equivalencia entre la escala de Argos (histórico) y la de Cat Inspect, para unir ambas series"
-  - "Acceso de solo lectura desde Databricks o extracto periódico"
+  - "Acceso de solo lectura desde Fabric (conexión o copia programada)"

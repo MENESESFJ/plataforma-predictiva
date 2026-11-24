@@ -13,6 +13,7 @@ Principio: el proyecto no toca nada de lo existente y documenta todo lo que teng
 | DP-002 | **Lo que haya que rearmar se construye dentro de este proyecto,** con código versionado, pruebas y regla de corte, y se registra en la tabla de abajo. | Que cada proceso quede documentado, reproducible y auditable. | ✅ Responsable del proyecto, 2026-10-14 |
 | DP-003 | **Las anomalías se generan de cero en este proyecto** (candidato). Las de Gold se usan solo como comparación. | No se conoce cómo se calcularon, qué límites usan ni si respetan la fecha de corte. | 🟡 Propuesta; confirmar al revisar Gold |
 | DP-004 | **No se describe el contenido de un archivo sin haberlo revisado.** Lo no revisado queda como POR_REVISAR. | Evitar supuestos que después se tomen como hechos. | ✅ Responsable del proyecto, 2026-10-14 |
+| DP-005 | **El proyecto no depende de una plataforma de cómputo.** Rutas de datos, dirección de MLflow y conexiones se configuran; el código lee Delta, Parquet o CSV por ruta. Destino: Fabric para datos y resultados, Azure ML para modelos. | Databricks y Synapse se decomisan; la plataforma cambia durante el proyecto. | ✅ Responsable del proyecto, 2026-11-24 |
 
 ## Procesos a rearmar
 

@@ -15,6 +15,9 @@ pipeline:
   formato: "CSV en silver/gold; parquet en bronze/foresight (events, payload, trends)"   # CONFIRMADO
   sufijo_InUse: "variante filtrada de cada dataset"   # POR_CONFIRMAR: ¿componentes actualmente instalados?
 
+# PLATAFORMA (CONFIRMADO, 2026-11-24): Databricks y Synapse se decomisan; destino Microsoft Fabric.
+# POR_CONFIRMAR si este almacenamiento se mantiene y quién migra el pipeline Predictivo 4.0.
+#
 # DISCLAIMER (CONFIRMADO, 2026-10-14): Foresight tiene prioridad sobre Argos y Argos Clone.
 # Argos se está congelando por el traspaso a otros sistemas y Foresight ya captura la mayor parte.
 # Los archivos mezclan componentes, contratos y modelos: filtrar siempre (ver data_contract.filtro_alcance).
