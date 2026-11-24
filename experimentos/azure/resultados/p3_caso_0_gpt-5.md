@@ -24,14 +24,14 @@ causa_raiz: fatiga de material
 
 ## fmea
 
-- Compatibilidad directa con modos existentes: ninguna. La causa/parte reportada es “fatiga de material” en “idler gear as” del tren de distribución delantera, lo cual no está contemplado por MFP-01, MFP-02, MFP-03, MFP-04, MFP-05, MFP-06 ni MFP-08.
-- MFP-07 (baja_presion_lubricacion): compatible solo como consecuencia observable del evento, ya que el síntoma reportado fue “BAJA PRESIÓN ACEITE MOTOR”, pero no describe la causa ni la pieza fallada.
-- Requiere modo nuevo: fallo en tren de engranajes de distribución (fatiga de “idler gear as”). Justificación: pieza fallada “idler gear as”, modo estandarizado “falla en distribucion delantera”, causa raíz “fatiga de material”; consecuencia observada: baja presión de aceite.
+- Compatible: ninguno de los modos vigentes (MFP-01 a MFP-08). La causa declarada es “fatiga de material” en la pieza “idler gear as” de la distribución delantera; no hay un modo actual para falla mecánica del tren de engranajes/distribución por fatiga.
+- No aplicar MFP-07 (baja_presion_lubricacion): la “baja presión de aceite” figura como consecuencia del daño en distribución, no como causa ni pieza fallada.
+- Requiere modo nuevo: falla_tren_engranajes_distribucion_por_fatiga (pieza: idler gear as). Consecuencia observada: baja presión de aceite.
 
 ## revisor
 
-- Bien sustentada: la consecuencia reportada “BAJA PRESIÓN ACEITE MOTOR”, siempre que esté corroborada por eventos y tendencia de presión de aceite en VIMS (fuente: eventos y tendencias VIMS).
-- Suposición: “falla en distribución delantera” con pieza “idler gear as” como componente fallado; aceptar solo si está documentado en el AFA/RCA o en el informe de taller (únicas fuentes de hallazgos de desarme).
-- Suposición: “fatiga de material” como causa raíz; aceptar solo con evidencia técnica en AFA/RCA (fractografía/descripcion del modo de rotura) o en el informe de taller (fuentes: AFA/RCA; informe de taller).
-- Antes de aceptar “fatiga”, verificar si hubo indicios de lubricación deficiente o contaminación: SOS (metales de desgaste, viscosidad, Na/K, hollín) y particulado de rutina (test de parche, rejillas, tapones magnéticos) para evidenciar desgaste de engranajes/virutas (fuentes: análisis de aceite SOS; particulado Argos/Cat Inspect).
-- Corroborar contexto operativo previo: tendencias VIMS de presión de aceite, temperaturas y diferencial de filtros, y registros de rellenos de aceite/refrigerante, para descartar causas sistémicas que expliquen la baja presión (fuentes: VIMS; rellenos de aceite y refrigerante).
+- Bien sustentado: cambio de motor imprevisto a 7,188 h con evento “BAJA PRESIÓN ACEITE MOTOR”, modo localizado en “falla en distribución delantera” y pieza “idler gear as” — válido solo si consta en el informe de falla AFA/RCA o informe de taller, únicas fuentes de hallazgos de desarme.
+- Suposición si no hay soporte de desarme: “fatiga de material” como causa raíz. Antes de aceptarla, debe existir evidencia de fractografía/inspección del engranaje (patrón de fatiga en dientes/eje/cojinete) en AFA/RCA o informe de taller.
+- Verificar mecanismo y secuencia: correlación en VIMS de presión de aceite (caída súbita o progresiva), diferencial de filtros y temperaturas para confirmar que la baja presión es consecuencia del daño en distribución y no la causa — fuente: eventos y tendencias VIMS.
+- Verificar condiciones de lubricación/contaminación: SOS desde 2022 (viscosidad, hollín, dilución de combustible, Fe/Cu/Pb, Na/K), registros de rellenos de aceite y refrigerante, y particulado (test de parche, rejillas, tapones magnéticos en Argos/Cat Inspect) para evidenciar desgaste/contaminación previa o descartar causas alternas — fuentes: SOS, rellenos, particulado.
+- Evitar suposición de modo: no asignar “baja_presion_lubricacion” como causa FMEA; es un síntoma. Si no hay un modo FMEA para “falla tren de engranajes de distribución por fatiga (idler gear)”, registrar que la falla no está cubierta y proponer modo nuevo — fuente: AFA/RCA/informe de taller para pieza y causa.

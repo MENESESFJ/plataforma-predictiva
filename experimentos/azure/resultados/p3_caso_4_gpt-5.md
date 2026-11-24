@@ -24,14 +24,16 @@ causa_raiz: la perdida de giro del motor fue ocasionada por el gripaje de los me
 
 ## fmea
 
-- Compatible: MFP-01 (desgaste_cojinetes). Por daño/seizure de los cojinetes de biela (#19 y #20) asociado a “ingreso de contaminacion… por traspaso interno en el filtro scf” en el circuito de lubricación. Consecuencia observada: baja presión de aceite y pérdida de giro.
-- No asignar como modo: MFP-07 (baja_presion_lubricacion). Corresponde al síntoma reportado, no a la causa/parte fallada.
-- Requiere modo nuevo: contaminación sólida en sistema de lubricación por fallo/traspaso del filtro de aceite (SCF). No está cubierta por MFP-03 (contaminación de refrigerante), MFP-05 (dilución por combustible) ni MFP-04 (ingreso de polvo por admisión), y explica el ingreso de contaminantes al lado limpio del filtro y al ducto principal que dañó los cojinetes.
+- Compatible: MFP-01 (desgaste_cojinetes) — La pieza fallada son los cojinetes de biela (“bearing-connecting rod”) y se reporta “gripaje de los metales de las bielas #19 y #20” provocado por contaminación en el sistema de lubricación. Consecuencia observada: baja presión de aceite.
+- No usar como modo (es síntoma): MFP-07 (baja_presion_lubricacion) — La “BAJA PRESIÓN ACEITE MOTOR” es la consecuencia reportada, no la causa.
+- No compatibles por falta de evidencia: MFP-02, MFP-03, MFP-05, MFP-06, MFP-08 — No hay indicios de desgaste de camisas/anillos, refrigerante o combustible en el aceite, sobrecalentamiento ni combustión deficiente.
+- No plenamente compatible: MFP-04 (ingreso_abrasivo_polvo) — La evidencia indica “contaminación en sistema de lubricación” por “traspaso interno en el filtro SCF” (lado limpio contaminado), no ingreso de polvo por admisión; el tipo de contaminante no se especifica.
+- Requiere modo nuevo: “contaminacion_solidos_en_aceite_por_fallo_de_filtracion” (contaminación en el lado limpio del filtro/traspaso interno en el sistema de lubricación que alimenta el ducto principal), ya que el mecanismo reportado es una falla de filtración interna que permitió ingreso directo de contaminantes a cojinetes. Consecuencia: baja presión de aceite por daño en cojinetes.
 
 ## revisor
 
-- Conclusión bien sustentada: “pieza_fallada: bearing-connecting rod”. Fuente: registro de cambio (pieza_fallada).
-- Conclusión bien sustentada: síntoma de detención “BAJA PRESIÓN ACEITE MOTOR”. Fuente: registro de cambio (descripcion_falla).
-- Conclusión bien sustentada: condición del componente “gripaje de los metales de las bielas #19 y #20”. Fuente: registro de cambio (causa_raiz).
-- Suposición: “traspaso interno en el filtro scf” como causa específica del ingreso de contaminación (se declara pero luego se indica que la causa queda indeterminada). Fuente: registro de cambio (causa_raiz). Verificar antes de aceptarla: evidencia de desarme y hallazgos en AFA/RCA o informe de taller que confirmen traspaso/bypass del SCF, y eventos VIMS de diferencial de filtros/alarma SCF.
-- Suposición: “contaminacion en sistema de lubricacion” como causa raíz final. Fuente: registro de cambio (causa_raiz_resumen vs. causa_raiz que la deja indeterminada). Verificar antes de aceptarla: resultados SOS (partículas, Na/K, hollín, viscosidad), registros de rellenos de aceite/refrigerante, y particulado de rutina (test de parche, rejillas, tapones magnéticos) en Argos/Cat Inspect para evidenciar contaminación en el lado limpio y su tendencia previa.
+- Compatible: MFP-01 (desgaste_cojinetes) — Pieza fallada “bearing-connecting rod” con “gripaje de los metales de las bielas #19 y #20” provocado por contaminación en lubricación. Consecuencia: baja presión de aceite.
+- No usar como modo (es consecuencia): MFP-07 (baja_presion_lubricacion) — “BAJA PRESIÓN ACEITE MOTOR” corresponde al síntoma, no a la causa.
+- No compatibles por falta de evidencia: MFP-02, MFP-03, MFP-05, MFP-06, MFP-08 — No se reportan indicios de esos mecanismos.
+- No plenamente compatible: MFP-04 (ingreso_abrasivo_polvo) — La contaminación se atribuye a “traspaso interno en el filtro SCF” (lado limpio contaminado), no a polvo por admisión; el tipo de contaminante no se especifica.
+- Requiere modo nuevo: “contaminacion_solidos_en_aceite_por_fallo_de_filtracion” — Falla/traspaso interno del filtro de lubricación que permite contaminación en el lado limpio y el ducto principal, dañando cojinetes. Consecuencia: baja presión de aceite.

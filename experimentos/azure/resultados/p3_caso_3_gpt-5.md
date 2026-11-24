@@ -24,18 +24,14 @@ causa_raiz: el ingreso de fluido en la uf #5 tiene su origen en la deformacion d
 
 ## fmea
 
-- Compatible: MFP-08 (combustion_deficiente). La deformación del anillo cortafuego y sello integral en la junta de combustión compromete el sellado de la cámara en la UF #5, lo que es consistente con combustión deficiente; la “baja presión de aceite” quedó como consecuencia de la detención por bloqueo hidráulico, no como causa.
-
-- No cubierto por el catálogo actual: se requiere un modo nuevo para pérdida de estanqueidad de junta de culata/anillo cortafuego deformado con ingreso de fluido al cilindro y bloqueo hidráulico (falla de “gasket combustion” que permite paso de fluido a la UF #5 y provoca hydrolock). El listado vigente no contempla explícitamente ni “bloqueo hidráulico” ni “fuga por junta de culata a cilindro”.
+- Modos compatibles: ninguno directo. La causa y pieza reportadas (deformación del anillo corta fuego/sello integral en la junta de combustión “gasket combustion”) conducen a ingreso de fluido al cilindro y bloqueo hidráulico, no cubierto por los modos listados.
+- Nota sobre MFP-07 (baja_presion_lubricacion): no aplica como modo en este caso; corresponde al síntoma/consecuencia observada (baja presión de aceite) posterior al evento de bloqueo hidráulico, no a la causa.
+- Requiere modo nuevo: fuga_junta_culata_hacia_cilindro / bloqueo_hidraulico por anillo cortafuego deformado. Justificación: pieza fallada “gasket combustion” con “deformacion del anillo corta fuego y sello integral” que provoca ingreso de fluido a la unidad de fuego y bloqueo hidráulico.
 
 ## revisor
 
-- Bien sustentado solo si está en AFA/RCA o Informe de Taller: “bloqueo hidráulico en UF #5” y “pieza fallada: gasket combustion con anillo cortafuego/sello integral deformado”. Si no existe hallazgo documentado de desarme, es suposición. Verificar: evidencias de hydrolock (biela doblada, marcas en cabeza de pistón, líquido en cámara), inspección y fotografías/mediciones de la junta y anillo cortafuego. Fuente: AFA/RCA e Informe de Taller.
-
-- Suposición que requiere confirmación: “ingreso de fluido” a UF #5 sin identificar el fluido. Verificar si fue refrigerante o combustible: SOS aceite (Na/K, glicoles, % combustible), tendencias VIMS (temperaturas, eventos), registros de relleno de refrigerante/aceite, y particulado (test de parche, tapones magnéticos). Fuentes: SOS, VIMS, Rellenos, Particulado.
-
-- Consecuencia (no modo causal): “BAJA PRESIÓN ACEITE MOTOR”. Aceptarla como síntoma de detención solo si VIMS registra alarmas/eventos de presión de aceite y caída de rpm. Si no, es suposición. Verificar: eventos y tendencias VIMS (presión de aceite, rpm, temperaturas), diferencial de filtros. Fuente: VIMS.
-
-- Suposición: “posible problema del anillo cortafuego en investigación por parte de Caterpillar” (causa sistémica). No aceptarla sin respaldo formal. Verificar existencia de Service Letters/PSRB/SEB de Caterpillar y recurrencia en la flota (casuística similar). Fuentes: AFA/RCA, comunicaciones OEM, historial Argos/Cat Inspect.
-
-- Alcance del modo FMEA: el catálogo vigente no incluye explícitamente “falla de estanqueidad de junta de culata/anillo cortafuego con ingreso de fluido a cilindro y bloqueo hidráulico”. De considerarse causa raíz, requeriría un modo nuevo; antes de aceptarlo, validar con AFA/RCA e Informe de Taller y correlación con SOS/VIMS. Fuentes: AFA/RCA, Informe de Taller, SOS, VIMS.
+- Bien sustentado: modo de falla reportado “bloqueo hidráulico” con síntoma “baja presión de aceite” asociado al evento. Fuente para sostenerlo: VIMS (alarmas/eventos de baja presión y tendencias) y, si existe, informe de taller o AFA/RCA.
+- Bien sustentado: pieza reportada “gasket combustion” (junta de combustión). Fuente: informe de taller o AFA/RCA (únicas fuentes válidas de hallazgos de desarme).
+- Suposición: la causa raíz “deformación del anillo corta fuego y sello integral” como origen del ingreso de fluido está “aún en investigación por Caterpillar”; no es conclusión cerrada. Fuente a confirmar: AFA/RCA y comunicación OEM.
+- Suposición: el tipo de fluido que ingresó a la UF #5 no está explícito; no se puede afirmar refrigerante/combustible/aceite sin evidencia. Verificar con SOS (Na/K, viscosidad, hollín) y registros de rellenos de refrigerante/aceite.
+- Por verificar antes de aceptar la causa: evidencias de hidrolock y fuga por junta en desarme (anillo/sello deformado, marcas de lavado en cámara, biela doblada), correlación con VIMS (presión de aceite, temperaturas, diferencial de filtros), y particulado/tapones magnéticos (presencia y tipo de esquirlas). Fuentes: informe de taller o AFA/RCA; VIMS; SOS; registros de rellenos; particulado (Argos/Cat Inspect).
