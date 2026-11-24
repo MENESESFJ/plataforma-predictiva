@@ -15,24 +15,21 @@ causa_raiz: la perdida de giro del motor fue ocasionada por el gripaje de los me
 
 ## evidencia
 
-- Síntoma de detención: "BAJA PRESIÓN ACEITE MOTOR"
-- Pieza fallada: "bearing-connecting rod"
-- Causa raíz declarada: "contaminacion en sistema de lubricacion"
-- Condición del componente: "gripaje de los metales de las bielas #19 y #20"
+- síntoma de detención: "BAJA PRESIÓN ACEITE MOTOR"
+- pieza fallada: "bearing-connecting rod"
+- causa raíz declarada: "contaminacion en sistema de lubricacion"
+- condición del componente: "gripaje de los metales de las bielas #19 y #20"
 
 ## fmea
 
-Compatibles:
-- MFP-07 (baja_presion_lubricacion): coincide con “BAJA PRESIÓN ACEITE MOTOR” / “baja presion de aceite motor” reportado como síntoma/mode, y con la pérdida de giro asociada.
-- MFP-01 (desgaste_cojinetes): la pieza fallada es “bearing-connecting rod” y se describe “gripaje de los metales de las bielas #19 y #20”, compatible con daño/desgaste de cojinetes.
-
-Requiere modo nuevo:
-- Contaminación del sistema de lubricación por traspaso interno del filtro (contaminación en lado limpio): la causa raíz declarada es “contaminacion en sistema de lubricacion” y se detalla “traspaso interno en el filtro scf… el lado limpio del filtro se encuentra con contaminacion”, lo cual no está cubierto por MFP-03 (coolant en aceite) ni MFP-04 (ingreso abrasivo/polvo por admisión).
+- síntoma de detención: "BAJA PRESIÓN ACEITE MOTOR"
+- pieza fallada: "bearing-connecting rod"
+- causa raíz declarada: "contaminacion en sistema de lubricacion"
+- condición del componente: "gripaje de los metales de las bielas #19 y #20"
 
 ## revisor
 
-- Bien sustentado: síntoma “BAJA PRESIÓN ACEITE MOTOR”/modo estandarizado “baja presion de aceite motor”. Verificar y fechar con eventos VIMS (alarma Low Oil Pressure, tendencias de presión).
-- Bien sustentado: condición del componente “gripaje de los metales de las bielas #19 y #20” y pieza “bearing-connecting rod”. Corroborar con inspección de particulado Cat Inspect (evidencia de esquirlas, fotos/actas) y, si existe, SOS (picos de Fe/Pb/Cu).
-- Suposición: “contaminacion en sistema de lubricacion” como causa raíz sin evidencia analítica previa. Validar con análisis de aceite SOS (ISO code/partículas, Si/Al/Fe/Pb/Cu, tendencia antes del evento) y Cat Inspect (particulado en filtros/galerías).
-- Suposición: “traspaso interno en el filtro SCF” y “lado limpio del filtro con contaminacion”. Verificar con Cat Inspect (despiece e inspección del filtro/valv. bypass), eventos VIMS (diferencial de presión/alertas de filtro) y revisión de rellenos de aceite (posibles top-ups por puntos no filtrados).
-- Suposición: ruta “a través de la bancada #11” e ingreso directo al ducto principal. Confirmar con Cat Inspect (evidencia de rayado/debris alineado a esa galería) y correlación SOS (patrón de partículas compatible con ruta propuesta).
+- síntoma de detención: "BAJA PRESIÓN ACEITE MOTOR"
+- pieza fallada: "bearing-connecting rod"
+- causa raíz declarada: "contaminacion en sistema de lubricacion"
+- condición del componente: "gripaje de los metales de las bielas #19 y #20"
