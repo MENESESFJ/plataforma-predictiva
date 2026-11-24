@@ -22,19 +22,13 @@ causa_raiz: el ingreso de fluido en la uf #5 tiene su origen en la deformacion d
 
 ## fmea
 
-- Compatible con MFP-07 (baja_presion_lubricacion): porque el síntoma reportado es "BAJA PRESIÓN ACEITE MOTOR" (descripcion_falla).
-
-- Requiere modo nuevo (no cubierto en la lista): bloqueo_hidraulico_por_ingreso_de_fluido_en_cilindro
-  - Por qué: el evento está descrito como "falla en culata uf 5 genera bloqueo hidraulico" (descripcion_falla_base) y la causa raíz declara “el ingreso de fluido en la uf #5 tiene su origen en la deformacion del anillo corta fuego y sello integral…” (causa_raiz), con pieza fallada “gasket combustion”. Ninguno de los modos vigentes contempla explícitamente el bloqueo hidráulico por ingreso de fluido al cilindro.
+- Compatible con MFP-07 (baja_presion_lubricacion): se reporta explícitamente "BAJA PRESIÓN ACEITE MOTOR".
+- No cubierto; requiere modo nuevo: bloqueo_hidraulico_por_ingreso_de_fluido_al_cilindro. Evidencias: "falla en culata uf 5 genera bloqueo hidraulico", pieza "gasket combustion", y causa raíz "deformacion del anillo corta fuego y sello integral".
 
 ## revisor
 
-- Conclusión bien sustentada: síntoma de detención “BAJA PRESIÓN ACEITE MOTOR”. Verificable en eventos VIMS (alarma/derate/engine stop por baja presión).
-
-- Suposición: “bloqueo hidraulico en UF #5” como causa inmediata. Verificar antes de aceptarla con eventos VIMS (caída abrupta de rpm/paro súbito) y Cat Inspect (evidencia de líquido en cámara: lavado, huellas de golpe hidráulico).
-
-- Suposición: “deformacion del anillo corta fuego y sello integral” con pieza fallada “gasket combustion”. Verificar con Cat Inspect (fotos/mediciones de culata-gasket, marcas de fuga, integridad del fire ring) y corte/inspección de filtros por particulado.
-
-- Suposición: “posible problema del anillo cortafuego (en investigación por Caterpillar)”. No verificable con SOS/VIMS/rellenos; requiere resultado de la investigación del OEM.
-
-- Verificaciones clave para la baja presión de aceite: SOS (glicol/agua/dilución de combustible/viscosidad) para confirmar si la presión cayó por contaminación; Rellenos de aceite (historial de consumo/nivel bajo); Cat Inspect (particulado metálico de cojinetes si hubo daño por lubricación).
+- Bien sustentado: síntoma de detención “BAJA PRESIÓN ACEITE MOTOR”, aceptable si coincide con un evento registrado. Verificar/respaldar en: eventos VIMS.
+- Suposición: “bloqueo hidraulico” como modo de falla. No se muestra evidencia objetiva de fluido en cilindro ni daño asociado. Verificar en: inspección física Cat Inspect (teardown, fotos de cámara/culata, biela doblada), y SOS aceite (agua/glicol, Na/K) para indicar ingreso de refrigerante; o dilución para combustible.
+- Suposición: “el ingreso de fluido en la uf #5 tiene su origen en la deformacion del anillo corta fuego y sello integral…”. Falta evidencia dimensional/metalográfica de deformación y ruta de fuga. Verificar en: Cat Inspect (mediciones y huellas de soplado/fuga en junta y anillo cortafuego), y SOS aceite (marcadores de glicol/agua o combustible) para identificar el fluido.
+- Bien sustentado como componente intervenido: “pieza fallada: gasket combustion”. Para aceptarla como causa de la fuga requiere evidencia de pérdida de estanqueidad. Verificar en: Cat Inspect (prueba/observación de fuga en junta, marcas de blow-by), y SOS aceite (contaminación).
+- Suposición/por confirmar: vínculo causal entre la “BAJA PRESIÓN ACEITE MOTOR” y el presunto “bloqueo hidraulico”. No hay datos de consumo/dilución/contaminación que lo conecten. Verificar en: historial de rellenos de aceite, SOS aceite (viscosidad, dilución combustible, metales), y eventos VIMS (tendencia/duración de la baja presión).
