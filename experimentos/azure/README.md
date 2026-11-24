@@ -94,6 +94,7 @@ versión del modelo al comparar resultados de fechas distintas.
 |---|---|---|
 | `429 rate_limit_exceeded` | Se superó el límite de tokens por minuto del despliegue (bajo en suscripciones de capacitación) | Casi siempre es el TPM del despliegue (por defecto 1.000, insuficiente): subir **Tokens per Minute** en Foundry (el proyecto usa 200.000). Los scripts reintentan solos (hasta 4 veces). Con cuota baja: `--esfuerzo low --max-tokens 3000`, `--pausa 20` en la prueba 2, o `gpt-5-mini` con `--modelo gpt-5-mini` |
 | `... was disallowed by policy` al crear recursos | La suscripción del curso solo permite los recursos entregados | Usar el grupo de recursos y el proyecto del curso |
+| `git pull` cancelado: *would be overwritten by merge* | Los resultados locales tienen el mismo nombre que los subidos por la web | Antes de cada `git pull`: `Remove-Item experimentos\azure\resultados\p3_*.md` (ya están en GitHub). El resultado nuevo debe empezar con la línea "Razonamiento: …" |
 | `KeyError: 'AZURE_AI_PROJECT_ENDPOINT'` | No se encontró el `.env` | Crearlo en la raíz del repo y correr desde esa carpeta |
 
 ## Al terminar
