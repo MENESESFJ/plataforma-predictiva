@@ -82,6 +82,21 @@ síntoma y el revisor no menciona Argos ni el AFA, por lo que probablemente usó
 - Cuando no hay eco, la clasificación es estable: el mismo modo nuevo en cada caso y la misma asignación de MFP-01 en el caso 4.
 - La detección de eco de este PR habría marcado y repetido los 3 casos con problema.
 
+## Cuarta corrida (2026-11-24, sin detección de eco)
+
+Tampoco incluye las instrucciones ajustadas: sigue asignando MFP-07 por el síntoma, y el revisor propone
+Cat Inspect para desarmes sin mencionar Argos ni el AFA. Probablemente la VM no tenía el código actualizado
+(`git pull`).
+
+| Caso | Agente fmea | Similitud con el agente anterior |
+|---|---|---|
+| 0 · MH341 2023 | MFP-07 + modo nuevo de tren de distribución | 0,18 / 0,05 |
+| 3 · MH345 2024 | MFP-07 + modo nuevo de bloqueo hidráulico | 0,32 / 0,13 |
+| 4 · MH344 2024 | MFP-07, MFP-01 + modo nuevo de contaminación por falla de filtración | 0,14 / 0,11 |
+
+Sin eco. **Balance de cuatro corridas:** 3 ecos en 12 análisis de caso (25 %). Cuando no hay eco, la
+clasificación se repitió igual en todas las corridas: los mismos modos y los mismos modos nuevos por caso.
+
 ## Próximos pasos
 
 1. Con la detección de eco en main: `git pull`, comprobar que el resultado empiece con la línea "Razonamiento: …" y repetir los casos 0, 3 y 4.
