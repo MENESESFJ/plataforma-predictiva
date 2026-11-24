@@ -15,20 +15,23 @@ causa_raiz: fatiga de material
 
 ## evidencia
 
-- Síntoma de detención: "BAJA PRESIÓN ACEITE MOTOR"
-- Pieza fallada: "idler gear as"
-- Causa raíz declarada: "fatiga de material"
-- Condición del componente: no informado
+- síntoma de detención: "BAJA PRESIÓN ACEITE MOTOR"
+- pieza fallada: "idler gear as"
+- causa raíz declarada: "fatiga de material"
+- condición del componente: no informado
 
 ## fmea
 
-- Compatible: MFP-07 (baja_presion_lubricacion) — coincide con el síntoma reportado “BAJA PRESIÓN ACEITE MOTOR”.
-- No cubierto por los modos vigentes: “falla en distribucion delantera” con pieza “idler gear as” por “fatiga de material”. Requiere modo nuevo: fallo tren de engranajes de distribución (idler gear), para capturar fallas mecánicas de la distribución que pueden derivar en baja presión de aceite.
+Compatibles con la evidencia:
+- MFP-07 (baja_presion_lubricacion): compatible porque la “descripcion_falla” reporta “BAJA PRESIÓN ACEITE MOTOR”.
+
+No cubierto / requiere modo nuevo:
+- Fallo del tren de distribución delantero (engranaje loco/idler gear) por fatiga: la evidencia indica “modo_falla_estandarizado: falla en distribucion delantera”, “pieza_fallada: idler gear as” y “causa_raiz: fatiga de material”, lo cual no está representado por los modos vigentes. Se sugiere crear un modo específico para “fallo_tren_engranajes_distribucion” (impacto potencial en accionamiento y lubricación).
 
 ## revisor
 
-- Bien sustentado: compatibilidad con MFP-07 (baja_presion_lubricacion) basada en el síntoma explícito “BAJA PRESIÓN ACEITE MOTOR” del registro; corroborable en eventos VIMS (alarmas/derates/shutdown por baja presión).
-- Suposición: que la falla de “falla en distribucion delantera” (idler gear as) causó directamente la baja presión por pérdida de arrastre de la bomba; validar causalidad antes de afirmarlo.
-- Suposición: que los modos vigentes no cubren fallas del tren de engranajes de distribución y por ello se requiere un modo nuevo; revisar catálogo FMEA corporativo ampliado antes de crear uno.
-- Verificar en VIMS: presencia, frecuencia y severidad de eventos de baja presión de aceite, rpm y carga asociadas, y si hubo shutdown automático.
-- Verificar evidencia física/química: en Cat Inspect (inspección de particulado, hallazgos de dientes/virutas en filtro y tapones magnéticos), en SOS (viscosidad, dilución de combustible, metales Fe/Cr/Ni indicativos de engranajes; Pb/Sn/Cu si hubo daño de cojinetes), y en registros de rellenos de aceite (top-offs recientes, sobrecarga o cambios de marca/viscosidad) que puedan explicar o agravar la baja presión.
+- Sustentado: evento de “BAJA PRESIÓN ACEITE MOTOR” y retiro imprevisto a 7,188 h; corroborar en eventos VIMS (alarmas/aborts) y OT, pero el síntoma está declarado en el registro. Fuente: eventos VIMS.
+- Suposición: causa raíz “fatiga de material” del idler gear; aceptar solo con evidencia de fractografía/metalografía y tendencia de metales ferrosos (Fe/Cr) en SOS, más hallazgo de particulado de engranajes en filtros/cárter. Fuentes: análisis de aceite SOS, inspección de particulado Cat Inspect.
+- Suposición: la baja presión se debió al fallo del tren de distribución (idler) afectando el accionamiento de la bomba de aceite; validar continuidad de tren, daño en dientes, y estado/arrastre de la bomba. Fuentes: inspección de particulado Cat Inspect (desarme/fotos), reporte de desarme.
+- Suposición: descartadas causas de proceso/fluido (nivel bajo, dilución combustible, contaminación refrigerante) que también provocan baja presión; verificar viscosidad, % fuel, glicoles, Si/Na y registros de rellenos/top-ups. Fuentes: análisis de aceite SOS, registros de rellenos de aceite.
+- Suposición: sin daño secundario en cojinetes por operación con baja presión; confirmar Pb/Cu/Sn en SOS y evidencia de material babbitt en filtros/cesped. Fuentes: análisis de aceite SOS, inspección de particulado Cat Inspect.
