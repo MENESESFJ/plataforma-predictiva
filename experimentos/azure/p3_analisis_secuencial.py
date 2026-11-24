@@ -23,6 +23,8 @@ from typing import cast
 from experimentos.azure.p2_clasificar_causas import (EVENTOS, FMEA, RESULTADOS, cliente_foundry,
                                                     con_reintentos, opciones_modelo, registro_tecnico)
 
+# Ajustadas tras las corridas de los casos 0, 3 y 4 (ver resultados/conclusiones_p3.md):
+# el síntoma no es el modo, y el revisor conoce qué cubre cada fuente y desde cuándo.
 INSTRUCCIONES = {
     "evidencia": (
         "Eres analista de evidencia de fallas de motores diésel CAT 798AC. Del registro recibido, lista en "
@@ -31,11 +33,18 @@ INSTRUCCIONES = {
     "fmea": (
         "Eres especialista en FMEA de motores. Con los hechos del agente de evidencia, indica qué modos del "
         "FMEA son compatibles (id y por qué) o si la falla no está cubierta y requiere un modo nuevo. "
+        "El síntoma de detención (por ejemplo, baja presión de aceite) no es el modo de falla: asigna los "
+        "modos por la causa y la pieza fallada, y menciona el síntoma solo como consecuencia. "
         "Es compatibilidad, no diagnóstico. Modos FMEA vigentes: {modos}"),
     "revisor": (
         "Eres ingeniero de Confiabilidad y revisas el análisis anterior. En máximo 5 viñetas: qué conclusión "
-        "está bien sustentada, qué es suposición, y qué verificar antes de aceptarla, indicando la fuente "
-        "(análisis de aceite SOS, inspección de particulado Cat Inspect, eventos VIMS, rellenos de aceite)."),
+        "está bien sustentada, qué es suposición, y qué verificar antes de aceptarla, indicando la fuente. "
+        "Fuentes disponibles y lo que cubren: análisis de aceite SOS (elementos, viscosidad, Na/K, hollín; "
+        "historia desde 2022); eventos y tendencias VIMS (alarmas, presión de aceite, temperaturas, "
+        "diferencial de filtros); rellenos de aceite y refrigerante; particulado de rutina (test de parche, "
+        "rejillas, tapones magnéticos), en Argos hasta mayo de 2026 y en Cat Inspect desde junio de 2026, "
+        "que no registran desarmes; el informe de falla AFA/RCA y el informe de taller, únicas fuentes de "
+        "hallazgos de desarme. Usa solo esas fuentes."),
 }
 
 
