@@ -81,6 +81,21 @@ El mismo `SequentialBuilder` del laboratorio, con tres agentes del dominio:
   3 (MH345, bloqueo hidráulico), 0 (MH341 2023, distribución).
 - Resultado: `resultados/p3_caso_<n>_<modelo>.md`. Es una demo del patrón, no un diagnóstico.
 
+## Despliegue usado
+
+`gpt-5`, versión 2025-08-07, Global Standard, 200.000 tokens y 2.000 solicitudes por minuto. Por defecto los
+scripts usan razonamiento medio (`--esfuerzo medium`) y hasta 8.000 tokens de respuesta (`--max-tokens`).
+**Esa versión de gpt-5 se retira el 2027-02-08** y el despliegue se actualiza solo a la siguiente: anotar la
+versión del modelo al comparar resultados de fechas distintas.
+
+## Problemas frecuentes
+
+| Mensaje | Causa | Qué hacer |
+|---|---|---|
+| `429 rate_limit_exceeded` | Se superó el límite de tokens por minuto del despliegue (bajo en suscripciones de capacitación) | Casi siempre es el TPM del despliegue (por defecto 1.000, insuficiente): subir **Tokens per Minute** en Foundry (el proyecto usa 200.000). Los scripts reintentan solos (hasta 4 veces). Con cuota baja: `--esfuerzo low --max-tokens 3000`, `--pausa 20` en la prueba 2, o `gpt-5-mini` con `--modelo gpt-5-mini` |
+| `... was disallowed by policy` al crear recursos | La suscripción del curso solo permite los recursos entregados | Usar el grupo de recursos y el proyecto del curso |
+| `KeyError: 'AZURE_AI_PROJECT_ENDPOINT'` | No se encontró el `.env` | Crearlo en la raíz del repo y correr desde esa carpeta |
+
 ## Al terminar
 
 ```bash

@@ -40,6 +40,24 @@ CAMPOS_TECNICOS = ["tipo_cambio", "horas_motor_removido_h", "descripcion_falla",
                    "pieza_fallada", "causa_raiz"]
 
 
+def es_limite_de_tasa(e: Exception) -> bool:
+    """429 del despliegue: se superó el límite de tokens o solicitudes por minuto."""
+    texto = repr(e)
+    return "429" in texto or "rate_limit" in texto
+
+
+async def con_reintentos(llamada, intentos: int = 4, espera_s: int = 65):
+    """Ejecuta la llamada asíncrona; ante un 429 espera a que se reinicie la cuota por minuto."""
+    for i in range(1, intentos + 1):
+        try:
+            return await llamada()
+        except Exception as e:  # noqa: BLE001 - solo se reintenta el 429
+            if not es_limite_de_tasa(e) or i == intentos:
+                raise
+            print(f"  límite de tokens por minuto alcanzado; espero {espera_s} s (intento {i}/{intentos})")
+            await asyncio.sleep(espera_s)
+
+
 class Clasificacion(BaseModel):
     grupo_falla: GRUPOS
     modos_fmea: List[str] = Field(description="IDs MFP-xx compatibles; vacío si ninguno aplica")
@@ -70,22 +88,32 @@ def registro_tecnico(fila: dict) -> str:
     return "\n".join(f"{c}: {fila.get(c, '')}" for c in CAMPOS_TECNICOS if fila.get(c, "").strip())
 
 
-def agente_foundry(modelo: str):
-    """Agente de Agent Framework sobre el proyecto de Foundry, igual que en el laboratorio."""
+def opciones_modelo(esfuerzo: str = "medium", max_tokens: int = 8000) -> dict:
+    """Razonamiento y tope de respuesta explícitos: Azure descuenta max_tokens del límite por minuto."""
+    return {"max_tokens": max_tokens, "reasoning": {"effort": esfuerzo}}
+
+
+def cliente_foundry(modelo: str):
     from agent_framework.foundry import FoundryChatClient  # import diferido: solo en la VM
     from azure.identity import AzureCliCredential
 
-    cliente = FoundryChatClient(credential=AzureCliCredential(),
-                                project_endpoint=os.environ["AZURE_AI_PROJECT_ENDPOINT"], model=modelo)
-    return cliente.as_agent(name="clasificador_fallas", instructions=prompt_sistema())
+    return FoundryChatClient(credential=AzureCliCredential(),
+                             project_endpoint=os.environ["AZURE_AI_PROJECT_ENDPOINT"], model=modelo)
+
+
+def agente_foundry(modelo: str, opciones: dict):
+    """Agente de Agent Framework sobre el proyecto de Foundry, igual que en el laboratorio."""
+    return cliente_foundry(modelo).as_agent(name="clasificador_fallas", instructions=prompt_sistema(),
+                                            default_options=opciones)
 
 
 async def clasificar(agente, fila: dict) -> Clasificacion:
-    resp = await agente.run(registro_tecnico(fila), options={"response_format": Clasificacion})
+    resp = await con_reintentos(lambda: agente.run(registro_tecnico(fila),
+                                                   options={"response_format": Clasificacion}))
     return resp.value if isinstance(resp.value, Clasificacion) else Clasificacion.model_validate_json(resp.text)
 
 
-async def evaluar(agente, repeticiones: int) -> List[dict]:
+async def evaluar(agente, repeticiones: int, pausa_s: float = 0) -> List[dict]:
     with EVENTOS.open(encoding="utf-8") as f:
         filas = list(csv.DictReader(f))
     salida = []
@@ -94,6 +122,7 @@ async def evaluar(agente, repeticiones: int) -> List[dict]:
         for _ in range(repeticiones):
             try:
                 corridas.append(await clasificar(agente, fila))
+                await asyncio.sleep(pausa_s)
             except Exception as e:  # noqa: BLE001 - se registra y se sigue con el resto
                 print(f"error en {fila['equipo_id']} {fila['fecha_retiro']}: {e!r}")
         grupos = Counter(c.grupo_falla for c in corridas)
@@ -135,9 +164,14 @@ def resumen(filas: List[dict], modelo: str, repeticiones: int) -> str:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--repeticiones", type=int, default=3)
+    ap.add_argument("--pausa", type=float, default=5, help="segundos entre llamadas (cuotas bajas)")
+    ap.add_argument("--esfuerzo", default="medium", choices=["minimal", "low", "medium", "high"],
+                    help="esfuerzo de razonamiento (gpt-5); low ahorra tokens si la cuota es baja")
+    ap.add_argument("--max-tokens", type=int, default=8000)
     ap.add_argument("--modelo", default=os.environ.get("AZURE_AI_MODEL_DEPLOYMENT_NAME", "gpt-5"))
     args = ap.parse_args(argv)
-    filas = asyncio.run(evaluar(agente_foundry(args.modelo), args.repeticiones))
+    filas = asyncio.run(evaluar(agente_foundry(args.modelo, opciones_modelo(args.esfuerzo, args.max_tokens)),
+                               args.repeticiones, args.pausa))
     RESULTADOS.mkdir(exist_ok=True)
     with (RESULTADOS / f"p2_clasificacion_{args.modelo}.csv").open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(filas[0]))

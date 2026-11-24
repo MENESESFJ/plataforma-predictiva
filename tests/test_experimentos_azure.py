@@ -47,3 +47,22 @@ def test_p1_flujo_completo_en_mlflow_local(tmp_path):
 
     pasos = p1.ejecutar(f"sqlite:///{tmp_path / 'p1.db'}")
     assert all(p["ok"] for p in pasos.values()), pasos
+
+
+def test_reintenta_solo_ante_429():
+    llamadas = []
+
+    async def llamada():
+        llamadas.append(1)
+        if len(llamadas) < 3:
+            raise RuntimeError("Error code: 429 - rate_limit_exceeded")
+        return "ok"
+
+    assert asyncio.run(p2.con_reintentos(llamada, intentos=4, espera_s=0)) == "ok"
+    assert len(llamadas) == 3
+
+    async def otro_error():
+        raise ValueError("endpoint inválido")
+
+    with pytest.raises(ValueError):
+        asyncio.run(p2.con_reintentos(otro_error, intentos=4, espera_s=0))
