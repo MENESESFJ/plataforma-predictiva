@@ -19,17 +19,29 @@ tenant:
   componente: motor_diesel      # CONFIRMADO
   universo_equipos: 14          # CONFIRMADO: MH340–MH352 (incluye MH343, fuera del contrato con historia) + MH353 si tiene datos
 
+# Plataforma (CONFIRMADO 2026-11-24): Databricks y Synapse se decomisan. Destino: Microsoft Fabric para
+# datos y resultados, Azure Machine Learning para el registro de modelos. El proyecto no depende de una
+# plataforma específica (DP-005): rutas, URIs y conexiones van en configuración, no en el código.
+plataforma:
+  datos_y_resultados: Microsoft Fabric (OneLake / Lakehouse)   # CONFIRMADO
+  registro_modelos: Azure Machine Learning (MLflow)            # CONFIRMADO
+  en_retiro: [Databricks, Synapse]                             # CONFIRMADO
+  fecha_retiro: POR_CONFIRMAR
+  continuidad_fuentes: >-
+    POR_CONFIRMAR: si el almacenamiento actual del lake se mantiene (acceso directo desde OneLake) o se
+    migra, y quién migra el pipeline corporativo Predictivo 4.0 (bronze/silver/gold).
+
 # Reglas de acceso a datos corporativos
 acceso:
   modo: solo_lectura            # CONFIRMADO: no se modifican pipelines ni el orquestador corporativo
-  capas_origen: [bronze, silver]  # CONFIRMADO (Databricks)
+  capas_origen: [bronze, silver]  # CONFIRMADO (hoy en el lake de Databricks; destino Fabric)
   datasets_derivados: propios del proyecto, versionados por dataset_id   # SUPUESTO_DISENO
-  ubicacion_datasets_derivados: Data Lake vía Databricks   # CONFIRMADO
-  ubicacion_resultados: Data Lake vía Databricks           # CONFIRMADO (fuente de verdad para Power BI)
+  ubicacion_datasets_derivados: Fabric Lakehouse   # CONFIRMADO el destino; workspace y lakehouse POR_CONFIRMAR
+  ubicacion_resultados: Fabric Lakehouse            # CONFIRMADO el destino (fuente de verdad para Power BI)
   consumo_power_bi: >-
     SUPUESTO: Power BI lee las tablas de resultados que entregue el proyecto, igual que con los modelos
     productivos actuales. POR_CONFIRMAR el mecanismo y el formato de esas tablas.
-  formato_tablas: POR_CONFIRMAR                            # SUPUESTO_DISENO: Delta, estándar de Databricks
+  formato_tablas: Delta                             # SUPUESTO_DISENO: formato de tablas de Fabric Lakehouse
   esquema_o_catalogo: POR_CONFIRMAR
 
 # Cadena de homologación. Cada variable canónica debe poder rastrearse hasta su campo físico.
@@ -85,7 +97,7 @@ fuentes:
     familias_candidatas: [Cat Inspect, Argos]
     origen_actual: Cat Inspect, en SQL Server (fuera del lake)   # CONFIRMADO
     historico: Argos (congelándose)                              # CONFIRMADO
-    acceso_sql_server: POR_CONFIRMAR   # nuevo origen fuera de Databricks; solo lectura
+    acceso_sql_server: POR_CONFIRMAR   # origen fuera del lake; solo lectura (desde Fabric: conexión o copia programada)
     tablas: ["Cat Inspect: dbo.Inspection (cabecera) + dbo.InspectionQuestion (preguntas de motor), ver knowledge/fuentes/cat_inspect.yaml", "Argos: ds_Particulado_798 (histórico)"]
     cobertura: "Cat Inspect regular desde 2026-06; antes de eso solo Argos"   # CONFIRMADO en la muestra
     granularidad: por inspección

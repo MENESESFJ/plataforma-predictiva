@@ -109,14 +109,14 @@ Ventanas de análisis por evento: T-90, T-60, T-30, T-15, T-7 y T0, donde T0 es 
 
 | Campo | Valor | Estado |
 |---|---|---|
-| Procesamiento | Databricks con Python | ✅ |
+| Procesamiento | Python. Databricks y Synapse se decomisan; destino **Microsoft Fabric** (notebooks y pipelines) | ✅ destino · ⬜ fecha |
 | Acceso a datos | Solo lectura sobre Bronze/Silver; datasets derivados propios | ✅ |
 | Pipelines y orquestador corporativo | No se modifican | ✅ |
-| Persistencia de resultados y datasets derivados | Data Lake vía Databricks | ✅ |
-| Formato y esquema/catálogo de las tablas | Delta (estándar de Databricks); esquema por definir | 🟡 / ⬜ |
+| Persistencia de resultados y datasets derivados | Fabric Lakehouse (OneLake) | ✅ destino · ⬜ workspace |
+| Formato de las tablas | Delta (formato de Fabric Lakehouse); nombres por definir | 🟡 |
 | Lectura desde Power BI | Power BI lee las tablas de resultados que entregue el proyecto, como con los modelos productivos actuales | 🟡 por confirmar |
 | SQL Server | No requerido para los resultados del MVP | 🟡 |
-| Registro de modelos | MLflow (el que ya trae Databricks) | 🟡 |
+| Registro de modelos | **Azure Machine Learning** (MLflow); el código ya toma la dirección de MLflow desde configuración | ✅ destino |
 | Visualización | Power BI; no es la fuente de verdad | ✅ |
 | LLM | Ninguna dependencia obligatoria; posible Azure AI Foundry/OpenAI desde ene-2027, detrás de una interfaz desacoplada | ✅ |
 | Revisión humana | Reunión técnica semanal con especialistas, con registro estructurado | ✅ |
@@ -151,11 +151,11 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 3. **SOS / APD:** ¿son la misma fuente o dos? ¿En la tabla queda registrada la fecha de informe además de la de muestra? Es la regla que evita leakage.
 4. ~~**VIMS:**~~ ✅ tendencias (~1 por hora, ~12 descargas por equipo al día) y eventos. Falta: unidades de cada tendencia.
 5. ~~**Cambios de motor:**~~ ✅ listado en la planilla DMH. Falta: conciliar 9/5 con 10/4 (MH340 2025-07-05) y ubicar los AFA/RCA.
-6. ~~**Persistencia:**~~ ✅ los resultados van a Databricks / Data Lake. Falta confirmar: esquema/catálogo de destino y si Power BI se conecta directo a Databricks.
+6. **Plataforma:** ✅ destino Fabric (datos y resultados) + Azure ML (modelos); Databricks y Synapse se decomisan. Falta: fecha de retiro, si el almacenamiento actual del lake se mantiene, quién migra el pipeline Predictivo 4.0, workspace de Fabric y cómo lee Power BI.
 7. ~~**Equipos del piloto:**~~ ✅ MH340–MH352 con MH343, más MH353 si tiene datos.
 8. ~~**SOS:**~~ ✅ el "Id Lab." es interno del laboratorio. La muestra se usa desde su fecha + 3 días (promedio hasta la carga).
 9. ~~**Motores por equipo:**~~ ✅ en SOS el motor del 798AC viene como `ENG`; ENG_FR/ENG_RR son de otros modelos.
-11. **Particulado:** ✅ Cat Inspect revisado (cabecera y preguntas). Para el motor se usan las preguntas de motor, no el resultado global. Falta: dominio de respuestas, corte de filtro de aceite de motor, acceso desde Databricks y equivalencia con Argos para 2023–2026.
+11. **Particulado:** ✅ Cat Inspect revisado (cabecera y preguntas). Para el motor se usan las preguntas de motor, no el resultado global. Falta: dominio de respuestas, corte de filtro de aceite de motor, acceso desde Fabric y equivalencia con Argos para 2023–2026.
 12. **Plantilla de falla de componentes (SharePoint):** resume modo de falla y causa raíz cuando existe. Pendiente de adjuntar; se usará solo como etiqueta.
 10. **Unidades:** el diccionario de tendencias no trae unidades (la frecuencia ya está confirmada).
 
@@ -165,6 +165,7 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 |---|---|
 | Solo 10 cambios imprevistos, repartidos en varios modos | Detección de anomalías + degradación; validación caso a caso; intervalos, no porcentajes |
 | Leakage por AFA/RCA o por fecha de muestra SOS | AFA/RCA prohibidos como predictor; SOS se usa desde fecha de muestra + 3 días (ambos con regla en el contrato) |
+| Plataforma en transición (retiro de Databricks y Synapse) | Código independiente de la plataforma (DP-005); fuentes leídas por ruta configurable; MLflow por URI. Riesgo principal: que el pipeline corporativo deje de alimentar Bronze/Silver durante la migración |
 | Conocimiento limitado de procesos existentes | No se modifica nada existente (DP-001); lo que se rearme queda documentado y versionado en el proyecto (DP-002). Ver `docs/fase0/decisiones_proyecto.md` |
 | Anomalías de Gold con lógica desconocida | Se generan de cero en el proyecto y Gold se usa solo como comparación (DP-003, propuesta) |
 | Umbrales arbitrarios | Calibración con el histórico, baseline individual y poblacional |
