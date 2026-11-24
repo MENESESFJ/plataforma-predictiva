@@ -17,20 +17,22 @@ causa_raiz: la perdida de giro del motor fue ocasionada por el gripaje de los me
 
 - Síntoma de detención: "BAJA PRESIÓN ACEITE MOTOR"
 - Pieza fallada: "bearing-connecting rod"
-- Causa raíz declarada: "contaminacion en sistema de lubricacion"
+- Causa raíz declarada: "la perdida de giro del motor fue ocasionada por el gripaje de los metales de las bielas #19 y #20 debido a ingreso de contaminacion a traves de la bancada #11 por traspaso interno en el filtro scf, lamentablemente se desconoce el motivo por el cual el lado limpio del filtro se encuentra con contaminacion generando el ingreso directo al ducto principal de lubricacion de los metales del motor; existe informacion faltante relevante para determinar el traspaso de contaminacion que se produjo en el scf; solo se tiene informacion que el motor hidraulico del filtro fue reemplazado pero no se tiene registro del motivo y fecha de reemplazo; esta condicion dejaria por indeterminada la causa"
 - Condición del componente: "gripaje de los metales de las bielas #19 y #20"
 
 ## fmea
 
-- Compatible: MFP-07 (baja_presion_lubricacion) — Evidencia explícita: "descripcion_falla: BAJA PRESIÓN ACEITE MOTOR" y "modo_falla_estandarizado: baja presion de aceite motor".
-- Compatible: MFP-01 (desgaste_cojinetes) — Evidencia explícita: "pieza_fallada: bearing-connecting rod" y "gripaje de los metales de las bielas #19 y #20".
+Compatibilidades FMEA basadas en los hechos reportados:
+- MFP-07 (baja_presion_lubricacion): compatible porque el síntoma/modeo estandarizado reportado es “baja presion de aceite motor” y la descripción de falla es “BAJA PRESIÓN ACEITE MOTOR”.
+- MFP-01 (desgaste_cojinetes): compatible porque la pieza involucrada es “bearing-connecting rod” y se declara “gripaje de los metales de las bielas #19 y #20”, es decir, falla de cojinetes.
 
-- Requiere modo nuevo: contaminación sólida en el sistema de lubricación por fallo de filtración (traspaso interno en filtro SCF) — La evidencia indica "contaminacion en sistema de lubricacion" y "traspaso interno en el filtro scf... el lado limpio del filtro se encuentra con contaminacion generando el ingreso directo al ducto principal de lubricacion", lo cual no está cubierto por MFP-03 (refrigerante en aceite) ni por MFP-04 (ingreso abrasivo/polvo externo).
+Hueco en el catálogo (requerir modo nuevo):
+- Falta un modo específico para “contaminación sólida del aceite por falla/traspaso interno del sistema de filtración (lado limpio)”. La evidencia menciona “contaminacion en sistema de lubricacion” y “traspaso interno en el filtro scf […] el lado limpio del filtro se encuentra con contaminacion”. Sugerencia de nuevo modo: “contaminacion_solidos_en_aceite_por_fallo_filtracion”.
 
 ## revisor
 
-- Bien sustentada: “BAJA PRESIÓN ACEITE MOTOR” como síntoma y modo estandarizado “baja presion de aceite motor”. Verificar consistencia y cronología en eventos VIMS (alarmas de presión y parada).
-- Bien sustentada: pieza afectada “bearing-connecting rod” y hallazgo “gripaje de los metales de las bielas #19 y #20”. Verificar con inspección física/fotos y mediciones en Cat Inspect (metales, rayado, decoloración).
-- Suposición: “ingreso de contaminacion a traves de la bancada #11 por traspaso interno en el filtro scf” y “lado limpio del filtro se encuentra con contaminacion”. Verificar con apertura/autopsia del SCF y análisis de particulado en Cat Inspect; revisar registros de diferencial de presión/derivación del SCF y eventos VIMS asociados.
-- Suposición: “contaminacion en sistema de lubricacion” como causa de la falla de cojinetes. Verificar con análisis de aceite SOS (tendencia de ISO limpieza/insolubles, Si, Fe, Cu, Pb, estaño; presencia de agua/refrigerante; viscosidad) y correlación temporal con la falla.
-- Suposición: posible relación con reemplazo del motor hidráulico del filtro (sin fecha/motivo). Verificar en historial de mantenimiento y rellenos de aceite (fechas, cantidad, calidad/lote de aceite, contaminación cruzada) y en VIMS si hubo eventos post-intervención.
+- Bien sustentado: “BAJA PRESIÓN ACEITE MOTOR” como síntoma/modeo reportado. Fuente: eventos VIMS/bitácora de alarmas (coincide con “descripcion_falla” y “modo_falla_estandarizado”).
+- Bien sustentado: falla en cojinetes de biela con “gripaje de los metales de las bielas #19 y #20” y pieza “bearing-connecting rod”. Fuente: inspección/desarme (Cat Inspect de particulado o informe de teardown).
+- Suposición: ruta de contaminación “a través de la bancada #11 por traspaso interno en el filtro SCF” y “lado limpio del filtro con contaminacion”. Verificar con autopsia de filtro (Cat Inspect), evidencia de bypass/dP del SCF y correlación temporal en VIMS.
+- Suposición: relación del reemplazo del motor hidráulico del SCF con el traspaso interno (no hay motivo ni fecha). Verificar con historial de mantenimiento y órdenes de trabajo del SCF; cruzar con eventos VIMS.
+- Verificar antes de aceptar “contaminación” como causa raíz: tendencias SOS (Si, Fe, Pb/Sn, ISO Cleanliness, glicol y dilución para descartar otras causas), Cat Inspect de particulado (origen del debris y ruta), eventos VIMS (baja presión, bypass, dP filtro), y registros de rellenos/consumo de aceite (ingresos anómalos o reposiciones cercanas al evento).
