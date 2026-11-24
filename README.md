@@ -78,4 +78,4 @@ En producción el registro será **Azure Machine Learning** (Databricks y Synaps
 | 2 Datos y Calidad | Ingesta stub con hash determinístico; Calidad con score y veredicto (solo reglas de rango). Pendiente: fuentes, point-in-time, reglas temporales y las 22 variables que usa el FMEA, ya especificadas en `components/motor_diesel/data_contract.yaml` (hoy el catálogo de features tiene 5) |
 | 3 Features/Modelo/Validación | Stubs |
 | 4 Inferencia/Interpretación/Recomendación | Interpretación (con el FMEA aprobado y SMCS) y Recomendación por catálogo implementadas sobre una inferencia placeholder. Prompt LLM de Interpretación prototipado fuera del repo. En pausa hasta cerrar Fase 3 |
-| 5–7 | Supervisor lineal con paso `human_in_the_loop`; resto pendiente |
+| 5–7 | Supervisor lineal con paso `human_in_the_loop`; resto pendiente. Patrones de orquestación propuestos (secuencial, traspaso, Magentic a pedido) en `docs/arquitectura/patrones_orquestacion.md` |
