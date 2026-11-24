@@ -26,7 +26,10 @@ plataforma:
   datos_y_resultados: Microsoft Fabric (OneLake / Lakehouse)   # CONFIRMADO
   registro_modelos: Azure Machine Learning (MLflow)            # CONFIRMADO
   en_retiro: [Databricks, Synapse]                             # CONFIRMADO
-  fecha_retiro: POR_CONFIRMAR
+  fecha_retiro: "2027, sin fecha definida"   # CONFIRMADO: decisión corporativa por costos
+  regla_mientras_tanto: >-
+    No se construye nada que solo funcione en Databricks (Jobs, Unity Catalog, widgets). El proyecto
+    corre en Python portable leyendo los archivos del lake por ruta; al migrar se cambia la configuración.
   continuidad_fuentes: >-
     POR_CONFIRMAR: si el almacenamiento actual del lake se mantiene (acceso directo desde OneLake) o se
     migra, y quién migra el pipeline corporativo Predictivo 4.0 (bronze/silver/gold).

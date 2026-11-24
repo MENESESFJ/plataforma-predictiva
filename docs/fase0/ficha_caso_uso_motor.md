@@ -109,7 +109,7 @@ Ventanas de análisis por evento: T-90, T-60, T-30, T-15, T-7 y T0, donde T0 es 
 
 | Campo | Valor | Estado |
 |---|---|---|
-| Procesamiento | Python. Databricks y Synapse se decomisan; destino **Microsoft Fabric** (notebooks y pipelines) | ✅ destino · ⬜ fecha |
+| Procesamiento | Python. Databricks y Synapse se decomisan; destino **Microsoft Fabric** (notebooks y pipelines). Retiro en 2027, sin fecha (decisión corporativa por costos) | ✅ destino · 🟡 2027 |
 | Acceso a datos | Solo lectura sobre Bronze/Silver; datasets derivados propios | ✅ |
 | Pipelines y orquestador corporativo | No se modifican | ✅ |
 | Persistencia de resultados y datasets derivados | Fabric Lakehouse (OneLake) | ✅ destino · ⬜ workspace |
@@ -151,7 +151,7 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 3. **SOS / APD:** ¿son la misma fuente o dos? ¿En la tabla queda registrada la fecha de informe además de la de muestra? Es la regla que evita leakage.
 4. ~~**VIMS:**~~ ✅ tendencias (~1 por hora, ~12 descargas por equipo al día) y eventos. Falta: unidades de cada tendencia.
 5. ~~**Cambios de motor:**~~ ✅ listado en la planilla DMH. Falta: conciliar 9/5 con 10/4 (MH340 2025-07-05) y ubicar los AFA/RCA.
-6. **Plataforma:** ✅ destino Fabric (datos y resultados) + Azure ML (modelos); Databricks y Synapse se decomisan. Falta: fecha de retiro, si el almacenamiento actual del lake se mantiene, quién migra el pipeline Predictivo 4.0, workspace de Fabric y cómo lee Power BI.
+6. **Plataforma:** ✅ destino Fabric (datos y resultados) + Azure ML (modelos); Databricks y Synapse se decomisan en 2027, sin fecha. Falta: si el almacenamiento actual del lake se mantiene, quién migra el pipeline Predictivo 4.0, workspace de Fabric y cómo lee Power BI.
 7. ~~**Equipos del piloto:**~~ ✅ MH340–MH352 con MH343, más MH353 si tiene datos.
 8. ~~**SOS:**~~ ✅ el "Id Lab." es interno del laboratorio. La muestra se usa desde su fecha + 3 días (promedio hasta la carga).
 9. ~~**Motores por equipo:**~~ ✅ en SOS el motor del 798AC viene como `ENG`; ENG_FR/ENG_RR son de otros modelos.
@@ -165,7 +165,7 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 |---|---|
 | Solo 10 cambios imprevistos, repartidos en varios modos | Detección de anomalías + degradación; validación caso a caso; intervalos, no porcentajes |
 | Leakage por AFA/RCA o por fecha de muestra SOS | AFA/RCA prohibidos como predictor; SOS se usa desde fecha de muestra + 3 días (ambos con regla en el contrato) |
-| Plataforma en transición (retiro de Databricks y Synapse) | Código independiente de la plataforma (DP-005); fuentes leídas por ruta configurable; MLflow por URI. Riesgo principal: que el pipeline corporativo deje de alimentar Bronze/Silver durante la migración |
+| Plataforma en transición (retiro de Databricks y Synapse) | Código independiente de la plataforma (DP-005); fuentes leídas por ruta configurable; MLflow por URI. Riesgo principal: que el pipeline corporativo deje de alimentar Bronze/Silver durante la migración. Contingencia: extracto del histórico de la flota DMH como dataset derivado del proyecto |
 | Conocimiento limitado de procesos existentes | No se modifica nada existente (DP-001); lo que se rearme queda documentado y versionado en el proyecto (DP-002). Ver `docs/fase0/decisiones_proyecto.md` |
 | Anomalías de Gold con lógica desconocida | Se generan de cero en el proyecto y Gold se usa solo como comparación (DP-003, propuesta) |
 | Umbrales arbitrarios | Calibración con el histórico, baseline individual y poblacional |
