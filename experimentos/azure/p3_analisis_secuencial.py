@@ -51,7 +51,11 @@ INSTRUCCIONES = {
 
 NO_REPETIR = (" Responde solo con tu propio análisis, en tu rol; no copies ni repitas el mensaje del "
               "agente anterior.")
-UMBRAL_ECO = 0.7  # similitud de texto sobre la que una respuesta se considera copia de la anterior
+# Similitud sobre la que una respuesta se considera copia de la anterior. En las corridas reales lo normal
+# fue hasta 0,32 y las copias o paráfrasis entre 0,63 y 1,0.
+UMBRAL_ECO = 0.5
+# El revisor cumple su rol si separa lo supuesto y nombra al menos una fuente para verificar.
+FUENTES_REVISOR = ("SOS", "VIMS", "AFA", "taller", "relleno", "particulado", "Argos", "Cat Inspect")
 
 
 def instrucciones() -> dict:
@@ -62,11 +66,17 @@ def instrucciones() -> dict:
             for k, v in INSTRUCCIONES.items()}
 
 
+def revisor_cumple_rol(texto: str) -> bool:
+    return "suposici" in texto.lower() and any(f.lower() in texto.lower() for f in FUENTES_REVISOR)
+
+
 def detectar_eco(mensajes: list) -> list:
-    """Agentes cuya respuesta es casi igual a la del agente anterior (se copió en vez de analizar)."""
+    """Agentes que no hicieron su trabajo: copiaron o parafrasearon al anterior, o (revisor) no revisaron."""
     agentes = [(a, t) for a, t in mensajes if a in INSTRUCCIONES]
-    return [actual[0] for previo, actual in zip(agentes, agentes[1:])
-            if difflib.SequenceMatcher(None, previo[1].strip(), actual[1].strip()).ratio() >= UMBRAL_ECO]
+    fallas = [actual[0] for previo, actual in zip(agentes, agentes[1:])
+              if difflib.SequenceMatcher(None, previo[1].strip(), actual[1].strip()).ratio() >= UMBRAL_ECO]
+    fallas += [a for a, t in agentes if a == "revisor" and a not in fallas and not revisor_cumple_rol(t)]
+    return fallas
 
 
 def leer_caso(indice: int) -> dict:
