@@ -97,8 +97,42 @@ Cat Inspect para desarmes sin mencionar Argos ni el AFA. Probablemente la VM no 
 Sin eco. **Balance de cuatro corridas:** 3 ecos en 12 análisis de caso (25 %). Cuando no hay eco, la
 clasificación se repitió igual en todas las corridas: los mismos modos y los mismos modos nuevos por caso.
 
+## Quinta corrida (código anterior)
+
+La VM no se había actualizado: el `git pull` se cancelaba porque los resultados locales tenían el mismo
+nombre que los subidos por la web. En el caso 0, fmea y revisor copiaron textual la evidencia (eco).
+**Balance de las corridas con el código anterior: 4 ecos en 15 análisis de caso.**
+
+## Sexta corrida: primera con la versión nueva (instrucciones ajustadas + detección de eco)
+
+Razonamiento medio, máximo de 8.000 tokens. Los tres casos se resolvieron en **1 corrida, sin eco**
+(similitud con el agente anterior de 0,04 a 0,18).
+
+| Caso | Agente fmea | Cambio respecto de las corridas anteriores |
+|---|---|---|
+| 0 · MH341 2023 | Ningún modo vigente aplica; MFP-07 **solo como consecuencia**; modo nuevo de tren de distribución | ✅ Ya no asigna MFP-07 como modo |
+| 3 · MH345 2024 | **MFP-08 (combustión deficiente)** por la pérdida de sellado del anillo cortafuego; baja presión como consecuencia; modo nuevo de estanqueidad de junta con bloqueo hidráulico | ✅ Sin MFP-07. ⚠️ MFP-08 es nuevo y discutible (ver abajo) |
+| 4 · MH344 2024 | **Solo MFP-01**; dice explícitamente "no asignar MFP-07: es el síntoma"; modo nuevo de contaminación por el filtro | ✅ Coincide con la causa, sin el síntoma |
+
+**El revisor mejoró en los tres casos:**
+- Pide los hallazgos de desarme solo al AFA/RCA o al informe de taller, ya no a Cat Inspect.
+- Usa el particulado de rutina en Argos o Cat Inspect según corresponda.
+- Distingue la consecuencia (baja presión) de la causa.
+- En el caso 3 propone revisar la recurrencia en la flota y los boletines del fabricante.
+
+**Para Confiabilidad, caso 3 y MFP-08:** el agente relacionó la pérdida de sellado del anillo cortafuego
+con combustión deficiente. No es el modo de la falla (fue un bloqueo hidráulico por ingreso de fluido), pero
+sugiere que las **señales de MFP-08 (temperatura de escape y su diferencial entre cilindros) podrían ser
+precursoras** del modo nuevo de bloqueo hidráulico. Es una hipótesis a validar con los datos de VIMS de
+MH345, MH348 y MH350.
+
+**Conclusión:** las instrucciones ajustadas corrigieron los dos defectos de las corridas anteriores
+(MFP-07 asignado por el síntoma y el mal uso de Cat Inspect), y la detección de eco no tuvo que actuar. Con
+una sola corrida no se puede medir la tasa de eco con la instrucción de no repetir; conviene repetir 2 o 3
+veces antes de concluir.
+
 ## Próximos pasos
 
-1. Con la detección de eco en main: `git pull`, comprobar que el resultado empiece con la línea "Razonamiento: …" y repetir los casos 0, 3 y 4.
+1. Repetir 2 o 3 veces los casos 0, 3 y 4 con la versión nueva, para medir la tasa de eco (antes de cada corrida: borrar los `p3_*.md` locales y hacer `git pull`).
 2. Opcional: probar `--esfuerzo low` contra `medium` en el caso 4. Con 200.000 TPM no hace falta ahorrar; solo sirve si la cuota baja.
 3. Correr la prueba 2 (los 14 casos, 3 repeticiones), si está permitido enviar el texto técnico.
