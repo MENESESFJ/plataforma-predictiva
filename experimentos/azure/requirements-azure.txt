@@ -1,0 +1,4 @@
+# Dependencias adicionales para correr los experimentos en la VM de Azure (además de requirements.txt)
+openai>=1.92
+azure-identity
+azureml-mlflow   # solo para la prueba 1 (registro MLflow en Azure ML)
