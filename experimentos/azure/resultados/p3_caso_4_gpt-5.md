@@ -1,5 +1,7 @@
 # Prueba 3: análisis secuencial del caso 4 (gpt-5)
 
+Razonamiento: medium · máximo de tokens: 8000 · corridas: 1
+
 ## Registro enviado
 
 ```
@@ -22,17 +24,14 @@ causa_raiz: la perdida de giro del motor fue ocasionada por el gripaje de los me
 
 ## fmea
 
-Compatibles con FMEA vigente:
-- MFP-07 (baja_presion_lubricacion): Compatible porque el síntoma declarado es "BAJA PRESIÓN ACEITE MOTOR" / "baja presion de aceite motor".
-- MFP-01 (desgaste_cojinetes): Compatible porque la pieza fallada es "bearing-connecting rod" y se reporta "gripaje de los metales de las bielas #19 y #20".
-
-Requiere nuevo modo:
-- Proponer nuevo modo: contaminacion_solida_en_sistema_de_lubricacion_por_fallo_de_filtro (o traspaso_interno_filtro_lubricacion). Justificación: la causa indica contaminación en el lado limpio del filtro y traspaso interno, lo cual no está cubierto por MFP-03 (refrigerante), MFP-04 (polvo de admisión) ni MFP-05 (dilución de combustible). Evidencias: "contaminacion en sistema de lubricacion", "por traspaso interno en el filtro scf", "el lado limpio del filtro se encuentra con contaminacion".
+- Compatible: MFP-01 (desgaste_cojinetes). Por daño/seizure de los cojinetes de biela (#19 y #20) asociado a “ingreso de contaminacion… por traspaso interno en el filtro scf” en el circuito de lubricación. Consecuencia observada: baja presión de aceite y pérdida de giro.
+- No asignar como modo: MFP-07 (baja_presion_lubricacion). Corresponde al síntoma reportado, no a la causa/parte fallada.
+- Requiere modo nuevo: contaminación sólida en sistema de lubricación por fallo/traspaso del filtro de aceite (SCF). No está cubierta por MFP-03 (contaminación de refrigerante), MFP-05 (dilución por combustible) ni MFP-04 (ingreso de polvo por admisión), y explica el ingreso de contaminantes al lado limpio del filtro y al ducto principal que dañó los cojinetes.
 
 ## revisor
 
-- Bien sustentado: síntoma “BAJA PRESIÓN ACEITE MOTOR”. Verificar/respaldar con eventos VIMS (alarmas/derates/paro por baja presión).
-- Bien sustentado: daño en cojinetes de biela (gripaje “#19 y #20”) y pieza fallada “bearing-connecting rod”. Respaldar con inspección de particulado Cat Inspect (presencia de Pb/Sn/Cu en filtros/coladores) y tendencia SOS (picos de Pb/Sn/Cu).
-- Suposición: “ingreso de contaminacion a traves de la bancada #11 por traspaso interno en el filtro scf”. Verificar con autopsia del SCF y evidencia de contaminación en el lado limpio: Cat Inspect (análisis de filtro y coladores), SOS (Si/Fe/ISO/partículas), y eventos VIMS (ciclos/DP del SCF o anomalías del sistema de filtrado).
-- Suposición: “contaminacion en sistema de lubricacion” como causa raíz (la propia narrativa indica “esta condición dejaría por indeterminada la causa”). Antes de aceptarla, corroborar con tendencias SOS previas al evento (metales/ISO), inspección Cat Inspect del lado limpio del filtro, y correlación con eventos VIMS de baja presión recurrente.
-- Hallazgo por confirmar: “motor hidráulico del filtro fue reemplazado” (sin fecha/motivo). Antes de usarlo como indicio causal, verificar si hubo eventos VIMS asociados al SCF y revisar si hubo cambios en consumo/rellenos de aceite alrededor de esa intervención (patrones de “rellenos de aceite” anómalos).
+- Conclusión bien sustentada: “pieza_fallada: bearing-connecting rod”. Fuente: registro de cambio (pieza_fallada).
+- Conclusión bien sustentada: síntoma de detención “BAJA PRESIÓN ACEITE MOTOR”. Fuente: registro de cambio (descripcion_falla).
+- Conclusión bien sustentada: condición del componente “gripaje de los metales de las bielas #19 y #20”. Fuente: registro de cambio (causa_raiz).
+- Suposición: “traspaso interno en el filtro scf” como causa específica del ingreso de contaminación (se declara pero luego se indica que la causa queda indeterminada). Fuente: registro de cambio (causa_raiz). Verificar antes de aceptarla: evidencia de desarme y hallazgos en AFA/RCA o informe de taller que confirmen traspaso/bypass del SCF, y eventos VIMS de diferencial de filtros/alarma SCF.
+- Suposición: “contaminacion en sistema de lubricacion” como causa raíz final. Fuente: registro de cambio (causa_raiz_resumen vs. causa_raiz que la deja indeterminada). Verificar antes de aceptarla: resultados SOS (partículas, Na/K, hollín, viscosidad), registros de rellenos de aceite/refrigerante, y particulado de rutina (test de parche, rejillas, tapones magnéticos) en Argos/Cat Inspect para evidenciar contaminación en el lado limpio y su tendencia previa.
