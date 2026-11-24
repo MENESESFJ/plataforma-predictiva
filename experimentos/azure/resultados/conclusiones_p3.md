@@ -38,8 +38,36 @@ el agente pidió un modo nuevo por su cuenta. Eso respalda la propuesta a Confia
 | Pide verificar con Cat Inspect como si registrara desarmes, y en fechas en que no tenía datos (antes de jun-2026) | Instrucción del revisor: qué cubre cada fuente y desde cuándo; los hallazgos de desarme vienen del AFA/RCA o del informe de taller |
 | No ve repeticiones en la flota (MH345 y MH348 comparten la causa "anillo cortafuego") | Pendiente: un agente con acceso al listado de eventos (patrón concurrente o de traspaso) |
 
+## Segunda corrida: repetibilidad (mismas instrucciones, 2026-11-24)
+
+Se repitieron los tres casos con las **mismas instrucciones** (el ajuste de arriba aún no estaba en main).
+Los archivos `p3_caso_*_gpt-5.md` de main corresponden a esta segunda corrida; la primera está en el
+historial de git (commit f7f91ee).
+
+| Caso | Agente fmea | Revisor | Similitud con el agente anterior |
+|---|---|---|---|
+| 0 · MH341 2023 | Igual que la primera: MFP-07 por el síntoma + modo nuevo de tren de distribución | Revisó bien; además cuestionó crear un modo nuevo sin revisar un catálogo FMEA más amplio | 0,19 / 0,17 (normal) |
+| 3 · MH345 2024 | Igual que la primera: MFP-07 + modo nuevo de bloqueo hidráulico | **Parafraseó al agente fmea** en vez de revisar | 0,14 / **0,84** |
+| 4 · MH344 2024 | **Copió textual la salida del agente de evidencia**; no asignó modos | **Copió textual la evidencia** | **1,00 / 1,00** |
+
+**Hallazgo:** el flujo secuencial no es estable. En 2 de 3 casos, al menos un agente repitió al anterior en
+vez de cumplir su rol (eco), y el resultado del caso 4 quedó sin análisis. En la primera corrida no pasó. Es
+un riesgo propio de encadenar agentes que comparten la conversación, y debe controlarse antes de cualquier
+uso real.
+
+**Controles agregados en `p3_analisis_secuencial.py`:**
+- Instrucción explícita a fmea y revisor de no repetir al agente anterior.
+- Detección de eco: si la respuesta de un agente se parece en 70 % o más a la del anterior (lo normal es
+  menos de 20 %), el flujo se repite, hasta 3 veces. Si persiste, el resultado queda marcado con una advertencia.
+- Cada resultado registra el razonamiento usado, el máximo de tokens y el número de corridas.
+- Test que reproduce la detección con los resultados reales de esta corrida.
+
+**Lección para la arquitectura:** cada agente debería entregar una **salida estructurada** (contrato
+Pydantic, como en la prueba 2). Con texto libre, una copia pasa como respuesta válida; con un formato fijo, se
+detecta y se rechaza. Es la misma regla de `docs/arquitectura/patrones_orquestacion.md`.
+
 ## Próximos pasos
 
-1. Repetir los casos 0, 3 y 4 con las instrucciones ajustadas y comparar.
+1. Fusionar este PR y repetir los casos 0, 3 y 4 con las instrucciones ajustadas y la detección de eco.
 2. Opcional: probar `--esfuerzo low` contra `medium` en el caso 4. Con 200.000 TPM no hace falta ahorrar; solo sirve si la cuota baja.
 3. Correr la prueba 2 (los 14 casos, 3 repeticiones), si está permitido enviar el texto técnico.
