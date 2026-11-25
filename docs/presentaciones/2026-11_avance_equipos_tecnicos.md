@@ -120,7 +120,7 @@ Cada semana: **alerta → revisión técnica → decisión (inspeccionar, seguir
 
 1. Validar los 14 cambios de motor y los 2 modos nuevos del FMEA.
 2. Asegurar una copia del histórico de la flota DMH desde 2023 (Databricks se retira en 2027).
-3. Construir el monitor de desviaciones VIMS, primer entregable para Monitoreo de Condiciones: revisa toda la flota a diario y entrega la lista corta de camiones a mirar; después se suman aceite, particulado y rellenos.
+3. Construir el monitor de desviaciones de VIMS y aceite, primer entregable para Monitoreo de Condiciones: revisa toda la flota a diario, cruza VIMS con el aceite (sin reemplazar la revisión de cada muestra) y entrega la lista corta de camiones a mirar; después se suman particulado y rellenos.
 4. Probarla hacia atrás: ¿habría avisado antes de cada una de las 10 fallas, con cuánta anticipación y cuántas falsas alarmas?
 5. Primera revisión semanal con especialistas y acordar la métrica de éxito.
 
