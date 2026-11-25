@@ -29,7 +29,7 @@ T = [
     ("D1", "Datos y plataforma", "Copia del histórico DMH desde 2023", "TI / Datos", 1, 3, "",
      "Acceso de lectura al lake (VIMS, aceite, rellenos, cambios)", "Dataset histórico propio del proyecto", True),
     ("D2", "Datos y plataforma", "Workspace de Fabric y de Azure ML del proyecto", "TI / Plataforma", 2, 6, "",
-     "Aprobación y licencias", "Workspaces habilitados", False),
+     "Aprobación y licencias; estructura propuesta (DP-012, fabric_estructura.md)", "Workspaces, Lakehouses y shortcut al lake habilitados", False),
     ("D3", "Datos y plataforma", "Acceso de lectura a Cat Inspect", "TI / Datos", 2, 4, "",
      "Conexión a SQL Server o extracto periódico", "Particulado actual disponible", False),
     ("D4", "Datos y plataforma", "Particulado histórico de Argos y equivalencia de escalas", "Monitoreo de Condiciones + Datos", 6, 4, "D1, D3",

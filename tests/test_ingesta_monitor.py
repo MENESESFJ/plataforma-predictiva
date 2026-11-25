@@ -76,7 +76,7 @@ def test_dato_atrasado_y_correccion_respetan_el_corte():
     assert r3["fuera_de_ventana"] == 1 and r3["nuevas"] == 0
 
 
-def test_ejecucion_completa(tmp_path):
+def _correr_ejemplo(tmp_path, formato):
     origen, destino = tmp_path / "lake", tmp_path / "proyecto"
     f = CFG["fuentes"]
     for clave, contenido in {
@@ -91,16 +91,21 @@ def test_ejecucion_completa(tmp_path):
         ruta = origen / f[clave]["ruta"]
         ruta.parent.mkdir(parents=True, exist_ok=True)
         ruta.write_text(contenido, encoding="utf-8")
-    rep = im.ejecutar(date(2027, 1, 11), "diario", origen, destino, CFG)
+    rep = im.ejecutar(date(2027, 1, 11), "diario", origen, destino, CFG, formato=formato)
     vims = rep["fuentes"]["vims_tendencias"]
     assert vims["nuevas"] == 1 and len(vims["origen"]["sha256"]) == 64
     assert "MH340" not in vims["calidad"]["equipos_sin_datos_dia_analizado"]
     assert "MH341" in vims["calidad"]["equipos_sin_datos_dia_analizado"]  # sin datos se informa, no es normal
     assert rep["fuentes"]["vims_eventos"]["nuevas"] == 1 and rep["fuentes"]["sos"]["nuevas"] == 1
-    tabla = pd.read_parquet(destino / "entrada/estandar/vims_tendencias.parquet")
+    tabla = im.Almacen(destino, formato).leer("entrada_vims_tendencias")
     assert tabla.loc[0, "vida_motor"] == "MH340-v1"
-    assert (destino / "entrada/reportes/20270111-diario.json").exists()
+    assert (destino / "Files/reportes/20270111-diario.json").exists()
     assert rep["eventos_pendientes"]["nuevos"] == 1  # el cambio de 2026-06 no está en el listado de eventos
+    return rep
+
+
+def test_ejecucion_completa(tmp_path):
+    _correr_ejemplo(tmp_path, "parquet")
 
 
 # --- aviso de cambio de motor (DP-011, paso 1) -------------------------------------------------------
@@ -130,6 +135,29 @@ def test_cambios_no_validados_quedan_pendientes(tmp_path):
 
 
 def test_ejecucion_informa_cambio_nuevo(tmp_path):
-    test_ejecucion_completa(tmp_path)
-    pend = pd.read_csv(tmp_path / "proyecto/entrada/eventos/pendientes_validacion.csv", dtype=str)
+    _correr_ejemplo(tmp_path, "parquet")
+    pend = pd.read_csv(tmp_path / "proyecto/Files/eventos/pendientes_validacion.csv", dtype=str)
     assert list(zip(pend["equipo"], pend["estado"])) == [("MH340", "nuevo")]
+
+
+# --- Fabric: tablas Delta con esquema fijo (DP-012) ------------------------------------------------
+def test_delta_dos_lotes_sin_duplicar(tmp_path):
+    pytest.importorskip("deltalake")
+    _correr_ejemplo(tmp_path, "delta")
+    destino = tmp_path / "proyecto"
+    # segundo lote sobre la misma tabla Delta: idempotente y la bitácora acumula lotes
+    rep2 = im.ejecutar(date(2027, 1, 12), "diario", tmp_path / "lake", destino, CFG, formato="delta")
+    assert rep2["fuentes"]["vims_tendencias"]["sin_cambio"] == 1 and rep2["fuentes"]["vims_tendencias"]["nuevas"] == 0
+    alm = im.Almacen(destino, "delta")
+    assert len(alm.leer("entrada_vims_tendencias")) == 1
+    lotes = alm.leer("ingesta_lotes")
+    assert sorted(lotes["lote_id"].unique()) == ["20270111-diario", "20270112-diario"]
+    from ingesta.esquemas import ESQUEMAS
+    for tabla in ["entrada_vims_tendencias", "entrada_sos", "eventos_pendientes_validacion", "ingesta_lotes"]:
+        assert list(alm.leer(tabla).columns) == list(ESQUEMAS[tabla])
+
+
+def test_esquema_rechaza_columnas_faltantes():
+    from ingesta.esquemas import conformar
+    with pytest.raises(ValueError, match="faltan columnas"):
+        conformar(pd.DataFrame({"equipo": ["MH340"]}), "eventos_pendientes_validacion")
