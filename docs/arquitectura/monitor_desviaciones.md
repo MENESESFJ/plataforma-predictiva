@@ -142,17 +142,27 @@ reciba lo nuevo y no la misma alerta todos los días.
 calidad. Ese número lo define Monitoreo de Condiciones (sección 12) y es un parámetro de diseño: los umbrales del
 semáforo se calibran para respetarlo.
 
+### 9b. De la alerta al caso
+
+Cada camión en alerta abre un caso; si al día siguiente sigue en alerta, se actualiza el mismo caso (no se crea otro). Monitoreo de Condiciones lo confirma, descarta, deja en observación o pide información, e Ingeniería de Mantenimiento define la acción y el cierre. Los descartes con su motivo son el insumo principal para calibrar (sección 11). Estados, plazos y responsables en `docs/gestion/gobierno_piloto.md` (DP-008).
+
+Un modo FMEA cuyas señales no se observan en los datos disponibles se informa como **no observable** para ese camión; el monitor no lo da por normal (DP-009).
+
 ## 10. Primer entregable: monitor VIMS y aceite para DMH
 
 Etapa 1 completa (VIMS, flota DMH), antes del modelo predictivo y de la IA:
 
-1. Leer las tendencias y eventos VIMS y el análisis de aceite de DMH con los filtros del contrato de datos.
+1. Leer las tendencias y eventos VIMS y el análisis de aceite de DMH con los filtros del contrato de datos, mediante
+   la ingesta diaria con versiones y regla de corte (`docs/arquitectura/ingesta_monitor.md`, DP-010).
 2. Calcular las comparaciones 2, 3 y 4 de VIMS (no necesitan límites), las cuatro del aceite (con los límites del
    laboratorio), los resúmenes de eventos y la regla de coincidencia entre VIMS y aceite.
 3. Entregar las tablas y la lista diaria de revisión para Monitoreo de Condiciones.
 4. Revisar con Monitoreo de Condiciones durante unas semanas qué desviaciones tienen sentido y ajustar los umbrales.
 
 ## 11. Calibración y validación
+
+La prueba hacia atrás es el **reproceso histórico** del monitor: el mismo código re-ejecutado día por día con regla
+de corte. Su resultado es también la entrada del entrenamiento del modelo (`docs/arquitectura/ciclo_aprendizaje.md`).
 
 1. **Hacia atrás con las 10 fallas:** con datos solo anteriores a cada falla, ¿el monitor mostró desviaciones? ¿En qué
    parámetros, en qué dirección y con cuántos días de anticipación?

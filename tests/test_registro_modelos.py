@@ -50,3 +50,5 @@ def test_inferencia_sin_modelo_vigente_usa_baseline(registro):
     est = Supervisor(registro=registro).ejecutar_solicitud(
         _solicitud(TipoFlujo.INFERENCIA, "inf-1"), DATOS)
     assert est.fase == FaseFlujo.PENDIENTE_HUMANO
+    # DP-007: el baseline nunca se presenta como modelo aprobado
+    assert any("baseline de desarrollo" in a for a in est.advertencias)

@@ -98,7 +98,7 @@ class Supervisor:
         nombres = sorted(f["nombre"] for f in cargar_bundle(
             ctx.ruta_componentes, ctx.componente)["feature_catalog"]["features"])
         return ModeladoSalida(modelo_id=f"{ctx.componente}-baseline", version_modelo="0.1.0",
-                              metricas={}, variables=nombres)
+                              metricas={}, variables=nombres, es_baseline=True)
 
     def _trazar(self, est: Estado, registros) -> None:
         for r in registros:
@@ -130,6 +130,10 @@ class Supervisor:
             for paso in FLUJOS[entrada.tipo_flujo]:
                 if paso == Paso.INFERENCIA and "modelamiento" not in s:
                     s["modelamiento"] = self._modelo_vigente(ctx)
+                    if s["modelamiento"].es_baseline:
+                        est.advertencias.append(
+                            f"El riesgo se calculó con un baseline de desarrollo ({s['modelamiento'].modelo_id}), "
+                            "no con un modelo aprobado (DP-007).")
                 agente = self.agentes[paso]
                 datos = self._entrada(paso, ctx, s)
                 n = len(agente.auditoria)

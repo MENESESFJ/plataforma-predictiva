@@ -13,3 +13,8 @@ Actuar como un auditor ciego e independiente del modelo candidato. Busca activam
 3. Comparar desempeño estricto contra el baseline del componente: si no lo supera, el modelo se rechaza.
 4. Evaluar métricas de negocio: días de anticipación de alertas vs. tasa de falsas alarmas por mes.
 5. Emitir veredicto para el Human-in-the-Loop (`aprobado_tecnicamente` / `rechazado`).
+
+## Estado y criterios
+Hoy la implementación es un esqueleto (solo verifica variables y datos de entrenamiento). Los criterios de aceptación
+y la validación dejando una falla fuera están en `docs/arquitectura/ciclo_aprendizaje.md` (DP-011); se construyen en la
+tarea P2.

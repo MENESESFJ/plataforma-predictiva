@@ -1,6 +1,7 @@
 ﻿ID;Frente;Tarea;Responsable;Inicio;Fin;Semana inicio;Duración (semanas);Depende de;Insumos;Entregable;Ruta crítica;Tipo
 G1;Gobierno;Kickoff y acuerdo de alcance, roles y cadencia;Líder del proyecto;2026-12-07;2026-12-11;1;1;;"Presentación de avance; ficha del caso de uso";Acta de kickoff y matriz de responsables;Sí;Tarea
 G2;Gobierno;Seguimiento semanal del plan;Líder del proyecto + PMO;2026-12-14;2027-06-04;2;25;G1;Este plan;Minuta y estado semanal;No;Tarea
+G3;Gobierno;Proceso de revisión de casos: estados, plazos, responsables y cierre;Monitoreo de Condiciones + Ingeniería de Mantenimiento;2027-01-25;2027-02-12;8;3;F04;"Lista diaria de ejemplo; propuesta de estados y plazos (gobierno_piloto.md)";Procedimiento de revisión de casos acordado;No;Tarea
 F01;Cierre del caso de uso;Validar el modo de falla de los 14 cambios de motor;Confiabilidad + Ingeniería;2026-12-14;2027-01-01;2;3;G1;"Listado de eventos; resultados de los agentes";Listado de eventos validado;Sí;Tarea
 F02;Cierre del caso de uso;Completar las 4 causas raíz pendientes;Centro Técnico;2026-12-14;2027-01-08;2;4;G1;"Plantilla de falla de componentes (SharePoint); informes de desarme";Causas raíz en el listado;No;Tarea
 F03;Cierre del caso de uso;Decidir los 2 modos FMEA nuevos;Confiabilidad;2027-01-04;2027-01-15;5;2;F01;Propuesta de modos (bloqueo hidráulico, tren de distribución);FMEA v1.1 aprobado;No;Tarea
@@ -10,17 +11,19 @@ D2;Datos y plataforma;Workspace de Fabric y de Azure ML del proyecto;TI / Plataf
 D3;Datos y plataforma;Acceso de lectura a Cat Inspect;TI / Datos;2026-12-14;2027-01-08;2;4;;Conexión a SQL Server o extracto periódico;Particulado actual disponible;No;Tarea
 D4;Datos y plataforma;Particulado histórico de Argos y equivalencia de escalas;Monitoreo de Condiciones + Datos;2027-01-11;2027-02-05;6;4;D1, D3;"Escala de Argos; severidad por color de Cat Inspect";Serie de particulado unificada;No;Tarea
 D5;Datos y plataforma;Rangos físicos y unidades de los parámetros VIMS;Monitoreo de Condiciones;2026-12-21;2027-01-08;3;3;G1;Diccionario de tendencias;Tabla de rangos y unidades;No;Tarea
-M1;Monitor de desviaciones;Ingesta real y calidad de datos;Desarrollo;2026-12-28;2027-01-15;4;3;D1;"Contrato de datos; reglas de corte";Ingesta validada con datos DMH;Sí;Tarea
-M2;Monitor de desviaciones;Comparaciones y semáforo: VIMS y aceite;Desarrollo;2027-01-18;2027-02-12;7;4;M1, D5;Diseño del monitor (DP-006);Tablas diarias de desviaciones y estado;Sí;Tarea
+D6;Datos y plataforma;Tabla de vidas de motor: equipo, serie, instalación, retiro, horas y motivo;Confiabilidad + Componentes;2026-12-14;2027-01-01;2;3;G1;"Base de cambios de componentes; planilla de fallas";Tabla de vidas de motor validada;No;Tarea
+D7;Datos y plataforma;Diccionario de variables y cobertura por camión y variable;Desarrollo + dueños de las fuentes;2026-12-28;2027-01-08;4;2;D1;"Histórico copiado; catálogos de VIMS y aceite";Diccionario con unidades y cobertura medida;No;Tarea
+M1;Monitor de desviaciones;Ingesta real y calidad de datos;Desarrollo;2026-12-28;2027-01-15;4;3;D1;"Contrato de datos; mecanismo de ingesta (DP-010)";Ingesta validada con datos DMH;Sí;Tarea
+M2;Monitor de desviaciones;Comparaciones y semáforo: VIMS y aceite;Desarrollo;2027-01-18;2027-02-12;7;4;M1, D5, D6, D7;Diseño del monitor (DP-006);Tablas diarias de desviaciones y estado;Sí;Tarea
 M3;Monitor de desviaciones;Prueba hacia atrás con las 10 fallas y falsas alarmas;Desarrollo + Confiabilidad;2027-02-15;2027-03-05;11;3;M2, F01;Eventos validados;Informe: anticipación y falsas alarmas;Sí;Tarea
 M4;Monitor de desviaciones;Lista diaria de revisión para Monitoreo de Condiciones;Desarrollo;2027-02-15;2027-02-26;11;2;M2, D2;"Presupuesto de alertas; herramientas que usa el equipo";Lista diaria (Power BI o correo);No;Tarea
-M5;Monitor de desviaciones;Piloto con Monitoreo de Condiciones y calibración;Monitoreo de Condiciones + Desarrollo;2027-03-08;2027-04-16;14;6;M3, M4;Revisión de las primeras listas;Umbrales calibrados;Sí;Tarea
+M5;Monitor de desviaciones;Piloto con Monitoreo de Condiciones y calibración;Monitoreo de Condiciones + Desarrollo;2027-03-08;2027-04-16;14;6;M3, M4, G3;Revisión de las primeras listas;Umbrales calibrados;Sí;Tarea
 M6;Monitor de desviaciones;Sumar particulado y rellenos;Desarrollo;2027-03-15;2027-04-02;15;3;M2, D4;"Serie de particulado unificada; rellenos";Monitor completo (etapa 2);No;Tarea
 A1;Interpretación con IA;Prueba 4: salida estructurada por agente;Desarrollo;2026-12-28;2027-01-15;4;3;;VM de Azure (acceso hasta ~mayo 2027);Resultados y conclusiones de la prueba 4;No;Tarea
 A2;Interpretación con IA;Entorno de IA corporativo (Azure AI Foundry);TI / Plataforma;2027-01-11;2027-03-05;6;8;;Disponibilidad corporativa desde 2027;Proyecto y modelo desplegados;No;Tarea
 A3;Interpretación con IA;Triage y especialistas sobre alertas reales;Desarrollo;2027-03-22;2027-04-16;16;4;H2, A1, A2;Alertas del piloto;Casos explicados para la revisión semanal;No;Tarea
-P1;Modelo predictivo;Variables y modelo de degradación con datos reales;Desarrollo;2027-04-19;2027-05-14;20;4;M5;"Resumen de desviaciones; historia de fallas";Modelo candidato registrado;Sí;Tarea
-P2;Modelo predictivo;Validación contra los 14 eventos y aprobación;Confiabilidad + Desarrollo;2027-05-17;2027-05-28;24;2;P1;"Listado validado; métrica de éxito";Modelo vigente aprobado;Sí;Tarea
+P1;Modelo predictivo;Variables y modelo de degradación con datos reales;Desarrollo;2027-04-19;2027-05-14;20;4;M5;"Reproceso histórico del monitor; etiquetas por vida de motor (ciclo de aprendizaje, DP-011)";Modelo candidato registrado;Sí;Tarea
+P2;Modelo predictivo;Validación contra los 14 eventos y aprobación;Confiabilidad + Desarrollo;2027-05-17;2027-05-28;24;2;P1;"Listado validado; métrica de éxito; criterios del validador (DP-011)";Modelo vigente aprobado;Sí;Tarea
 O1;Operación del piloto;Tablero Power BI del piloto;Desarrollo + BI;2027-03-29;2027-04-23;17;4;M4, D2;Tablas de estado y desviaciones;Tablero en uso;No;Tarea
 O2;Operación del piloto;Revisión semanal de casos con especialistas;Monitoreo de Condiciones + Confiabilidad;2027-03-22;2027-05-28;16;10;H2;"Lista diaria; casos explicados";Registro de decisiones;No;Tarea
 O3;Operación del piloto;Evaluación del piloto y propuesta de escalamiento;Líder del proyecto + PMO;2027-05-31;2027-06-04;26;1;P2, O2;"Métricas del piloto; costos";Informe y decisión de escalamiento;Sí;Tarea
