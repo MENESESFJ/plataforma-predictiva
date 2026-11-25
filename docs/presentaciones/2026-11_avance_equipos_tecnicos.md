@@ -3,10 +3,18 @@
 Piloto DMH · CAEX 798AC · motor. Avance a noviembre de 2026.
 Para Ingeniería, Monitoreo de Condiciones, Asesoría Técnica y Centro Técnico.
 
-Presentación (13 diapositivas, descargable en PowerPoint o PDF): https://claude.ai/artifact/6ekqc7DhVcnppK3GJ82YeP
+Presentación (15 diapositivas, descargable en PowerPoint o PDF): https://claude.ai/artifact/6ekqc7DhVcnppK3GJ82YeP
 Este documento tiene el mismo contenido en texto.
 
 ---
+
+## En una frase
+
+**Una alerta temprana por camión que dice qué le pasa al motor, por qué lo creemos y qué revisar, antes de que la baja presión de aceite avise que ya es tarde.**
+
+Lo que entrega: (1) qué camión muestra una condición anormal, desde cuándo y qué tan grave; (2) qué modo de falla del FMEA es compatible; (3) con qué evidencia, separando lo probado de lo supuesto; (4) qué revisar, como sugerencia que decide el especialista.
+
+Por qué importa: 8 de las 10 fallas imprevistas desde 2023 se detectaron por baja presión de aceite, cuando el daño ya estaba hecho.
 
 ## 1. El objetivo
 
@@ -30,6 +38,16 @@ Cambios de motor      ┘   4. Propone una explicación             └
                           Se alimenta de: FMEA del motor · historia de fallas ·
                           reglas para no usar datos "del futuro" · criterio de especialistas
 ```
+
+## Quién hace qué
+
+| | Qué hace | Cuándo y sobre qué |
+|---|---|---|
+| **Modelo numérico (sin IA)** | Lee VIMS, aceite, particulado y rellenos y busca desviaciones: (1) contra los límites que se usan hoy; (2) contra la historia del mismo camión, en la misma condición de operación; (3) contra camiones iguales ese día; (4) en tendencia, aunque no pase el límite. Entrega un estado por camión: normal, en observación, alerta o sin datos | Todos los días, todos los camiones, de forma automática |
+| **IA (agentes)** | Arma el caso: modo de falla compatible, evidencia y qué revisar. No calcula ni decide alertas | Solo camiones en alerta nueva o que empeoró |
+| **Especialista** | Revisa los casos y decide: inspeccionar, seguir o descartar. Entrega los límites de alerta y valida la detección | Reunión semanal |
+
+Un camión que no descarga datos queda **sin datos**, no pasa por sano. Estado: el modelo numérico está diseñado y sus fuentes mapeadas; es el siguiente paso de desarrollo.
 
 ## 3. Entradas: qué información usa y en qué estado está
 
