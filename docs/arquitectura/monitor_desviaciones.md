@@ -161,6 +161,9 @@ Etapa 1 completa (VIMS, flota DMH), antes del modelo predictivo y de la IA:
 
 ## 11. Calibración y validación
 
+La prueba hacia atrás es el **reproceso histórico** del monitor: el mismo código re-ejecutado día por día con regla
+de corte. Su resultado es también la entrada del entrenamiento del modelo (`docs/arquitectura/ciclo_aprendizaje.md`).
+
 1. **Hacia atrás con las 10 fallas:** con datos solo anteriores a cada falla, ¿el monitor mostró desviaciones? ¿En qué
    parámetros, en qué dirección y con cuántos días de anticipación?
 2. **Falsas alarmas:** en camiones y períodos sin falla, ¿cuántas alertas por camión al mes?

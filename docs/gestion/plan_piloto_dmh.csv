@@ -22,8 +22,8 @@ M6;Monitor de desviaciones;Sumar particulado y rellenos;Desarrollo;2027-03-15;20
 A1;Interpretación con IA;Prueba 4: salida estructurada por agente;Desarrollo;2026-12-28;2027-01-15;4;3;;VM de Azure (acceso hasta ~mayo 2027);Resultados y conclusiones de la prueba 4;No;Tarea
 A2;Interpretación con IA;Entorno de IA corporativo (Azure AI Foundry);TI / Plataforma;2027-01-11;2027-03-05;6;8;;Disponibilidad corporativa desde 2027;Proyecto y modelo desplegados;No;Tarea
 A3;Interpretación con IA;Triage y especialistas sobre alertas reales;Desarrollo;2027-03-22;2027-04-16;16;4;H2, A1, A2;Alertas del piloto;Casos explicados para la revisión semanal;No;Tarea
-P1;Modelo predictivo;Variables y modelo de degradación con datos reales;Desarrollo;2027-04-19;2027-05-14;20;4;M5;"Resumen de desviaciones; historia de fallas";Modelo candidato registrado;Sí;Tarea
-P2;Modelo predictivo;Validación contra los 14 eventos y aprobación;Confiabilidad + Desarrollo;2027-05-17;2027-05-28;24;2;P1;"Listado validado; métrica de éxito";Modelo vigente aprobado;Sí;Tarea
+P1;Modelo predictivo;Variables y modelo de degradación con datos reales;Desarrollo;2027-04-19;2027-05-14;20;4;M5;"Reproceso histórico del monitor; etiquetas por vida de motor (ciclo de aprendizaje, DP-011)";Modelo candidato registrado;Sí;Tarea
+P2;Modelo predictivo;Validación contra los 14 eventos y aprobación;Confiabilidad + Desarrollo;2027-05-17;2027-05-28;24;2;P1;"Listado validado; métrica de éxito; criterios del validador (DP-011)";Modelo vigente aprobado;Sí;Tarea
 O1;Operación del piloto;Tablero Power BI del piloto;Desarrollo + BI;2027-03-29;2027-04-23;17;4;M4, D2;Tablas de estado y desviaciones;Tablero en uso;No;Tarea
 O2;Operación del piloto;Revisión semanal de casos con especialistas;Monitoreo de Condiciones + Confiabilidad;2027-03-22;2027-05-28;16;10;H2;"Lista diaria; casos explicados";Registro de decisiones;No;Tarea
 O3;Operación del piloto;Evaluación del piloto y propuesta de escalamiento;Líder del proyecto + PMO;2027-05-31;2027-06-04;26;1;P2, O2;"Métricas del piloto; costos";Informe y decisión de escalamiento;Sí;Tarea
