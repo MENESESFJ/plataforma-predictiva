@@ -45,9 +45,9 @@ Cambios de motor      ┘   4. Propone una explicación             └
 |---|---|---|
 | **Modelo numérico (sin IA)** | Lee VIMS, aceite, particulado y rellenos y busca desviaciones: (1) contra los límites que se usan hoy; (2) contra la historia del mismo camión, en la misma condición de operación; (3) contra camiones iguales ese día; (4) en tendencia, aunque no pase el límite. Entrega un estado por camión: normal, en observación, alerta o sin datos | Todos los días, todos los camiones, de forma automática |
 | **IA (agentes)** | Arma el caso: modo de falla compatible, evidencia y qué revisar. No calcula ni decide alertas | Solo camiones en alerta nueva o que empeoró |
-| **Especialista** | Revisa los casos y decide: inspeccionar, seguir o descartar. Entrega los límites de alerta y valida la detección | Reunión semanal |
+| **Especialista** | Revisa los casos y decide: inspeccionar, seguir o descartar. Valida qué desviaciones son reales y ayuda a ajustar los umbrales | Reunión semanal |
 
-Un camión que no descarga datos queda **sin datos**, no pasa por sano. Estado: está definido el enfoque (comparar contra el propio camión y contra la flota, ficha del caso de uso) y cada dato está ligado a su fuente (contrato de datos); falta el diseño detallado (reglas de persistencia, criterio del semáforo) y la construcción, que son el siguiente paso.
+Un camión que no descarga datos queda **sin datos**, no pasa por sano. Estado: diseñado (`docs/arquitectura/monitor_desviaciones.md`) y por construir. Será el **primer entregable**: un monitor de desviaciones VIMS que Monitoreo de Condiciones hoy no tiene (DP-006). Al comparar cada camión con su historia y con la flota, no necesita límites previos.
 
 ## 3. Entradas: qué información usa y en qué estado está
 
@@ -100,7 +100,7 @@ Prueba hecha con agentes de IA en Azure sobre el registro escrito del cambio, re
 | Definir el caso | Casi listo | Falta validación de Confiabilidad |
 | Base técnica | Lista | Destino Microsoft Fabric y Azure ML |
 | Datos | Definidos | Falta conectar los datos reales |
-| Detección de anomalías | Por construir | Siguiente paso de desarrollo |
+| Detección de anomalías | Diseñada | Monitor de desviaciones VIMS, por construir: primer entregable para Monitoreo de Condiciones |
 | Agentes de IA | Probados | En Azure, 3 casos reales y 7 corridas |
 
 ## 8. Cómo se usará
@@ -112,7 +112,7 @@ Cada semana: **alerta → revisión técnica → decisión (inspeccionar, seguir
 | Equipo | Qué necesitamos | Para qué |
 |---|---|---|
 | Ingeniería y Confiabilidad | Validar el modo de falla de los 14 cambios y decidir los 2 modos nuevos | Que la plataforma aprenda de fallas bien clasificadas |
-| Monitoreo de Condiciones | Límites de alerta actuales (VIMS, aceite, particulado); si el amarillo de Cat Inspect ya es severo; unidades de las tendencias | Que las alertas usen el mismo criterio |
+| Monitoreo de Condiciones | Revisar las primeras desviaciones VIMS del monitor; rango y unidad de cada parámetro; límites que sí usan en aceite y particulado; si el amarillo de Cat Inspect ya es severo | Primer entregable: ver desviaciones VIMS, algo que hoy no tienen |
 | Centro Técnico | Causa raíz de 4 fallas sin registro (MH349, MH340, MH341 y MH344 de 2025–2026) e informes de desarme | Completar la historia de fallas |
 | Asesoría Técnica | Revisar las primeras alertas; evaluar la temperatura de escape como señal previa del bloqueo hidráulico | Que la explicación sirva en terreno |
 
@@ -120,13 +120,13 @@ Cada semana: **alerta → revisión técnica → decisión (inspeccionar, seguir
 
 1. Validar los 14 cambios de motor y los 2 modos nuevos del FMEA.
 2. Asegurar una copia del histórico de la flota DMH desde 2023 (Databricks se retira en 2027).
-3. Construir la detección de anomalías en VIMS, aceite, particulado y rellenos.
+3. Construir el monitor de desviaciones VIMS, primer entregable para Monitoreo de Condiciones; después se suman aceite, particulado y rellenos.
 4. Probarla hacia atrás: ¿habría avisado antes de cada una de las 10 fallas, con cuánta anticipación y cuántas falsas alarmas?
 5. Primera revisión semanal con especialistas y acordar la métrica de éxito.
 
 ## 11. Para conversar en la reunión
 
 1. ¿Quién valida los modos de falla de los 14 cambios, y cuándo?
-2. ¿Qué límites de alerta usan hoy en VIMS, aceite y particulado?
+2. ¿Qué necesitan ver de VIMS cada día, y cuántas alertas por semana pueden revisar?
 3. ¿Quién puede aportar las 4 causas raíz pendientes?
 4. ¿Con qué frecuencia y en qué instancia revisamos casos juntos?
