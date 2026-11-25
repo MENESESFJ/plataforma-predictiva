@@ -168,7 +168,8 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 | Plataforma en transición (retiro de Databricks y Synapse) | Código independiente de la plataforma (DP-005); fuentes leídas por ruta configurable; MLflow por URI. Riesgo principal: que el pipeline corporativo deje de alimentar Bronze/Silver durante la migración. Contingencia: extracto del histórico de la flota DMH como dataset derivado del proyecto |
 | Conocimiento limitado de procesos existentes | No se modifica nada existente (DP-001); lo que se rearme queda documentado y versionado en el proyecto (DP-002). Ver `docs/fase0/decisiones_proyecto.md` |
 | Anomalías de Gold con lógica desconocida | Se generan de cero en el proyecto y Gold se usa solo como comparación (DP-003, propuesta) |
-| Umbrales arbitrarios | Calibración con el histórico, baseline individual y poblacional |
+| Umbrales arbitrarios | Calibración con el histórico, baseline individual y poblacional; diseño en `docs/arquitectura/monitor_desviaciones.md` |
+| Monitoreo de Condiciones sin herramientas para ver desviaciones VIMS | El monitor de desviaciones es un entregable propio y el primero (DP-006) |
 | Sobreinterpretación del FMEA | Salida como compatibilidad; niveles propuesto → aplicable → validado |
 | Duty cycle del accionamiento eléctrico | Baseline propio de DMH 798AC; no extrapolar desde otras flotas o faenas |
 

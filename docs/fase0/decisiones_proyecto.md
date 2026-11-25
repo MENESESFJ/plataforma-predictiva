@@ -14,12 +14,13 @@ Principio: el proyecto no toca nada de lo existente y documenta todo lo que teng
 | DP-003 | **Las anomalías se generan de cero en este proyecto** (candidato). Las de Gold se usan solo como comparación. | No se conoce cómo se calcularon, qué límites usan ni si respetan la fecha de corte. | 🟡 Propuesta; confirmar al revisar Gold |
 | DP-004 | **No se describe el contenido de un archivo sin haberlo revisado.** Lo no revisado queda como POR_REVISAR. | Evitar supuestos que después se tomen como hechos. | ✅ Responsable del proyecto, 2026-10-14 |
 | DP-005 | **El proyecto no depende de una plataforma de cómputo.** Rutas de datos, dirección de MLflow y conexiones se configuran; el código lee Delta, Parquet o CSV por ruta. Destino: Fabric para datos y resultados, Azure ML para modelos. | Databricks y Synapse se decomisan; la plataforma cambia durante el proyecto. | ✅ Responsable del proyecto, 2026-11-24 |
+| DP-006 | **El monitor de desviaciones VIMS es un entregable propio para Monitoreo de Condiciones,** además de insumo del modelo predictivo. Es el primer entregable: VIMS de DMH, comparando cada camión con su propia historia, con la flota y en tendencia. | Monitoreo de Condiciones hoy no tiene herramientas para ver las desviaciones de los parámetros VIMS. Las comparaciones contra la propia historia y la flota no requieren límites previos. | ✅ Responsable del proyecto, 2026-11-25 |
 
 ## Procesos a rearmar
 
 | Proceso | Qué hace hoy (según lo conocido) | Por qué se rearma | Insumo | Estado |
 |---|---|---|---|---|
-| Detección de anomalías en tendencias | Evalúa cada tendencia en el período y registra cuando escapa de su límite | Límites, ventanas y fecha de registro desconocidos (DP-003) | `ds_Trends_798` (Silver) | ⬜ Por diseñar |
+| Detección de anomalías en tendencias | Evalúa cada tendencia en el período y registra cuando escapa de su límite | Límites, ventanas y fecha de registro desconocidos (DP-003) | `ds_Trends_798` (Silver) | 🟡 Diseñado: `docs/arquitectura/monitor_desviaciones.md`; por construir |
 | Agregados de eventos | Veces, severidad y permanencia de alarmas | Igual que tendencias | `ds_EventDuration_798` (Silver) | ⬜ Por diseñar |
 | Agregados de rellenos | Litros acumulados, veces, severidad (> 90 L) | Igual que tendencias | `datasetOilrefill798` (Bronze) | ⬜ Por diseñar |
 | Agregados SOS | Nivel actual, acumulado y veces sobre límite condenatorio | Elementos elegidos por el FMEA, no por el feature importance anterior; límites por confirmar | SOS Bronze / Silver | ⬜ Por diseñar |
