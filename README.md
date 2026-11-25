@@ -20,6 +20,7 @@ herramientas/
   gestion/      # generar_plan.py (fuente del plan del piloto → CSV)
 docs/
   fase0/        # Ficha de Caso de Uso (gate Fase 0)
+  presentaciones/ # material para presentar el avance (p. ej. a los equipos técnicos)
   gestion/      # plan del piloto (carta Gantt en CSV para Excel o MS Project)
 experimentos/
   azure/        # pruebas en Azure AI Foundry (Agent Framework): registro en Azure ML, clasificación de causas y análisis secuencial

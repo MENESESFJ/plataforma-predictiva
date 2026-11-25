@@ -131,8 +131,31 @@ MH345, MH348 y MH350.
 una sola corrida no se puede medir la tasa de eco con la instrucción de no repetir; conviene repetir 2 o 3
 veces antes de concluir.
 
+## Séptima corrida (versión nueva, repetición)
+
+Los tres casos en 1 corrida, sin eco detectado con el umbral de entonces (0,7).
+
+| Caso | Agente fmea | Revisor |
+|---|---|---|
+| 0 · MH341 2023 | Ningún modo vigente; MFP-07 descartado como modo; modo nuevo de tren de distribución | ✅ Revisó |
+| 3 · MH345 2024 | **Ningún modo vigente** (esta vez sin MFP-08); MFP-07 descartado; modo nuevo de bloqueo hidráulico | ✅ Revisó; propone identificar el fluido con Na/K y rellenos |
+| 4 · MH344 2024 | Solo MFP-01; MFP-07 descartado; analiza y descarta MFP-04; modo nuevo de contaminación por falla de filtración | ⚠️ **Parafraseó al fmea** (similitud 0,63): no separó lo supuesto ni nombró fuentes |
+
+**Agente fmea, dos corridas con la versión nueva:** en 6 de 6 casos descartó MFP-07 como modo y propuso
+el mismo modo nuevo por caso. Lo único que varió fue MFP-08 en el caso 3, que apareció en una corrida y no
+en la otra. Su señal (temperatura de escape) sigue como hipótesis de precursor.
+
+**Ajuste de la detección:** la paráfrasis del caso 4 pasó bajo el umbral de 0,7. Se baja a **0,5** (lo
+normal fue hasta 0,32) y se agrega un **control de rol del revisor**: debe separar lo supuesto y nombrar al
+menos una fuente para verificar. Con esto, las 13 corridas de caso archivadas en `tests/fixtures/p3_eco/`
+quedan clasificadas como se revisaron a mano.
+
+**Balance de la versión nueva:** 1 falla de rol en 6 análisis de caso. Las instrucciones de no repetir
+redujeron las copias textuales (ninguna en 6), pero el revisor todavía puede limitarse a resumir. Es otro
+argumento para la salida estructurada: un campo obligatorio de "supuestos" con su fuente lo haría verificable.
+
 ## Próximos pasos
 
-1. Repetir 2 o 3 veces los casos 0, 3 y 4 con la versión nueva, para medir la tasa de eco (antes de cada corrida: borrar los `p3_*.md` locales y hacer `git pull`).
+1. Pasar a salida estructurada por agente (contratos Pydantic), como en la prueba 2: el revisor con campos obligatorios de lo sustentado, lo supuesto y la fuente de verificación.
 2. Opcional: probar `--esfuerzo low` contra `medium` en el caso 4. Con 200.000 TPM no hace falta ahorrar; solo sirve si la cuota baja.
 3. Correr la prueba 2 (los 14 casos, 3 repeticiones), si está permitido enviar el texto técnico.

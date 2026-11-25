@@ -79,6 +79,8 @@ ESPERADO_ECO = {  # corridas reales del 2026-11-24, copiadas en tests/fixtures/p
     "corrida3_caso0": [], "corrida3_caso3": ["fmea"], "corrida3_caso4": [],
     "corrida5_caso0": ["fmea", "revisor"],                      # código anterior, sin detección
     "corrida6_caso0": [], "corrida6_caso3": [], "corrida6_caso4": [],  # versión nueva (PR #16)
+    "corrida7_caso0": [], "corrida7_caso3": [],
+    "corrida7_caso4": ["revisor"],  # parafraseó al fmea (0,63) sin separar supuestos ni nombrar fuentes
 }
 
 
@@ -98,5 +100,7 @@ def test_p3_sin_eco_e_instruccion_de_no_repetir():
     from experimentos.azure import p3_analisis_secuencial as p3
 
     assert p3.detectar_eco([("evidencia", "hechos A"), ("fmea", "modos B y modo nuevo C"),
-                            ("revisor", "lo sustentado y lo supuesto")]) == []
+                            ("revisor", "Sustentado: X. Suposición: Y; verificar en SOS.")]) == []
     assert "no copies" in p3.instrucciones()["revisor"]
+    assert p3.revisor_cumple_rol("- Suposición: causa no confirmada. Verificar en SOS y VIMS.")
+    assert not p3.revisor_cumple_rol("- Compatible: MFP-01. - No usar MFP-07 como modo.")
