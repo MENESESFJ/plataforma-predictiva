@@ -88,6 +88,11 @@ scripts usan razonamiento medio (`--esfuerzo medium`) y hasta 8.000 tokens de re
 **Esa versión de gpt-5 se retira el 2027-02-08** y el despliegue se actualiza solo a la siguiente: anotar la
 versión del modelo al comparar resultados de fechas distintas.
 
+## Costo
+
+Cada resultado registra los tokens que informa Azure y el costo estimado (línea "Consumo: …"). La estimación
+por análisis, la proyección anual y las palancas de costo están en `costos.md`.
+
 ## Problemas frecuentes
 
 | Mensaje | Causa | Qué hacer |
