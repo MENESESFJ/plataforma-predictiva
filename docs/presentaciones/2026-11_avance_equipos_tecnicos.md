@@ -47,7 +47,7 @@ Cambios de motor      ┘   4. Propone una explicación             └
 | **IA (agentes)** | Arma el caso: modo de falla compatible, evidencia y qué revisar. No calcula ni decide alertas | Solo camiones en alerta nueva o que empeoró |
 | **Especialista** | Revisa los casos y decide: inspeccionar, seguir o descartar. Entrega los límites de alerta y valida la detección | Reunión semanal |
 
-Un camión que no descarga datos queda **sin datos**, no pasa por sano. Estado: el modelo numérico está diseñado y sus fuentes mapeadas; es el siguiente paso de desarrollo.
+Un camión que no descarga datos queda **sin datos**, no pasa por sano. Estado: está definido el enfoque (comparar contra el propio camión y contra la flota, ficha del caso de uso) y cada dato está ligado a su fuente (contrato de datos); falta el diseño detallado (reglas de persistencia, criterio del semáforo) y la construcción, que son el siguiente paso.
 
 ## 3. Entradas: qué información usa y en qué estado está
 
