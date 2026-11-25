@@ -17,9 +17,11 @@ knowledge/
   fmea/         # FMEA del motor: fuentes de Confiabilidad, borrador, revisiones, decisiones y versión aprobada (ver su README)
 herramientas/
   fmea/         # convertir_fmea.py (fuentes → borrador) y aplicar_revision.py (revisión → FMEA aprobado)
+  gestion/      # generar_plan.py (fuente del plan del piloto → CSV)
 docs/
   fase0/        # Ficha de Caso de Uso (gate Fase 0)
   presentaciones/ # material para presentar el avance (p. ej. a los equipos técnicos)
+  gestion/      # plan del piloto (carta Gantt en CSV para Excel o MS Project)
 experimentos/
   azure/        # pruebas en Azure AI Foundry (Agent Framework): registro en Azure ML, clasificación de causas y análisis secuencial
 tests/
