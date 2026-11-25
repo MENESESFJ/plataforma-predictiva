@@ -47,7 +47,7 @@ Cambios de motor      ┘   4. Propone una explicación             └
 | **IA (agentes)** | Arma el caso: modo de falla compatible, evidencia y qué revisar. No calcula ni decide alertas | Solo camiones en alerta nueva o que empeoró |
 | **Especialista** | Revisa los casos y decide: inspeccionar, seguir o descartar. Valida qué desviaciones son reales y ayuda a ajustar los umbrales | Reunión semanal |
 
-Un camión que no descarga datos queda **sin datos**, no pasa por sano. Estado: diseñado (`docs/arquitectura/monitor_desviaciones.md`) y por construir. Será el **primer entregable**: un monitor de desviaciones VIMS que Monitoreo de Condiciones hoy no tiene (DP-006). Al comparar cada camión con su historia y con la flota, no necesita límites previos.
+Un camión que no descarga datos queda **sin datos**, no pasa por sano. Estado: diseñado (`docs/arquitectura/monitor_desviaciones.md`) y por construir. Será el **primer entregable** (DP-006): Monitoreo de Condiciones tiene herramientas visuales para revisar un camión, pero no capacidad para mirar 150–180 cada día. El monitor revisa todos y les dice cuáles mirar, en qué parámetro y desde cuándo. Al comparar cada camión con su historia y con la flota, no necesita límites previos.
 
 ## 3. Entradas: qué información usa y en qué estado está
 
@@ -112,7 +112,7 @@ Cada semana: **alerta → revisión técnica → decisión (inspeccionar, seguir
 | Equipo | Qué necesitamos | Para qué |
 |---|---|---|
 | Ingeniería y Confiabilidad | Validar el modo de falla de los 14 cambios y decidir los 2 modos nuevos | Que la plataforma aprenda de fallas bien clasificadas |
-| Monitoreo de Condiciones | Revisar las primeras desviaciones VIMS del monitor; rango y unidad de cada parámetro; límites que sí usan en aceite y particulado; si el amarillo de Cat Inspect ya es severo | Primer entregable: ver desviaciones VIMS, algo que hoy no tienen |
+| Monitoreo de Condiciones | Cuántos camiones pueden revisar por semana; revisar las primeras listas del monitor; rango y unidad de cada parámetro VIMS; si el amarillo de Cat Inspect ya es severo | Mirar solo los camiones que importan, no toda la flota |
 | Centro Técnico | Causa raíz de 4 fallas sin registro (MH349, MH340, MH341 y MH344 de 2025–2026) e informes de desarme | Completar la historia de fallas |
 | Asesoría Técnica | Revisar las primeras alertas; evaluar la temperatura de escape como señal previa del bloqueo hidráulico | Que la explicación sirva en terreno |
 
@@ -120,7 +120,7 @@ Cada semana: **alerta → revisión técnica → decisión (inspeccionar, seguir
 
 1. Validar los 14 cambios de motor y los 2 modos nuevos del FMEA.
 2. Asegurar una copia del histórico de la flota DMH desde 2023 (Databricks se retira en 2027).
-3. Construir el monitor de desviaciones VIMS, primer entregable para Monitoreo de Condiciones; después se suman aceite, particulado y rellenos.
+3. Construir el monitor de desviaciones VIMS, primer entregable para Monitoreo de Condiciones: revisa toda la flota a diario y entrega la lista corta de camiones a mirar; después se suman aceite, particulado y rellenos.
 4. Probarla hacia atrás: ¿habría avisado antes de cada una de las 10 fallas, con cuánta anticipación y cuántas falsas alarmas?
 5. Primera revisión semanal con especialistas y acordar la métrica de éxito.
 
