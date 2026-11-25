@@ -100,3 +100,36 @@ def test_ejecucion_completa(tmp_path):
     tabla = pd.read_parquet(destino / "entrada/estandar/vims_tendencias.parquet")
     assert tabla.loc[0, "vida_motor"] == "MH340-v1"
     assert (destino / "entrada/reportes/20270111-diario.json").exists()
+    assert rep["eventos_pendientes"]["nuevos"] == 1  # el cambio de 2026-06 no está en el listado de eventos
+
+
+# --- aviso de cambio de motor (DP-011, paso 1) -------------------------------------------------------
+def _listado(tmp_path, filas):
+    ruta = tmp_path / "eventos.csv"
+    pd.DataFrame(filas, columns=["equipo_id", "serie_equipo", "fecha_retiro", "tipo_cambio", "validado_por",
+                                 "fecha_validacion"]).to_csv(ruta, index=False)
+    return im.leer_listado_eventos(ruta)
+
+
+def test_cambios_no_validados_quedan_pendientes(tmp_path):
+    base = pd.DataFrame({"Contrato": ["Ministro Hales"] * 4 + ["Escondida"],
+                         "Componentes": ["motor", "motor", "Motor", "motor traccion", "motor"],
+                         "SerialNumber": [MH340, MH341, "SKH00623", MH340, MH340],
+                         "FechaCambio": ["10/07/2025", "05/03/2026", "20/11/2026", "01/01/2026", "02/02/2026"],
+                         "TipoDetencion": ["Imprevisto", "Imprevisto", "Imprevisto", "x", "x"],
+                         "HorasCompRemovido": ["14800", "12100", "9500", "1", "1"],
+                         "DescripcionFalla": ["baja presion", "ruido", "humo", "x", "x"]}).astype(str)
+    cambios = im.cambios_de_motor(base, CFG["fuentes"]["cambios_motor"], SERIES)
+    assert list(cambios["equipo"]) == ["MH340", "MH341", "MH342"]  # sin motor de tracción ni otros contratos
+    listado = _listado(tmp_path, [["MH340", MH340, "2025-07-10", "imprevisto", "Confiabilidad", "2027-01-05"],
+                                  ["MH341", MH341, "2026-03-03", "imprevisto", "", ""]])
+    pend = im.eventos_pendientes(cambios, listado, tolerancia_dias=3)
+    assert list(zip(pend["equipo"], pend["estado"])) == [("MH342", "nuevo"), ("MH341", "sin_validar")]
+    assert pend.loc[0, "descripcion_origen"] == "humo"  # contexto para quien valida
+    assert list(im.eventos_validados(listado)["equipo_id"]) == ["MH340"]  # solo lo firmado entrena
+
+
+def test_ejecucion_informa_cambio_nuevo(tmp_path):
+    test_ejecucion_completa(tmp_path)
+    pend = pd.read_csv(tmp_path / "proyecto/entrada/eventos/pendientes_validacion.csv", dtype=str)
+    assert list(zip(pend["equipo"], pend["estado"])) == [("MH340", "nuevo")]

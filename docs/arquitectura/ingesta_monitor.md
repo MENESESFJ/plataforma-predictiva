@@ -95,6 +95,24 @@ que se sabía ese día.
 El monitor usa este reporte para el estado **sin datos**. Un camión o una fuente sin datos se informa; nunca se toma
 como normal.
 
+## 4b. Aviso de cambio de motor
+
+En cada ejecución, la ingesta compara la base de cambios de componentes con el listado de eventos de motor
+(`docs/fase0/eventos_motor_dmh_798_borrador.csv`, donde Confiabilidad firma en `validado_por` y
+`fecha_validacion`). Todo cambio que no esté validado queda en `entrada/eventos/pendientes_validacion.csv`:
+
+| Estado | Qué significa | Qué hace Confiabilidad |
+|---|---|---|
+| `nuevo` | Está en la base de cambios y no en el listado | Lo agrega al listado, lo clasifica y lo firma |
+| `sin_validar` | Está en el listado, sin firma | Lo revisa y lo firma |
+
+- Un cambio y una fila del listado son el mismo evento si coinciden la serie del equipo y la fecha, con una tolerancia
+  de 3 días (PROPUESTA), porque las fechas pueden diferir entre fuentes.
+- Cada pendiente trae el contexto del origen para quien valida: tipo de detención, horas del motor y descripción.
+- El reporte del lote cuenta los nuevos y los sin validar, y detalla los nuevos.
+- Solo los eventos firmados entran al entrenamiento como etiqueta (`eventos_validados`, DP-011). Un pendiente igual
+  separa las vidas de motor en el monitor: el cambio físico ocurrió aunque falte clasificarlo.
+
 ## 5. Dónde corre
 
 | Etapa | Origen (`INGESTA_ORIGEN`) | Destino (`INGESTA_DESTINO`) | Quién lo programa |

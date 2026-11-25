@@ -154,7 +154,51 @@ def cambios_de_motor(df: pd.DataFrame, cfg: dict, series: Dict[str, str]) -> pd.
     d = df[m]
     out = pd.DataFrame({"serie_equipo": d["SerialNumber"].str.strip().str.upper(),
                         "fecha_cambio": _fecha(d["FechaCambio"], dayfirst=True)})
-    return out[out["serie_equipo"].isin(series) & out["fecha_cambio"].notna()]
+    # Contexto para quien valida (si el origen lo trae): tipo, horas y descripción de la falla.
+    for destino, origen in [("tipo_origen", "TipoDetencion"), ("horas_motor_removido", "HorasCompRemovido"),
+                            ("descripcion_origen", "DescripcionFalla")]:
+        out[destino] = d[origen].str.strip() if origen in d else ""
+    out = out[out["serie_equipo"].isin(series) & out["fecha_cambio"].notna()]
+    out["equipo"] = out["serie_equipo"].map(series)
+    return out.reset_index(drop=True)
+
+
+# --- aviso de cambio de motor (DP-011, paso 1: detectar) -----------------------------------------
+def leer_listado_eventos(ruta: Path) -> pd.DataFrame:
+    """Listado de eventos de motor (Confiabilidad firma en validado_por y fecha_validacion)."""
+    ls = pd.read_csv(ruta, dtype=str, keep_default_na=False)
+    ls["serie_equipo"] = ls["serie_equipo"].str.strip().str.upper()
+    ls["fecha_retiro"] = _fecha(ls["fecha_retiro"])
+    ls["validado"] = ls["validado_por"].str.strip() != ""
+    return ls
+
+
+def eventos_pendientes(cambios: pd.DataFrame, listado: pd.DataFrame, tolerancia_dias: int) -> pd.DataFrame:
+    """Cambios de motor que aún no pueden entrar al entrenamiento.
+
+    - nuevo: está en la base de cambios y no en el listado de eventos (hay que agregarlo y validarlo).
+    - sin_validar: está en el listado, pero Confiabilidad no lo ha firmado.
+    Un cambio y una fila del listado son el mismo evento si coinciden la serie y la fecha (± tolerancia).
+    """
+    filas = []
+    for _, c in cambios.iterrows():
+        mismos = listado[(listado["serie_equipo"] == c["serie_equipo"])
+                         & ((listado["fecha_retiro"] - c["fecha_cambio"]).abs() <= pd.Timedelta(days=tolerancia_dias))]
+        if len(mismos) and mismos["validado"].any():
+            continue
+        filas.append({"equipo": c["equipo"], "serie_equipo": c["serie_equipo"],
+                      "fecha_cambio": c["fecha_cambio"].date().isoformat(),
+                      "estado": "sin_validar" if len(mismos) else "nuevo",
+                      "tipo_origen": c["tipo_origen"], "horas_motor_removido": c["horas_motor_removido"],
+                      "descripcion_origen": c["descripcion_origen"]})
+    cols = ["equipo", "serie_equipo", "fecha_cambio", "estado", "tipo_origen", "horas_motor_removido",
+            "descripcion_origen"]
+    return pd.DataFrame(filas, columns=cols).sort_values(["estado", "fecha_cambio"], ignore_index=True)
+
+
+def eventos_validados(listado: pd.DataFrame) -> pd.DataFrame:
+    """Los únicos eventos que el entrenamiento puede usar como etiqueta (DP-011)."""
+    return listado[listado["validado"]].reset_index(drop=True)
 
 
 def asignar_vida(tabla: pd.DataFrame, cambios: pd.DataFrame) -> pd.DataFrame:
@@ -252,6 +296,16 @@ def ejecutar(fecha_lote: date, tipo: str, origen: Path, destino: Path, cfg: Opti
     fc = cfg["fuentes"]["cambios_motor"]
     copia = aterrizar(origen / fc["ruta"], destino / "entrada/aterrizaje/cambios_motor" / lote_id)
     cambios = cambios_de_motor(leer_origen(Path(copia["archivo"]), fc["formato"]), fc, series)
+    aviso = cfg["aviso_cambio_motor"]
+    pendientes = eventos_pendientes(cambios, leer_listado_eventos(RAIZ / aviso["listado_eventos"]),
+                                    aviso["tolerancia_dias"])
+    ruta_pend = destino / "entrada/eventos/pendientes_validacion.csv"
+    ruta_pend.parent.mkdir(parents=True, exist_ok=True)
+    pendientes.to_csv(ruta_pend, index=False, encoding="utf-8-sig")
+    reporte["eventos_pendientes"] = {"nuevos": int((pendientes["estado"] == "nuevo").sum()),
+                                     "sin_validar": int((pendientes["estado"] == "sin_validar").sum()),
+                                     "archivo": str(ruta_pend),
+                                     "nuevos_detalle": pendientes[pendientes["estado"] == "nuevo"].to_dict("records")}
 
     for fuente in FUENTES_MONITOR:
         f = cfg["fuentes"][fuente]

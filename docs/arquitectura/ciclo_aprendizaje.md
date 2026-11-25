@@ -67,7 +67,7 @@ responde a la pregunta del caso de uso:
 
 | Paso | Quién | Qué hace |
 |---|---|---|
-| 1. Detectar | La ingesta (automático) | Ve un cambio de motor nuevo en la base de cambios y lo deja como **evento pendiente de validación**. Cierra la vida del motor anterior y abre la siguiente |
+| 1. Detectar | La ingesta (automático) | Ve un cambio de motor en la base de cambios que no está firmado en el listado y lo deja como **evento pendiente de validación** (`entrada/eventos/pendientes_validacion.csv`, ver `ingesta_monitor.md`, sección 4b). Cierra la vida del motor anterior y abre la siguiente |
 | 2. Proponer | Agente de IA o Desarrollo (apoyo) | Propone tipo de cambio, grupo de falla y modo FMEA compatible, con la evidencia del registro (prueba 2) |
 | 3. Validar | **Confiabilidad** (decide), con Centro Técnico para la causa raíz | Confirma fecha, tipo (imprevisto o PCR), rol de la etiqueta (falla o censura) y modo FMEA, y firma en el listado de eventos |
 | 4. Etiquetar | El código (determinístico) | Con el evento validado, marca los días de esa vida según el horizonte: es una regla, no una decisión |
