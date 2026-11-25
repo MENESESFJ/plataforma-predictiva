@@ -21,7 +21,7 @@ import os
 import sys
 from typing import cast
 
-from experimentos.azure.p2_clasificar_causas import (EVENTOS, FMEA, RESULTADOS, cliente_foundry,
+from experimentos.azure.p2_clasificar_causas import (EVENTOS, FMEA, RESULTADOS, Consumo, cliente_foundry,
                                                     con_reintentos, opciones_modelo, registro_tecnico)
 
 # Ajustadas tras las corridas de los casos 0, 3 y 4 (ver resultados/conclusiones_p3.md):
@@ -84,10 +84,12 @@ def leer_caso(indice: int) -> dict:
         return list(csv.DictReader(f))[indice]
 
 
-async def analizar(texto_caso: str, modelo: str, opciones: dict, intentos: int = 3) -> tuple:
-    """Corre el flujo; si un agente copia al anterior, lo repite (hasta `intentos` veces)."""
+async def analizar(texto_caso: str, modelo: str, opciones: dict, intentos: int = 3,
+                   consumo: Consumo = None) -> tuple:
+    """Corre el flujo; si un agente copia al anterior, lo repite (hasta `intentos` veces).
+    El consumo suma todas las corridas, también las repetidas por eco."""
     for i in range(1, intentos + 1):
-        mensajes = await _correr_flujo(texto_caso, modelo, opciones)
+        mensajes = await _correr_flujo(texto_caso, modelo, opciones, consumo)
         eco = detectar_eco(mensajes)
         if not eco:
             return mensajes, [], i
@@ -95,7 +97,7 @@ async def analizar(texto_caso: str, modelo: str, opciones: dict, intentos: int =
     return mensajes, eco, intentos
 
 
-async def _correr_flujo(texto_caso: str, modelo: str, opciones: dict) -> list:
+async def _correr_flujo(texto_caso: str, modelo: str, opciones: dict, consumo: Consumo = None) -> list:
     from agent_framework import Message  # imports diferidos: solo en la VM
     from agent_framework.orchestrations import SequentialBuilder
 
@@ -106,6 +108,8 @@ async def _correr_flujo(texto_caso: str, modelo: str, opciones: dict) -> list:
     resultado = await con_reintentos(lambda: flujo.run(f"Registro del cambio de motor:\n{texto_caso}"))
     salida = []
     for respuesta in resultado.get_outputs():
+        if consumo is not None:
+            consumo.sumar(getattr(respuesta, "usage_details", None))
         for msg in cast(list[Message], respuesta.messages):
             salida.append((msg.author_name or msg.role, msg.text))
     return salida
@@ -122,9 +126,11 @@ def main(argv=None) -> int:
     fila = leer_caso(args.caso)
     texto = registro_tecnico(fila)
     opciones = opciones_modelo(args.esfuerzo, args.max_tokens)
-    mensajes, eco, intentos = asyncio.run(analizar(texto, args.modelo, opciones))
+    consumo = Consumo()
+    mensajes, eco, intentos = asyncio.run(analizar(texto, args.modelo, opciones, consumo=consumo))
     md = [f"# Prueba 3: análisis secuencial del caso {args.caso} ({args.modelo})", "",
-          f"Razonamiento: {args.esfuerzo} · máximo de tokens: {args.max_tokens} · corridas: {intentos}", ""]
+          f"Razonamiento: {args.esfuerzo} · máximo de tokens: {args.max_tokens} · corridas: {intentos}", "",
+          f"Consumo: {consumo.texto()}", ""]
     if eco:
         md += [f"> ⚠️ Eco sin resolver: {', '.join(eco)} repitió al agente anterior en todos los intentos.", ""]
     md += ["## Registro enviado", "", "```", texto, "```", ""]

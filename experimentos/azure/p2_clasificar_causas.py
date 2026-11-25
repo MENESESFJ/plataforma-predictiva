@@ -58,6 +58,35 @@ async def con_reintentos(llamada, intentos: int = 4, espera_s: int = 65):
             await asyncio.sleep(espera_s)
 
 
+# Precio de referencia de gpt-5 Global Standard en Azure (USD por millón de tokens, nov-2026).
+# Los tokens de razonamiento se cobran como salida. Confirmar en la calculadora de precios de Azure.
+PRECIO_ENTRADA_USD_1M = float(os.environ.get("PRECIO_ENTRADA_USD_1M", "1.25"))
+PRECIO_SALIDA_USD_1M = float(os.environ.get("PRECIO_SALIDA_USD_1M", "10.0"))
+
+
+class Consumo:
+    """Tokens que informa Azure en cada llamada y su costo estimado."""
+
+    def __init__(self):
+        self.llamadas = self.entrada = self.salida = self.razonamiento = 0
+
+    def sumar(self, uso) -> None:
+        self.llamadas += 1
+        if not uso:
+            return
+        leer = uso.get if hasattr(uso, "get") else lambda k: getattr(uso, k, None)
+        self.entrada += leer("input_token_count") or 0
+        self.salida += leer("output_token_count") or 0
+        self.razonamiento += leer("reasoning_output_token_count") or 0
+
+    def costo_usd(self) -> float:
+        return (self.entrada * PRECIO_ENTRADA_USD_1M + self.salida * PRECIO_SALIDA_USD_1M) / 1_000_000
+
+    def texto(self) -> str:
+        return (f"{self.llamadas} llamadas · {self.entrada:,} tokens de entrada · {self.salida:,} de salida "
+                f"(de ellos {self.razonamiento:,} de razonamiento) · costo estimado US$ {self.costo_usd():.4f}")
+
+
 class Clasificacion(BaseModel):
     grupo_falla: GRUPOS
     modos_fmea: List[str] = Field(description="IDs MFP-xx compatibles; vacío si ninguno aplica")
@@ -107,13 +136,15 @@ def agente_foundry(modelo: str, opciones: dict):
                                             default_options=opciones)
 
 
-async def clasificar(agente, fila: dict) -> Clasificacion:
+async def clasificar(agente, fila: dict, consumo: Consumo = None) -> Clasificacion:
     resp = await con_reintentos(lambda: agente.run(registro_tecnico(fila),
                                                    options={"response_format": Clasificacion}))
+    if consumo is not None:
+        consumo.sumar(getattr(resp, "usage_details", None))
     return resp.value if isinstance(resp.value, Clasificacion) else Clasificacion.model_validate_json(resp.text)
 
 
-async def evaluar(agente, repeticiones: int, pausa_s: float = 0) -> List[dict]:
+async def evaluar(agente, repeticiones: int, pausa_s: float = 0, consumo: Consumo = None) -> List[dict]:
     with EVENTOS.open(encoding="utf-8") as f:
         filas = list(csv.DictReader(f))
     salida = []
@@ -121,7 +152,7 @@ async def evaluar(agente, repeticiones: int, pausa_s: float = 0) -> List[dict]:
         corridas = []
         for _ in range(repeticiones):
             try:
-                corridas.append(await clasificar(agente, fila))
+                corridas.append(await clasificar(agente, fila, consumo))
                 await asyncio.sleep(pausa_s)
             except Exception as e:  # noqa: BLE001 - se registra y se sigue con el resto
                 print(f"error en {fila['equipo_id']} {fila['fecha_retiro']}: {e!r}")
@@ -143,14 +174,15 @@ async def evaluar(agente, repeticiones: int, pausa_s: float = 0) -> List[dict]:
     return salida
 
 
-def resumen(filas: List[dict], modelo: str, repeticiones: int) -> str:
+def resumen(filas: List[dict], modelo: str, repeticiones: int, consumo: Consumo = None) -> str:
     n = len(filas)
     ok = sum(f["coincide_grupo"] for f in filas)
     estables = sum(f["consistencia"].split("/")[0] == f["consistencia"].split("/")[1] for f in filas)
     lineas = [f"# Prueba 2: clasificación de causas con {modelo}", "",
               f"- Eventos: {n} · repeticiones por evento: {repeticiones}",
               f"- Coincide con la propuesta manual (grupo): {ok}/{n}",
-              f"- Clasificación estable en todas las repeticiones: {estables}/{n}", "",
+              f"- Clasificación estable en todas las repeticiones: {estables}/{n}",
+              f"- Consumo: {consumo.texto()}" if consumo else "- Consumo: no medido", "",
               "| Equipo | Fecha | Manual | LLM | Consistencia | Modos LLM | Confianza |",
               "|---|---|---|---|---|---|---|"]
     lineas += [f"| {f['equipo_id']} | {f['fecha_retiro']} | {f['grupo_manual']} | {f['grupo_llm']}"
@@ -170,14 +202,15 @@ def main(argv=None) -> int:
     ap.add_argument("--max-tokens", type=int, default=8000)
     ap.add_argument("--modelo", default=os.environ.get("AZURE_AI_MODEL_DEPLOYMENT_NAME", "gpt-5"))
     args = ap.parse_args(argv)
+    consumo = Consumo()
     filas = asyncio.run(evaluar(agente_foundry(args.modelo, opciones_modelo(args.esfuerzo, args.max_tokens)),
-                               args.repeticiones, args.pausa))
+                               args.repeticiones, args.pausa, consumo))
     RESULTADOS.mkdir(exist_ok=True)
     with (RESULTADOS / f"p2_clasificacion_{args.modelo}.csv").open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(filas[0]))
         w.writeheader()
         w.writerows(filas)
-    texto = resumen(filas, args.modelo, args.repeticiones)
+    texto = resumen(filas, args.modelo, args.repeticiones, consumo)
     (RESULTADOS / f"p2_resumen_{args.modelo}.md").write_text(texto, encoding="utf-8")
     print(texto)
     return 0

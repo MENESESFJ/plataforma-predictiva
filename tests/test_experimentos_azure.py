@@ -104,3 +104,20 @@ def test_p3_sin_eco_e_instruccion_de_no_repetir():
     assert "no copies" in p3.instrucciones()["revisor"]
     assert p3.revisor_cumple_rol("- Suposición: causa no confirmada. Verificar en SOS y VIMS.")
     assert not p3.revisor_cumple_rol("- Compatible: MFP-01. - No usar MFP-07 como modo.")
+
+
+def test_consumo_suma_tokens_y_estima_costo():
+    c = p2.Consumo()
+    c.sumar({"input_token_count": 1000, "output_token_count": 3000, "reasoning_output_token_count": 2400})
+    c.sumar(SimpleNamespace(input_token_count=500, output_token_count=1000, reasoning_output_token_count=None))
+    c.sumar(None)  # una respuesta sin datos de uso cuenta la llamada pero no tokens
+    assert (c.llamadas, c.entrada, c.salida, c.razonamiento) == (3, 1500, 4000, 2400)
+    esperado = (1500 * p2.PRECIO_ENTRADA_USD_1M + 4000 * p2.PRECIO_SALIDA_USD_1M) / 1_000_000
+    assert abs(c.costo_usd() - esperado) < 1e-12 and "US$" in c.texto()
+
+
+def test_p2_registra_consumo_del_agente():
+    agente = AgenteFalso()
+    consumo = p2.Consumo()
+    asyncio.run(p2.evaluar(agente, repeticiones=1, consumo=consumo))
+    assert consumo.llamadas == 14
