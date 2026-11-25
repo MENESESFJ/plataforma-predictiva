@@ -13,7 +13,7 @@ D4;Datos y plataforma;Particulado histórico de Argos y equivalencia de escalas;
 D5;Datos y plataforma;Rangos físicos y unidades de los parámetros VIMS;Monitoreo de Condiciones;2026-12-21;2027-01-08;3;3;G1;Diccionario de tendencias;Tabla de rangos y unidades;No;Tarea
 D6;Datos y plataforma;Tabla de vidas de motor: equipo, serie, instalación, retiro, horas y motivo;Confiabilidad + Componentes;2026-12-14;2027-01-01;2;3;G1;"Base de cambios de componentes; planilla de fallas";Tabla de vidas de motor validada;No;Tarea
 D7;Datos y plataforma;Diccionario de variables y cobertura por camión y variable;Desarrollo + dueños de las fuentes;2026-12-28;2027-01-08;4;2;D1;"Histórico copiado; catálogos de VIMS y aceite";Diccionario con unidades y cobertura medida;No;Tarea
-M1;Monitor de desviaciones;Ingesta real y calidad de datos;Desarrollo;2026-12-28;2027-01-15;4;3;D1;"Contrato de datos; reglas de corte";Ingesta validada con datos DMH;Sí;Tarea
+M1;Monitor de desviaciones;Ingesta real y calidad de datos;Desarrollo;2026-12-28;2027-01-15;4;3;D1;"Contrato de datos; mecanismo de ingesta (DP-010)";Ingesta validada con datos DMH;Sí;Tarea
 M2;Monitor de desviaciones;Comparaciones y semáforo: VIMS y aceite;Desarrollo;2027-01-18;2027-02-12;7;4;M1, D5, D6, D7;Diseño del monitor (DP-006);Tablas diarias de desviaciones y estado;Sí;Tarea
 M3;Monitor de desviaciones;Prueba hacia atrás con las 10 fallas y falsas alarmas;Desarrollo + Confiabilidad;2027-02-15;2027-03-05;11;3;M2, F01;Eventos validados;Informe: anticipación y falsas alarmas;Sí;Tarea
 M4;Monitor de desviaciones;Lista diaria de revisión para Monitoreo de Condiciones;Desarrollo;2027-02-15;2027-02-26;11;2;M2, D2;"Presupuesto de alertas; herramientas que usa el equipo";Lista diaria (Power BI o correo);No;Tarea

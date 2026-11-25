@@ -1,0 +1,65 @@
+# Configuración de la ingesta del monitor de desviaciones (DP-010)
+#
+# Diseño: docs/arquitectura/ingesta_monitor.md · Código: ingesta/monitor.py
+# Las rutas son lógicas: cada ambiente (lake actual, Fabric) las define en su propia
+# configuración (variables de entorno INGESTA_ORIGEN e INGESTA_DESTINO). El código no
+# depende de la plataforma (DP-005).
+#
+# Marcas: CONFIRMADO · PROPUESTA · POR_CALIBRAR · POR_CONFIRMAR.
+version: "0.1.0"
+componente: motor_diesel
+tenant: {contrato: DMH, modelo_equipo: "798 AC"}
+
+# Flota: lista de series de knowledge/fuentes/bronze_798.yaml (equipos_piloto). Se filtra por
+# serie, nunca por código de equipo (MH340 / MH-340 varía según el sistema).
+flota: knowledge/fuentes/bronze_798.yaml
+
+ejecucion:
+  frecuencia: diaria                       # PROPUESTA
+  hora_local: "07:00"                      # POR_CONFIRMAR: después de la actualización diaria de Silver/Bronze
+  dia_analizado: dia_anterior              # el monitor evalúa el día D-1 con lo disponible al correr
+  reintento_si_falla: "1 vez, 2 horas después; si vuelve a fallar, la fuente queda 'atrasada' y se informa"
+
+fuentes:
+  vims_tendencias:
+    ruta: silver/foresight/798/ds_Trends_798.csv         # CONFIRMADO el dataset; ruta física POR_CONFIRMAR
+    formato: csv
+    columnas: {fecha: Fecha, serie: SerialNumber, equipo: Equipo, componente: Componente,
+               parametro: Tendencia, condicion: Condition, valor: AverageTrend, n_lecturas: CountTrend}
+    componente_motor: "1000.00.CC.0 MOTOR"                # CONFIRMADO
+    # Silver no trae fecha de carga. En la carga histórica la disponibilidad se aproxima con
+    # fecha + desfase; en la operación diaria es la fecha en que la fila apareció por primera vez.
+    desfase_disponible_dias: 1                            # POR_CALIBRAR: medir con las primeras semanas de cargas diarias
+    ventana_relectura_dias: 15                            # PROPUESTA: descargas atrasadas y correcciones recientes
+    calidad:
+      centinela_max: -3000                                # CONFIRMADO en la muestra: -3277,4 en temperaturas de escape
+      n_lecturas_min: 3                                   # POR_CALIBRAR
+      rangos_fisicos: POR_CONFIRMAR                       # tarea D5 (Monitoreo de Condiciones)
+  vims_eventos:
+    ruta: silver/foresight/798/ds_EventDuration_798.csv
+    formato: csv
+    columnas: {fecha: Date, serie: SerialNumber, equipo: Equipo, componente: Componente,
+               parametro: EventName, valor: EventDuration, severidad: EventSeverity}
+    componente_motor: "1000.00.CC.0 MOTOR"
+    desfase_disponible_dias: 1                            # POR_CALIBRAR (igual que tendencias)
+    ventana_relectura_dias: 15
+  sos:
+    ruta: bronze/foresight/798/datasetSOS798.csv          # CONFIRMADO; una fila por muestra con todos los elementos
+    formato: csv_envuelto                                 # cada fila viene entre comillas externas (doble parseo)
+    columnas: {fecha: "Fecha Muestra", serie: "Numero Serie", componente: Componente, id_registro: "Id Lab.",
+               horas_aceite: "Horas Aceite", horas_maquina: "Horas Maquina", cambio_aceite: "Cambio Aceite",
+               comentario: SampleComment}
+    componente_motor: ENG                                 # CONFIRMADO
+    parametros: [Fe, Cu, Pb, Si, Na, K, PQI, St, V100]    # señales del FMEA; St = hollín y V100 = viscosidad (SUPUESTO)
+    desfase_disponible_dias: 3                            # CONFIRMADO: fecha de muestra + 3 días
+    ventana_relectura_dias: 60                            # PROPUESTA: las muestras llegan con atraso variable
+  cambios_motor:
+    ruta: bronze/contratos/BasesCC/798/BaseCambiosComponentes798.csv
+    formato: csv_punto_y_coma
+    filtro: {Contrato: "Ministro Hales", Componentes: "motor"}   # CONFIRMADO ('motor traccion' es eléctrico)
+    uso: "Reinicia la historia de cada camión en la fecha del cambio (vida de motor). Reemplazar por la tabla de vidas (D6) cuando esté validada."
+
+destino:
+  aterrizaje: "entrada/aterrizaje/<fuente>/<lote_id>/"    # copia íntegra del archivo de origen, inmutable
+  estandar: "entrada/estandar/<fuente>.parquet"            # tabla estandarizada con versiones; en Fabric, tabla Delta
+  reporte: "entrada/reportes/<lote_id>.json"               # reporte de calidad del lote

@@ -111,11 +111,13 @@ fuentes:
   vims:
     descripcion: Parámetros (tendencias) y eventos del sistema de monitoreo del camión
     familias_candidatas: [VIMS eventos, VIMS tendencias]   # por_validar
-    tablas: POR_CONFIRMAR
+    tablas: [silver ds_Trends_798, silver ds_EventDuration_798]   # entradas del monitor (DP-010, ingesta_monitor.yaml)
     granularidad: "tendencias ~1 por hora si el equipo transmite continuo; ~12 descargas por equipo al día (CONFIRMADO). Silver las agrega a diario"
     fecha_evento: timestamp
     fecha_disponible: fecha_descarga
-    regla_corte: "usar solo datos con fecha_descarga <= fecha_corte"
+    # Silver no trae fecha de descarga ni de carga: la ingesta la registra (DP-010). Histórico: fecha + 1 día
+    # (POR_CALIBRAR); diario: el día en que la fila llegó por primera vez.
+    regla_corte: "usar solo datos con fecha_disponible <= fecha_corte"
     responsable_acceso: POR_CONFIRMAR
   ot:
     descripcion: Mantenimiento, fallas de componentes y códigos SMCS

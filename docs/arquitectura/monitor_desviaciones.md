@@ -152,7 +152,8 @@ Un modo FMEA cuyas señales no se observan en los datos disponibles se informa c
 
 Etapa 1 completa (VIMS, flota DMH), antes del modelo predictivo y de la IA:
 
-1. Leer las tendencias y eventos VIMS y el análisis de aceite de DMH con los filtros del contrato de datos.
+1. Leer las tendencias y eventos VIMS y el análisis de aceite de DMH con los filtros del contrato de datos, mediante
+   la ingesta diaria con versiones y regla de corte (`docs/arquitectura/ingesta_monitor.md`, DP-010).
 2. Calcular las comparaciones 2, 3 y 4 de VIMS (no necesitan límites), las cuatro del aceite (con los límites del
    laboratorio), los resúmenes de eventos y la regla de coincidencia entre VIMS y aceite.
 3. Entregar las tablas y la lista diaria de revisión para Monitoreo de Condiciones.

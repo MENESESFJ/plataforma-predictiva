@@ -41,7 +41,7 @@ T = [
     ("D7", "Datos y plataforma", "Diccionario de variables y cobertura por camión y variable", "Desarrollo + dueños de las fuentes", 4, 2, "D1",
      "Histórico copiado; catálogos de VIMS y aceite", "Diccionario con unidades y cobertura medida", False),
     ("M1", "Monitor de desviaciones", "Ingesta real y calidad de datos", "Desarrollo", 4, 3, "D1",
-     "Contrato de datos; reglas de corte", "Ingesta validada con datos DMH", True),
+     "Contrato de datos; mecanismo de ingesta (DP-010)", "Ingesta validada con datos DMH", True),
     ("M2", "Monitor de desviaciones", "Comparaciones y semáforo: VIMS y aceite", "Desarrollo", 7, 4, "M1, D5, D6, D7",
      "Diseño del monitor (DP-006)", "Tablas diarias de desviaciones y estado", True),
     ("M3", "Monitor de desviaciones", "Prueba hacia atrás con las 10 fallas y falsas alarmas", "Desarrollo + Confiabilidad", 11, 3, "M2, F01",
