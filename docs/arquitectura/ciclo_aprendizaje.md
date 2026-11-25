@@ -62,6 +62,19 @@ responde a la pregunta del caso de uso:
 | Días posteriores a la fecha del cambio | No existen para esa vida (empieza la vida siguiente) |
 
 - La fecha y el tipo de cada cambio salen del listado de eventos validado (F01) y de la tabla de vidas de motor (D6).
+
+### Quién marca un motor como historia para el entrenamiento
+
+| Paso | Quién | Qué hace |
+|---|---|---|
+| 1. Detectar | La ingesta (automático) | Ve un cambio de motor nuevo en la base de cambios y lo deja como **evento pendiente de validación**. Cierra la vida del motor anterior y abre la siguiente |
+| 2. Proponer | Agente de IA o Desarrollo (apoyo) | Propone tipo de cambio, grupo de falla y modo FMEA compatible, con la evidencia del registro (prueba 2) |
+| 3. Validar | **Confiabilidad** (decide), con Centro Técnico para la causa raíz | Confirma fecha, tipo (imprevisto o PCR), rol de la etiqueta (falla o censura) y modo FMEA, y firma en el listado de eventos |
+| 4. Etiquetar | El código (determinístico) | Con el evento validado, marca los días de esa vida según el horizonte: es una regla, no una decisión |
+| 5. Entrenar | Desarrollo invoca el flujo de entrenamiento; el supervisor ejecuta los pasos | Solo usa eventos validados |
+
+El supervisor (orquestador) **no decide** qué motor es una falla: ejecuta los pasos en orden y verifica que se cumplan
+las reglas. Un evento pendiente no entra al entrenamiento.
 - **AFA/RCA y la causa raíz solo etiquetan y validan; nunca son variables** (contrato de datos).
 - El modo FMEA de cada falla sirve para revisar si el modelo se alerta por las señales correctas.
 
