@@ -19,6 +19,7 @@ herramientas/
   fmea/         # convertir_fmea.py (fuentes → borrador) y aplicar_revision.py (revisión → FMEA aprobado)
 docs/
   fase0/        # Ficha de Caso de Uso (gate Fase 0)
+  presentaciones/ # material para presentar el avance (p. ej. a los equipos técnicos)
 experimentos/
   azure/        # pruebas en Azure AI Foundry (Agent Framework): registro en Azure ML, clasificación de causas y análisis secuencial
 tests/
