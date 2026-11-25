@@ -1,7 +1,9 @@
 # Monitor de desviaciones (modelo numérico, sin IA)
 
 Diseño detallado de la detección de anomalías del proyecto (DP-003). Desde DP-006 es además un **entregable propio
-para Monitoreo de Condiciones**, que hoy no tiene herramientas para ver las desviaciones de los parámetros VIMS.
+para Monitoreo de Condiciones**. Ese equipo tiene herramientas, básicamente visuales, para revisar un camión, pero no
+tiene capacidad para revisar a diario los 150–180 equipos de la flota. El monitor revisa todos los camiones y les dice
+**cuáles mirar, en qué parámetro y desde cuándo**, para que los revisen con sus herramientas de siempre.
 
 Marcas: CONFIRMADO · PROPUESTA (decisión de diseño, revisable) · POR_CALIBRAR (valor que se fija con datos y con
 Monitoreo de Condiciones). **Ningún umbral de este documento es definitivo:** los valores que aparecen son puntos de
@@ -11,7 +13,7 @@ partida para calibrar.
 
 | Uso | Quién lo usa | Qué obtiene |
 |---|---|---|
-| **Monitor diario** | Monitoreo de Condiciones | Qué camión se está desviando, en qué parámetro, desde cuándo y cuánto, comparado con su propia historia y con la flota |
+| **Monitor diario (revisión por excepción)** | Monitoreo de Condiciones | La lista corta de camiones que vale la pena mirar hoy: cuál, en qué parámetro, desde cuándo y cuánto se desvía de su historia y de la flota. El resto de la flota no requiere revisión |
 | **Insumo del modelo predictivo** | La plataforma | Veces, severidad y permanencia de las desviaciones por fuente (el mismo patrón del modelo productivo actual) |
 | **Disparador de la IA** | Agentes | Solo los camiones en alerta pasan a la interpretación |
 
@@ -104,12 +106,17 @@ reciba lo nuevo y no la misma alerta todos los días.
    desviación (propia, flota, tendencia), dirección, banda.
 2. `estado_camion`: camión, fecha, estado, motivo (qué reglas se cumplieron), modos FMEA compatibles.
 
-**Vista para Monitoreo de Condiciones** (Power BI):
+**Lista diaria de revisión para Monitoreo de Condiciones** (Power BI o un correo diario):
 
-- Lista de la flota por estado, con lo nuevo del día arriba.
-- Por camión: cada parámetro con su valor y la **banda normal de ese camión** y la **de la flota**, para ver la
-  desviación a simple vista.
-- Historial de estados del camión.
+- Solo los camiones que cambiaron a alerta u observación, con lo nuevo arriba. El resto de la flota se resume en un
+  conteo por estado.
+- Por camión: qué parámetro, en qué condición de operación, desde qué fecha, cuánto se desvía de su historia y de la
+  flota, y qué modo FMEA es compatible. Es la indicación de **dónde mirar** en las herramientas visuales que ya usan.
+- Una vista de apoyo con el parámetro y sus bandas normales (propia y de flota), por si hace falta verlo ahí mismo.
+
+**Presupuesto de alertas:** el número de camiones en la lista no puede superar lo que el equipo alcanza a revisar con
+calidad. Ese número lo define Monitoreo de Condiciones (sección 12) y es un parámetro de diseño: los umbrales del
+semáforo se calibran para respetarlo.
 
 ## 10. Primer entregable: monitor VIMS para DMH
 
@@ -117,7 +124,7 @@ Etapa 1 completa (VIMS, flota DMH), antes del modelo predictivo y de la IA:
 
 1. Leer las tendencias y eventos VIMS de DMH con los filtros del contrato de datos.
 2. Calcular las comparaciones 2, 3 y 4 (las que no necesitan límites) y los resúmenes de eventos.
-3. Entregar las tablas y una vista simple para Monitoreo de Condiciones.
+3. Entregar las tablas y la lista diaria de revisión para Monitoreo de Condiciones.
 4. Revisar con Monitoreo de Condiciones durante unas semanas qué desviaciones tienen sentido y ajustar los umbrales.
 
 ## 11. Calibración y validación
@@ -131,12 +138,13 @@ Con esos tres resultados se fijan los umbrales POR_CALIBRAR y se decide si el mo
 
 ## 12. Lo que necesitamos de Monitoreo de Condiciones
 
-No se les pide que traigan límites que hoy no tienen. Se les pide:
+No se les pide más trabajo de revisión del que ya hacen: el monitor existe para reducirlo. Se les pide:
 
-1. Los límites que sí usan hoy, donde existan (aceite, particulado, alarmas).
-2. Rango físico y unidad de cada parámetro VIMS (para descartar valores imposibles).
-3. Revisar las primeras desviaciones y decir cuáles tienen sentido.
-4. Acordar qué es "alerta" para ustedes: cuántas por semana pueden revisar con calidad.
+1. **Cuántos camiones por día o por semana pueden revisar con calidad** (el presupuesto de alertas).
+2. Qué herramientas visuales usan hoy, para que la lista indique dónde mirar en ellas.
+3. Rango físico y unidad de cada parámetro VIMS (para descartar valores imposibles).
+4. Los límites que sí usan, donde existan (aceite, particulado, alarmas).
+5. Revisar durante unas semanas las primeras listas y decir qué casos tenían sentido.
 
 ## 13. Escala
 

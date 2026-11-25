@@ -169,7 +169,7 @@ Detalle técnico en `components/motor_diesel/data_contract.yaml`. Las familias v
 | Conocimiento limitado de procesos existentes | No se modifica nada existente (DP-001); lo que se rearme queda documentado y versionado en el proyecto (DP-002). Ver `docs/fase0/decisiones_proyecto.md` |
 | Anomalías de Gold con lógica desconocida | Se generan de cero en el proyecto y Gold se usa solo como comparación (DP-003, propuesta) |
 | Umbrales arbitrarios | Calibración con el histórico, baseline individual y poblacional; diseño en `docs/arquitectura/monitor_desviaciones.md` |
-| Monitoreo de Condiciones sin herramientas para ver desviaciones VIMS | El monitor de desviaciones es un entregable propio y el primero (DP-006) |
+| Monitoreo de Condiciones sin capacidad para revisar a diario 150–180 equipos | El monitor revisa toda la flota y entrega la lista corta de camiones a mirar, calibrada a lo que el equipo puede revisar (DP-006) |
 | Sobreinterpretación del FMEA | Salida como compatibilidad; niveles propuesto → aplicable → validado |
 | Duty cycle del accionamiento eléctrico | Baseline propio de DMH 798AC; no extrapolar desde otras flotas o faenas |
 
