@@ -53,7 +53,7 @@ class AgenteModelamiento(BaseAgente):
         return ModeladoSalida(modelo_id=f"{d.contexto.componente}-baseline",
                               version_modelo="0.1.0",
                               metricas={"n_entrenamiento": float(len(d.features))},
-                              variables=variables)
+                              variables=variables, es_baseline=True)
 
 
 class AgenteValidacion(BaseAgente):

@@ -50,7 +50,8 @@ class RegistroModelos:
             self.cliente.create_registered_model(componente)
         version = self.cliente.create_model_version(
             componente, source=f"runs:/{run_id}/modelo", run_id=run_id,
-            tags={"modelo_id": modelo.modelo_id, "variables": json.dumps(modelo.variables)})
+            tags={"modelo_id": modelo.modelo_id, "variables": json.dumps(modelo.variables),
+                  "es_baseline": str(modelo.es_baseline).lower()})
         self.cliente.set_registered_model_alias(componente, ALIAS_CANDIDATO, version.version)
         return str(version.version)
 
@@ -67,4 +68,5 @@ class RegistroModelos:
         metricas = self.cliente.get_run(v.run_id).data.metrics if v.run_id else {}
         return ModeladoSalida(modelo_id=v.tags.get("modelo_id", componente),
                               version_modelo=str(v.version), metricas=metricas,
-                              variables=json.loads(v.tags.get("variables", "[]")))
+                              variables=json.loads(v.tags.get("variables", "[]")),
+                              es_baseline=v.tags.get("es_baseline") == "true")

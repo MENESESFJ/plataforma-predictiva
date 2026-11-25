@@ -142,6 +142,12 @@ reciba lo nuevo y no la misma alerta todos los días.
 calidad. Ese número lo define Monitoreo de Condiciones (sección 12) y es un parámetro de diseño: los umbrales del
 semáforo se calibran para respetarlo.
 
+### 9b. De la alerta al caso
+
+Cada camión en alerta abre un caso; si al día siguiente sigue en alerta, se actualiza el mismo caso (no se crea otro). Monitoreo de Condiciones lo confirma, descarta, deja en observación o pide información, e Ingeniería de Mantenimiento define la acción y el cierre. Los descartes con su motivo son el insumo principal para calibrar (sección 11). Estados, plazos y responsables en `docs/gestion/gobierno_piloto.md` (DP-008).
+
+Un modo FMEA cuyas señales no se observan en los datos disponibles se informa como **no observable** para ese camión; el monitor no lo da por normal (DP-009).
+
 ## 10. Primer entregable: monitor VIMS y aceite para DMH
 
 Etapa 1 completa (VIMS, flota DMH), antes del modelo predictivo y de la IA:

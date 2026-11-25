@@ -123,6 +123,7 @@ class ModeladoSalida(Contrato):
     metricas: Dict[str, float]
     variables: List[str]
     supera_baseline: bool = True
+    es_baseline: bool = False  # True: referencia de desarrollo, nunca un modelo aprobado (DP-007)
 
 
 # 6. Validación

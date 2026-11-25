@@ -4,8 +4,9 @@ Propuesta para el kickoff. Las fechas cuentan desde un inicio propuesto (lunes 7
 en el kickoff.
 
 - **Carta Gantt interactiva:** https://claude.ai/artifact/Nb4gmcBYwuVPehQHCdKeBs
-- **CSV para Excel o MS Project:** `docs/gestion/plan_piloto_dmh.csv` (separador `;`, 25 tareas y 5 hitos con inicio,
+- **CSV para Excel o MS Project:** `docs/gestion/plan_piloto_dmh.csv` (separador `;`, 28 tareas y 5 hitos con inicio,
   fin, dependencias, insumos, entregable y ruta crítica)
+- **Gobierno (roles, ciclo de casos, requerimientos a TI):** `docs/gestion/gobierno_piloto.md`
 - **Fuente del plan:** `herramientas/gestion/generar_plan.py`. Para mover todo el plan se cambia la fecha de inicio;
   para ajustar una tarea, su fila. El script regenera el CSV.
 
@@ -23,9 +24,9 @@ en el kickoff.
 
 | Frente | Tareas | Semanas |
 |---|---|---|
-| Gobierno | Kickoff; seguimiento semanal | 1–26 |
+| Gobierno | Kickoff; seguimiento semanal; proceso de revisión de casos | 1–26 |
 | Cierre del caso de uso | Validar los 14 cambios; 4 causas raíz; 2 modos FMEA nuevos; métrica y presupuesto de alertas | 2–6 |
-| Datos y plataforma | Copia del histórico DMH; workspaces Fabric y Azure ML; Cat Inspect; particulado histórico; rangos y unidades VIMS | 1–9 |
+| Datos y plataforma | Copia del histórico DMH; workspaces Fabric y Azure ML; Cat Inspect; particulado histórico; rangos y unidades VIMS; tabla de vidas de motor; diccionario y cobertura | 1–9 |
 | Monitor de desviaciones | Ingesta; comparaciones y semáforo; prueba hacia atrás; lista diaria; piloto y calibración; particulado y rellenos | 4–19 |
 | Interpretación con IA | Prueba 4 (salida estructurada); entorno corporativo; triage y especialistas | 4–19 |
 | Modelo predictivo | Modelo de degradación; validación con los 14 eventos | 20–25 |
@@ -42,13 +43,16 @@ Monitoreo de Condiciones (M5) → modelo (P1) → validación (P2) → evaluaci�
 |---|---|---|---|
 | TI / Datos | Copia del histórico DMH desde 2023 | 25 dic 2026 | Sí |
 | Confiabilidad + Ingeniería | Listado de los 14 cambios validado | 1 ene 2027 | No (es predecesor de M3) |
+| Confiabilidad + Componentes | Tabla de vidas de motor (serie, instalación, retiro, horas) | 1 ene 2027 | No (es predecesor de M2) |
 | Centro Técnico | 4 causas raíz pendientes | 8 ene 2027 | No |
 | Monitoreo de Condiciones + Confiabilidad | Métrica de éxito y alertas por semana | 8 ene 2027 | No |
 | TI / Datos | Acceso a Cat Inspect | 8 ene 2027 | No |
 | Monitoreo de Condiciones | Rangos y unidades VIMS | 8 ene 2027 | No (es predecesor de M2) |
+| Desarrollo + dueños de fuentes | Diccionario de variables y cobertura por camión | 8 ene 2027 | No (es predecesor de M2) |
 | Confiabilidad | FMEA v1.1 con los 2 modos nuevos | 15 ene 2027 | No |
 | TI / Plataforma | Workspaces de Fabric y Azure ML | 22 ene 2027 | No |
 | Monitoreo de Condiciones + Datos | Particulado histórico unificado | 5 feb 2027 | No |
+| Monitoreo de Condiciones + Ingeniería de Mantenimiento | Procedimiento de revisión de casos | 12 feb 2027 | No (es predecesor de M5) |
 | TI / Plataforma | Entorno de IA corporativo | 5 mar 2027 | No |
 | Monitoreo de Condiciones + Desarrollo | Umbrales calibrados en el piloto | 16 abr 2027 | Sí |
 | Confiabilidad + Desarrollo | Modelo aprobado | 28 may 2027 | Sí |

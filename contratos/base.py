@@ -33,4 +33,5 @@ class Estado(Contrato):
     salidas: Dict[str, Any] = Field(default_factory=dict)
     auditoria: List[RegistroAuditoria] = Field(default_factory=list)
     errores: List[str] = Field(default_factory=list)
+    advertencias: List[str] = Field(default_factory=list)  # visibles para el usuario (DP-007)
     cerrado: bool = False
