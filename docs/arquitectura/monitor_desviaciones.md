@@ -23,8 +23,8 @@ El monitor tiene valor por sí solo, sin el modelo predictivo ni la IA. Por eso 
 
 | Etapa | Fuentes | Flota |
 |---|---|---|
-| **1** | VIMS: tendencias (`ds_Trends_798`) y eventos (`ds_EventDuration_798`) | DMH 798AC (MH340–MH353) |
-| 2 | + análisis de aceite, particulado (Argos y Cat Inspect) y rellenos | DMH 798AC |
+| **1** | VIMS: tendencias (`ds_Trends_798`) y eventos (`ds_EventDuration_798`), y análisis de aceite (SOS) | DMH 798AC (MH340–MH353) |
+| 2 | + particulado (Argos y Cat Inspect) y rellenos | DMH 798AC |
 | 3 | Las mismas | Otros contratos 798AC; luego 797B/F (150–180 equipos) |
 
 ## 3. Unidad de análisis
@@ -66,6 +66,30 @@ Cada una responde una pregunta distinta y se calcula por separado. Ninguna neces
   desviación robusta. Puntos de partida para calibrar: 2, 3 y 4 dispersiones.
 - Las comparaciones 2 y 3 permiten **empezar sin límites definidos**. Es la respuesta a que hoy no existan herramientas
   ni límites para las desviaciones de VIMS.
+
+## 5b. Análisis de aceite (SOS)
+
+Monitoreo de Condiciones ya revisa cada muestra cuando llega; el monitor **no reemplaza esa revisión**. El aceite
+entra como desviación por dos razones: para **cruzarlo con VIMS** (la regla (b) del semáforo: por ejemplo, Fe y Pb
+subiendo mientras baja la presión de aceite es la firma de un modo FMEA) y para ver la **tendencia entre muestras**,
+que al revisar una muestra a la vez no se ve.
+
+- **Unidad:** cada muestra del motor (`ENG`), no cada día. Se usa desde su fecha de disponibilidad: fecha de muestra
+  + 3 días (CONFIRMADO, contrato de datos). Entre muestras, el estado del aceite es el de la última muestra disponible.
+- **Elementos:** los de las señales del FMEA (Fe, Cu, Pb, Si, Na, K, PQI, hollín, viscosidad), no los del feature
+  importance del modelo anterior.
+- **Comparación 1, límites:** los del laboratorio, precautorios y condenatorios. Para el aceite **sí hay límites**
+  (CONFIRMADO: el modelo actual usa las veces sobre el condenatorio).
+- **Comparación 2, su historia:** contra las muestras anteriores **del mismo motor**. Como los metales se acumulan
+  mientras el aceite está en uso, se compara la **tasa por hora de aceite** (ppm por hora), no solo el nivel. Una
+  muestra marcada como previa a un cambio de aceite (`Changed = Y`) cierra el período; la siguiente empieza de nuevo.
+- **Comparación 3, la flota:** la tasa por hora de aceite contra motores del mismo modelo y contrato.
+- **Comparación 4, tendencia:** aumento de la tasa en las últimas muestras del mismo motor.
+- **Calidad:** se descartan horómetros que retroceden o en cero, y las muestras repetidas de la misma fecha se
+  consolidan (calidad observada en `knowledge/fuentes/bronze_798.yaml`).
+- **Comentario del laboratorio:** se guarda como evidencia para el especialista y para la IA; no se usa para calcular.
+- **Evaluación de Monitoreo de Condiciones:** si su evaluación de cada muestra queda registrada en algún sistema
+  (POR_CONFIRMAR), es un dato valioso: sirve para calibrar el monitor y para medir si coincide con el criterio experto.
 
 ## 6. Eventos VIMS
 
@@ -118,12 +142,13 @@ reciba lo nuevo y no la misma alerta todos los días.
 calidad. Ese número lo define Monitoreo de Condiciones (sección 12) y es un parámetro de diseño: los umbrales del
 semáforo se calibran para respetarlo.
 
-## 10. Primer entregable: monitor VIMS para DMH
+## 10. Primer entregable: monitor VIMS y aceite para DMH
 
 Etapa 1 completa (VIMS, flota DMH), antes del modelo predictivo y de la IA:
 
-1. Leer las tendencias y eventos VIMS de DMH con los filtros del contrato de datos.
-2. Calcular las comparaciones 2, 3 y 4 (las que no necesitan límites) y los resúmenes de eventos.
+1. Leer las tendencias y eventos VIMS y el análisis de aceite de DMH con los filtros del contrato de datos.
+2. Calcular las comparaciones 2, 3 y 4 de VIMS (no necesitan límites), las cuatro del aceite (con los límites del
+   laboratorio), los resúmenes de eventos y la regla de coincidencia entre VIMS y aceite.
 3. Entregar las tablas y la lista diaria de revisión para Monitoreo de Condiciones.
 4. Revisar con Monitoreo de Condiciones durante unas semanas qué desviaciones tienen sentido y ajustar los umbrales.
 
@@ -145,6 +170,7 @@ No se les pide más trabajo de revisión del que ya hacen: el monitor existe par
 3. Rango físico y unidad de cada parámetro VIMS (para descartar valores imposibles).
 4. Los límites que sí usan, donde existan (aceite, particulado, alarmas).
 5. Revisar durante unas semanas las primeras listas y decir qué casos tenían sentido.
+6. Si registran su evaluación de cada muestra de aceite, dónde queda, para usarla en la calibración.
 
 ## 13. Escala
 
