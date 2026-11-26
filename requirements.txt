@@ -4,3 +4,4 @@ numpy
 pyyaml
 mlflow>=3.17,<4
 pytest
+deltalake  # tablas Delta del Lakehouse de Fabric (DP-012)

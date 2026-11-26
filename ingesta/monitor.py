@@ -11,7 +11,8 @@ Mecanismo (DP-010, docs/arquitectura/ingesta_monitor.md):
 Uso:
     python -m ingesta.monitor --fecha 2027-01-15 --tipo diario
     python -m ingesta.monitor --fecha 2027-01-04 --tipo historico
-Rutas: INGESTA_ORIGEN (raíz del lake o del Lakehouse) e INGESTA_DESTINO (almacenamiento del proyecto).
+Rutas: INGESTA_ORIGEN (raíz del lake de origen o del acceso directo en OneLake) e INGESTA_DESTINO (raíz del
+Lakehouse de entrada: Files/ y Tables/). INGESTA_FORMATO: parquet (local) o delta (Fabric). Ver DP-012.
 """
 import argparse
 import hashlib
@@ -26,6 +27,9 @@ from typing import Dict, Optional, Tuple
 
 import pandas as pd
 import yaml
+
+from ingesta.almacen import Almacen
+from ingesta.esquemas import TABLA_DE_FUENTE
 
 RAIZ = Path(__file__).resolve().parents[1]
 CONFIG = RAIZ / "components/motor_diesel/ingesta_monitor.yaml"
@@ -154,7 +158,51 @@ def cambios_de_motor(df: pd.DataFrame, cfg: dict, series: Dict[str, str]) -> pd.
     d = df[m]
     out = pd.DataFrame({"serie_equipo": d["SerialNumber"].str.strip().str.upper(),
                         "fecha_cambio": _fecha(d["FechaCambio"], dayfirst=True)})
-    return out[out["serie_equipo"].isin(series) & out["fecha_cambio"].notna()]
+    # Contexto para quien valida (si el origen lo trae): tipo, horas y descripción de la falla.
+    for destino, origen in [("tipo_origen", "TipoDetencion"), ("horas_motor_removido", "HorasCompRemovido"),
+                            ("descripcion_origen", "DescripcionFalla")]:
+        out[destino] = d[origen].str.strip() if origen in d else ""
+    out = out[out["serie_equipo"].isin(series) & out["fecha_cambio"].notna()]
+    out["equipo"] = out["serie_equipo"].map(series)
+    return out.reset_index(drop=True)
+
+
+# --- aviso de cambio de motor (DP-011, paso 1: detectar) -----------------------------------------
+def leer_listado_eventos(ruta: Path) -> pd.DataFrame:
+    """Listado de eventos de motor (Confiabilidad firma en validado_por y fecha_validacion)."""
+    ls = pd.read_csv(ruta, dtype=str, keep_default_na=False)
+    ls["serie_equipo"] = ls["serie_equipo"].str.strip().str.upper()
+    ls["fecha_retiro"] = _fecha(ls["fecha_retiro"])
+    ls["validado"] = ls["validado_por"].str.strip() != ""
+    return ls
+
+
+def eventos_pendientes(cambios: pd.DataFrame, listado: pd.DataFrame, tolerancia_dias: int) -> pd.DataFrame:
+    """Cambios de motor que aún no pueden entrar al entrenamiento.
+
+    - nuevo: está en la base de cambios y no en el listado de eventos (hay que agregarlo y validarlo).
+    - sin_validar: está en el listado, pero Confiabilidad no lo ha firmado.
+    Un cambio y una fila del listado son el mismo evento si coinciden la serie y la fecha (± tolerancia).
+    """
+    filas = []
+    for _, c in cambios.iterrows():
+        mismos = listado[(listado["serie_equipo"] == c["serie_equipo"])
+                         & ((listado["fecha_retiro"] - c["fecha_cambio"]).abs() <= pd.Timedelta(days=tolerancia_dias))]
+        if len(mismos) and mismos["validado"].any():
+            continue
+        filas.append({"equipo": c["equipo"], "serie_equipo": c["serie_equipo"],
+                      "fecha_cambio": c["fecha_cambio"].date().isoformat(),
+                      "estado": "sin_validar" if len(mismos) else "nuevo",
+                      "tipo_origen": c["tipo_origen"], "horas_motor_removido": c["horas_motor_removido"],
+                      "descripcion_origen": c["descripcion_origen"]})
+    cols = ["equipo", "serie_equipo", "fecha_cambio", "estado", "tipo_origen", "horas_motor_removido",
+            "descripcion_origen"]
+    return pd.DataFrame(filas, columns=cols).sort_values(["estado", "fecha_cambio"], ignore_index=True)
+
+
+def eventos_validados(listado: pd.DataFrame) -> pd.DataFrame:
+    """Los únicos eventos que el entrenamiento puede usar como etiqueta (DP-011)."""
+    return listado[listado["validado"]].reset_index(drop=True)
 
 
 def asignar_vida(tabla: pd.DataFrame, cambios: pd.DataFrame) -> pd.DataFrame:
@@ -173,6 +221,20 @@ def asignar_vida(tabla: pd.DataFrame, cambios: pd.DataFrame) -> pd.DataFrame:
 def _hash_filas(df: pd.DataFrame) -> pd.Series:
     texto = df[DATOS].astype(object).map(str).agg("|".join, axis=1)
     return texto.map(lambda t: hashlib.sha256(t.encode()).hexdigest()[:16])
+
+
+def _normalizar_clave(df: pd.DataFrame) -> pd.DataFrame:
+    """Tipos estables en la clave, venga la tabla de Parquet, de Delta o recién estandarizada."""
+    df = df.copy()
+    for col in CLAVE:
+        if col.startswith("fecha"):
+            df[col] = pd.to_datetime(df[col]).astype("datetime64[us]")
+        else:
+            df[col] = df[col].astype("string").fillna("").astype(object)
+    for col in ("fecha_disponible", "fecha_ingesta"):
+        if col in df:
+            df[col] = pd.to_datetime(df[col]).astype("datetime64[us]")
+    return df
 
 
 def fusionar(historico: Optional[pd.DataFrame], nuevos: pd.DataFrame, fecha_lote: date, tipo: str,
@@ -196,6 +258,9 @@ def fusionar(historico: Optional[pd.DataFrame], nuevos: pd.DataFrame, fecha_lote
     nuevos["fecha_ingesta"], nuevos["lote_id"] = lote, lote_id
     nuevos = nuevos.drop_duplicates(CLAVE + ["hash_fila"])
 
+    nuevos = _normalizar_clave(nuevos)
+    if historico is not None and not historico.empty:
+        historico = _normalizar_clave(historico)
     if historico is None or historico.empty:
         previo = pd.DataFrame(columns=CLAVE + ["hash_previo"])
         historico = pd.DataFrame(columns=COLUMNAS)
@@ -243,33 +308,71 @@ def aterrizar(origen: Path, destino_dir: Path) -> dict:
             "bytes": destino.stat().st_size}
 
 
-def ejecutar(fecha_lote: date, tipo: str, origen: Path, destino: Path, cfg: Optional[dict] = None) -> dict:
+def _fila_lote(lote_id: str, tipo: str, fecha_lote: date, fuente: str, info: dict) -> dict:
+    cal = info.get("calidad", {})
+    sin_datos = cal.get("equipos_sin_datos_dia_analizado", [])
+    return {"lote_id": lote_id, "tipo": tipo, "fecha_lote": pd.Timestamp(fecha_lote), "fuente": fuente,
+            "archivo_origen": info["origen"]["archivo"], "sha256": info["origen"]["sha256"],
+            "bytes": info["origen"]["bytes"], "nuevas": info.get("nuevas", 0),
+            "corregidas": info.get("corregidas", 0), "sin_cambio": info.get("sin_cambio", 0),
+            "fuera_de_ventana": info.get("fuera_de_ventana", 0), "ultima_fecha": cal.get("ultima_fecha") or "",
+            "atrasada": bool(cal.get("atrasada", False)), "n_equipos_sin_datos": len(sin_datos),
+            "equipos_sin_datos": ";".join(sin_datos),
+            "filas_invalidas": int(sum(cal.get("filas_invalidas_por_motivo", {}).values()))}
+
+
+def ejecutar(fecha_lote: date, tipo: str, origen: Path, destino: Path, cfg: Optional[dict] = None,
+             formato: Optional[str] = None) -> dict:
+    """Un lote de ingesta. destino es la raíz del Lakehouse de entrada (Files/ y Tables/)."""
     cfg = cfg or cargar_config()
+    almacen = Almacen(destino, formato)
     series = series_flota(cfg)
     lote_id = f"{fecha_lote:%Y%m%d}-{tipo}"
-    reporte = {"lote_id": lote_id, "tipo": tipo, "fuentes": {}}
+    reporte = {"lote_id": lote_id, "tipo": tipo, "formato": almacen.formato, "fuentes": {}}
+    filas_lote = []
 
+    # Bronce: copia del origen. Cambios de motor: vidas y aviso de pendientes.
     fc = cfg["fuentes"]["cambios_motor"]
-    copia = aterrizar(origen / fc["ruta"], destino / "entrada/aterrizaje/cambios_motor" / lote_id)
+    copia = aterrizar(origen / fc["ruta"], almacen.carpeta("aterrizaje", "cambios_motor", lote_id))
     cambios = cambios_de_motor(leer_origen(Path(copia["archivo"]), fc["formato"]), fc, series)
+    filas_lote.append(_fila_lote(lote_id, tipo, fecha_lote, "cambios_motor", {"origen": copia}))
+    aviso = cfg["aviso_cambio_motor"]
+    pendientes = eventos_pendientes(cambios, leer_listado_eventos(RAIZ / aviso["listado_eventos"]),
+                                    aviso["tolerancia_dias"]).assign(lote_id=lote_id)
+    almacen.escribir("eventos_pendientes_validacion", pendientes, modo="overwrite")
+    ruta_pend = almacen.archivos("eventos", "pendientes_validacion.csv")
+    pendientes.to_csv(ruta_pend, index=False, encoding="utf-8-sig")  # copia para abrir en Excel
+    reporte["eventos_pendientes"] = {"nuevos": int((pendientes["estado"] == "nuevo").sum()),
+                                     "sin_validar": int((pendientes["estado"] == "sin_validar").sum()),
+                                     "archivo": str(ruta_pend),
+                                     "nuevos_detalle": pendientes[pendientes["estado"] == "nuevo"].to_dict("records")}
 
+    # Plata: una tabla por fuente, solo se agregan filas (nuevas o versiones corregidas).
     for fuente in FUENTES_MONITOR:
         f = cfg["fuentes"][fuente]
-        copia = aterrizar(origen / f["ruta"], destino / "entrada/aterrizaje" / fuente / lote_id)
+        copia = aterrizar(origen / f["ruta"], almacen.carpeta("aterrizaje", fuente, lote_id))
         crudo = leer_origen(Path(copia["archivo"]), f["formato"])
         std = estandarizar_sos(crudo, f, series) if fuente == "sos" else estandarizar_vims(crudo, fuente, f, series)
         std = asignar_vida(std, cambios)
-        ruta_tabla = destino / "entrada/estandar" / f"{fuente}.parquet"
-        previo = pd.read_parquet(ruta_tabla) if ruta_tabla.exists() else None
+        nombre = TABLA_DE_FUENTE[fuente]
+        previo = almacen.leer(nombre)
+        n_previo = 0 if previo is None else len(previo)
         tabla, resumen = fusionar(previo, std, fecha_lote, tipo, f["desfase_disponible_dias"],
                                   f["ventana_relectura_dias"], lote_id)
-        ruta_tabla.parent.mkdir(parents=True, exist_ok=True)
-        tabla.to_parquet(ruta_tabla, index=False)
-        reporte["fuentes"][fuente] = {"origen": copia, **resumen,
-                                      "calidad": reporte_calidad(tabla, fuente, series, fecha_lote)}
-    ruta_rep = destino / "entrada/reportes" / f"{lote_id}.json"
-    ruta_rep.parent.mkdir(parents=True, exist_ok=True)
-    ruta_rep.write_text(json.dumps(reporte, ensure_ascii=False, indent=2), encoding="utf-8")
+        agregar = tabla.iloc[n_previo:]
+        if len(agregar) or previo is None:
+            almacen.escribir(nombre, agregar, modo="append")
+        info = {"origen": copia, **resumen, "calidad": reporte_calidad(tabla, fuente, series, fecha_lote)}
+        reporte["fuentes"][fuente] = info
+        filas_lote.append(_fila_lote(lote_id, tipo, fecha_lote, fuente, info))
+
+    # Bitácora de lotes (re-ejecutar un lote reemplaza sus filas) y reporte del lote.
+    lotes = almacen.leer("ingesta_lotes")
+    lotes = pd.DataFrame(filas_lote) if lotes is None else pd.concat(
+        [lotes[lotes["lote_id"] != lote_id], pd.DataFrame(filas_lote)], ignore_index=True)
+    almacen.escribir("ingesta_lotes", lotes, modo="overwrite")
+    almacen.archivos("reportes", f"{lote_id}.json").write_text(
+        json.dumps(reporte, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
     return reporte
 
 
@@ -278,11 +381,12 @@ def main(argv=None) -> int:
     ap.add_argument("--fecha", type=date.fromisoformat, default=date.today())
     ap.add_argument("--tipo", choices=["diario", "historico"], default="diario")
     ap.add_argument("--origen", default=os.environ.get("INGESTA_ORIGEN"))
-    ap.add_argument("--destino", default=os.environ.get("INGESTA_DESTINO"))
+    ap.add_argument("--destino", default=os.environ.get("INGESTA_DESTINO"), help="raíz del Lakehouse de entrada")
+    ap.add_argument("--formato", choices=["parquet", "delta"], default=os.environ.get("INGESTA_FORMATO", "parquet"))
     a = ap.parse_args(argv)
     if not a.origen or not a.destino:
         ap.error("faltan --origen/--destino (o INGESTA_ORIGEN/INGESTA_DESTINO)")
-    rep = ejecutar(a.fecha, a.tipo, Path(a.origen), Path(a.destino))
+    rep = ejecutar(a.fecha, a.tipo, Path(a.origen), Path(a.destino), formato=a.formato)
     print(json.dumps(rep, ensure_ascii=False, indent=2))
     return 0
 

@@ -59,7 +59,24 @@ fuentes:
     filtro: {Contrato: "Ministro Hales", Componentes: "motor"}   # CONFIRMADO ('motor traccion' es eléctrico)
     uso: "Reinicia la historia de cada camión en la fecha del cambio (vida de motor). Reemplazar por la tabla de vidas (D6) cuando esté validada."
 
+# Aviso de cambio de motor (DP-011, paso 1): cada cambio de la base que no esté validado en el listado
+# de eventos queda pendiente para Confiabilidad. Solo los eventos validados entran al entrenamiento.
+aviso_cambio_motor:
+  listado_eventos: docs/fase0/eventos_motor_dmh_798_borrador.csv   # validado_por + fecha_validacion = firma de Confiabilidad
+  tolerancia_dias: 3        # PROPUESTA: la fecha puede diferir entre la base de cambios y el listado
+  salida: "Files/eventos/pendientes_validacion.csv y tabla eventos_pendientes_validacion"
+
+# Destino: raíz del Lakehouse de entrada (DP-012, docs/arquitectura/fabric_estructura.md).
+# Local o lake actual: tablas Parquet; Fabric: tablas Delta (INGESTA_FORMATO=delta).
 destino:
-  aterrizaje: "entrada/aterrizaje/<fuente>/<lote_id>/"    # copia íntegra del archivo de origen, inmutable
-  estandar: "entrada/estandar/<fuente>.parquet"            # tabla estandarizada con versiones; en Fabric, tabla Delta
-  reporte: "entrada/reportes/<lote_id>.json"               # reporte de calidad del lote
+  lakehouse: lh_pp_entrada                                  # PROPUESTA de nombre
+  archivos:
+    aterrizaje: "Files/aterrizaje/<fuente>/<lote_id>/"      # bronce: copia íntegra del origen, inmutable
+    reportes: "Files/reportes/<lote_id>.json"
+    pendientes_csv: "Files/eventos/pendientes_validacion.csv"
+  tablas:                                                   # plata; esquemas en ingesta/esquemas.py
+    - entrada_vims_tendencias        # solo se agregan filas (nuevas o versiones corregidas)
+    - entrada_vims_eventos
+    - entrada_sos
+    - eventos_pendientes_validacion  # se reemplaza en cada lote
+    - ingesta_lotes                  # bitácora: una fila por lote y fuente

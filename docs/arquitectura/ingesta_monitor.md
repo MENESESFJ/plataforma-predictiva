@@ -5,6 +5,7 @@ modificar nada de lo existente (DP-001) y sin depender de una plataforma (DP-005
 
 - **Configuración:** `components/motor_diesel/ingesta_monitor.yaml`
 - **Código:** `ingesta/monitor.py` (Python portable; pruebas en `tests/test_ingesta_monitor.py`)
+- **Estructura en Fabric** (Lakehouses, tablas y esquemas, notebook, pipeline): `fabric_estructura.md` (DP-012)
 
 Marcas: CONFIRMADO · PROPUESTA · POR_CALIBRAR · POR_CONFIRMAR.
 
@@ -30,11 +31,11 @@ con el mismo mecanismo.
  Lake actual / Fabric          Almacenamiento del proyecto (Lakehouse)
  (solo lectura)
  ┌───────────────┐  1. copia  ┌────────────────────┐  2-3. estandariza   ┌──────────────────────┐  4. corte   ┌─────────┐
- │ ds_Trends_798 │ ─────────► │ aterrizaje/<lote>/ │ ──────────────────► │ estandar/<fuente>    │ ──────────► │ Monitor │
+ │ ds_Trends_798 │ ─────────► │ Files/aterrizaje/  │ ──────────────────► │ Tables/entrada_*     │ ──────────► │ Monitor │
  │ ds_EventDur.. │   + hash   │ (copia inmutable)  │  alcance, calidad,  │ (con versiones y     │  lo que se  └─────────┘
  │ datasetSOS798 │            └────────────────────┘  vida de motor      │  3 fechas por fila)  │  sabía al día
  └───────────────┘                                                       └──────────────────────┘
-                                                      reporte de calidad del lote ──► reportes/<lote>.json
+                                                      reporte de calidad del lote ──► Files/reportes/<lote>.json
 ```
 
 1. **Aterrizaje.** Se copia el archivo de origen completo a una carpeta del lote, con su huella SHA-256. El origen
@@ -86,7 +87,7 @@ que se sabía ese día.
 | Idempotencia | Correr dos veces el mismo lote no duplica filas |
 | Falla | 1 reintento a las 2 horas; si vuelve a fallar, la fuente queda **atrasada** y se informa |
 
-**Reporte de calidad de cada lote** (`reportes/<lote>.json`), por fuente:
+**Reporte de calidad de cada lote** (`Files/reportes/<lote>.json`), por fuente:
 - filas nuevas, corregidas, sin cambio y fuera de la ventana de relectura;
 - última fecha recibida, y si la fuente está atrasada;
 - camiones sin datos en el día evaluado;
@@ -95,12 +96,30 @@ que se sabía ese día.
 El monitor usa este reporte para el estado **sin datos**. Un camión o una fuente sin datos se informa; nunca se toma
 como normal.
 
+## 4b. Aviso de cambio de motor
+
+En cada ejecución, la ingesta compara la base de cambios de componentes con el listado de eventos de motor
+(`docs/fase0/eventos_motor_dmh_798_borrador.csv`, donde Confiabilidad firma en `validado_por` y
+`fecha_validacion`). Todo cambio que no esté validado queda en `Files/eventos/pendientes_validacion.csv` y la tabla `eventos_pendientes_validacion`:
+
+| Estado | Qué significa | Qué hace Confiabilidad |
+|---|---|---|
+| `nuevo` | Está en la base de cambios y no en el listado | Lo agrega al listado, lo clasifica y lo firma |
+| `sin_validar` | Está en el listado, sin firma | Lo revisa y lo firma |
+
+- Un cambio y una fila del listado son el mismo evento si coinciden la serie del equipo y la fecha, con una tolerancia
+  de 3 días (PROPUESTA), porque las fechas pueden diferir entre fuentes.
+- Cada pendiente trae el contexto del origen para quien valida: tipo de detención, horas del motor y descripción.
+- El reporte del lote cuenta los nuevos y los sin validar, y detalla los nuevos.
+- Solo los eventos firmados entran al entrenamiento como etiqueta (`eventos_validados`, DP-011). Un pendiente igual
+  separa las vidas de motor en el monitor: el cambio físico ocurrió aunque falte clasificarlo.
+
 ## 5. Dónde corre
 
 | Etapa | Origen (`INGESTA_ORIGEN`) | Destino (`INGESTA_DESTINO`) | Quién lo programa |
 |---|---|---|---|
 | Hoy, hasta tener el workspace (D2) | Lake actual (solo lectura) | Almacenamiento del proyecto | Ejecución manual o programada que solo llama a `python -m ingesta.monitor` |
-| Con Fabric (D2) | OneLake (acceso directo al lake o tablas migradas) | Lakehouse del proyecto, tablas Delta | Pipeline programado de Fabric que ejecuta el mismo módulo |
+| Con Fabric (D2) | Shortcut de OneLake al lake actual (`lh_pp_entrada/Files/origen`) | `lh_pp_entrada`: Files/ y tablas Delta | Pipeline `pl_monitor_diario` con el notebook `nb_ingesta_monitor` (estructura en `fabric_estructura.md`, DP-012) |
 | Cat Inspect (etapa 2) | SQL Server, por copia programada de Fabric | Igual | Pipeline de Fabric |
 
 El código es el mismo en todas las etapas; solo cambian las rutas. No se usa nada exclusivo de Databricks (DP-005).
